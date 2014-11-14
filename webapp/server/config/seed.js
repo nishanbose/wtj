@@ -8,6 +8,7 @@
  var Thing = require('../api/thing/thing.model');
  var User = require('../api/user/user.model');
  var Category = require('../api/category/category.model');
+ var List = require('../api/list/list.model');
 
  Thing.find({}).remove(function() {
   Thing.create({
@@ -31,34 +32,62 @@
   });
 });
 
-User.find({}).remove(function() {
-  User.create({
-    provider: 'local',
-    name: 'Test User',
-    email: 'test@test.com',
-    password: 'test'
-  }, {
-    provider: 'local',
-    role: 'admin',
-    name: 'Admin',
-    email: 'admin@admin.com',
-    password: 'admin'
-  }, function() {
-    console.log('finished populating users');
-  }
-  );
-});
-
-Category.find({}).remove(function() {
-  var cat_params = [];
-  for (var i=1 ; i <= 12 ; ++i) {
-    cat_params.push({
-      provider: 'local',
-      name: 'Category ' + i,
-      description: 'Category :i description goes here.'.replace(/:i/, i)
+exports.createUsers = function(n, done) {
+  User.find({}).remove(function() {
+    var user_params = [];
+    for (var i=1 ; i <= n ; ++i) {
+      user_params.push({
+        provider: 'local',
+        name: 'Test User ' + i,
+        email: 'test:i@test.com'.replace(/:i/, i),
+        password: 'test'
+      });
+    }
+    User.create(user_params, function(err) {
+      console.log('finished populating users');
+      if (err) done(err);
+      done();
     });
-  }
-  Category.create(cat_params, function() {
-    console.log('finished populating categories');
   });
-});
+};
+
+exports.createCategories = function(n, done) {
+  Category.find({}).remove(function() {
+    var cat_params = [];
+    for (var i=1 ; i <= n ; ++i) {
+      cat_params.push({
+        provider: 'local',
+        name: 'Category ' + i,
+        about: 'Category :i description goes here.'.replace(/:i/, i)
+      });
+    }
+    Category.create(cat_params, function(err) {
+      console.log('finished populating categories');
+      if (err) done(err);
+      done();
+    });
+  });
+};
+
+exports.createLists = function(n, done) {
+  List.find({}).remove(function() {
+    var list_params = [];
+    var items = [];
+    for (var i=1 ; i <= 12; ++i) {
+      items.push('item ' + i)
+    }
+    for (var i=1 ; i <= 12 ; ++i) {
+      list_params.push({
+        provider: 'local',
+        title: 'List ' + i,
+        about: 'List :i description goes here.'.replace(/:i/, i),
+        items: [ items ]
+      });
+    }
+    List.create(list_params, function(err) {
+      console.log('finished populating lists');
+      if (err) done(err);
+      done();
+    });
+  });
+};

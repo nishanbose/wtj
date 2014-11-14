@@ -15,7 +15,15 @@ var config = require('./config/environment');
 mongoose.connect(config.mongo.uri, config.mongo.options);
 
 // Populate DB with sample data
-if(config.seedDB) { require('./config/seed'); }
+if(config.seedDB) { 
+  var Seed = require('./config/seed');
+  var callback = function(arg) {
+    if (arg) console.log(arg);
+  }
+  Seed.createUsers(12, callback);
+  Seed.createCategories(12, callback);
+  Seed.createLists(12, callback);
+}
 
 // Setup server
 var app = express();

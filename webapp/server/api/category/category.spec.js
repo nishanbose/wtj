@@ -3,31 +3,12 @@
 var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
-
-var Category = require('./category.model');
-
-var createCategories = function(n, done) {
-  Category.find({}).remove(function() {
-    var cat_params = [];
-    for (var i=1 ; i <= n ; ++i) {
-      cat_params.push({
-        provider: 'local',
-        name: 'Category ' + i,
-        description: 'Category :i description goes here.'.replace(/:i/, i)
-      });
-    }
-    Category.create(cat_params, function(err) {
-      console.log('finished populating categories');
-      if (err) done(err);
-      done();
-    });
-  });
-}
+var Seed = require('../../config/seed');
 
 describe('GET /api/categories', function() {
 
   beforeEach(function(done) {
-    createCategories(5, done);
+    Seed.createCategories(5, done);
   });
 
   it('should respond with JSON array', function(done) {
@@ -41,12 +22,22 @@ describe('GET /api/categories', function() {
         done();
       });
   });
+});
 
-  it('should contain a name and description', function(done) {
+var Category = require('./category.model');
+
+describe('Category', function() {
+
+  beforeEach(function(done) {
+    Seed.createCategories(5, done);
+  });
+
+  it('should contain a name and about', function(done) {
     Category.findOne(function(err, cat) {
       if (err) return done(err);
+      console.log(cat);
       cat.name.should.be.ok;
-      cat.description.should.be.ok;
+      cat.about.should.be.ok;
       done();
     });
   });

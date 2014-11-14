@@ -4,8 +4,9 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var ListSchema = new Schema({
-  name: String,
-  info: String,
+  title: String,
+  about: String,
+  items: [ String ],
   active: Boolean
 });
 
