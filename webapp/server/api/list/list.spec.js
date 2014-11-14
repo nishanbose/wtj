@@ -49,6 +49,7 @@ describe('List', function() {
       list.title.should.be.ok;
       list.about.should.be.ok;
       list.items.should.be.ok;
+      (list.items.length !== undefined).should.be.true;
       done();
     });
   });

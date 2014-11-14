@@ -27,8 +27,9 @@ div(ng-include='"components/navbar/navbar.html"')
   h1 Top Trending Lists
   p Will display top n by number of votes (to be implemented).
   p Each list will be clickable.
-  ul
-    li(ng-repeat="list in lists") {{ list.title }}
+  ul.list
+    li.item(ng-repeat="list in lists")
+      a(ui-sref="list({id: list._id})") {{ list.title }}
 
   h1 Categories
   .row

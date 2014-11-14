@@ -1,0 +1,7 @@
+//- Display a single list
+
+.container
+  h1 {{ list.title }}
+
+  ul.list
+    li.item(ng-repeat="item in list.items") {{ item }}

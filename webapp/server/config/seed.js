@@ -87,7 +87,7 @@ exports.createLists = function(n, done) {
         provider: 'local',
         title: 'List ' + i,
         about: 'List :i description goes here.'.replace(/:i/, i),
-        items: [ items ]
+        items: items
       });
     }
     List.create(list_params, function(err) {
