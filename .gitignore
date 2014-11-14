@@ -1,5 +1,4 @@
 /server/config/local.env.js
-# node_modules/
 client/bower_components/
 dist/
 .tmp/
@@ -7,3 +6,9 @@ dist/
 .idea/
 .tags
 *.sublime-workspace
+#
+# Used by pm2 ecosystem.json script
+.deploys
+current
+source/
+# node_modules/ # keep these for correct sync betwee dev and prod
