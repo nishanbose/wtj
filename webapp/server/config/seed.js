@@ -3,12 +3,13 @@
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
 
-'use strict';
+ 'use strict';
 
-var Thing = require('../api/thing/thing.model');
-var User = require('../api/user/user.model');
+ var Thing = require('../api/thing/thing.model');
+ var User = require('../api/user/user.model');
+ var Category = require('../api/category/category.model');
 
-Thing.find({}).remove(function() {
+ Thing.find({}).remove(function() {
   Thing.create({
     name : 'Development Tools',
     info : 'Integration with popular tools such as Bower, Grunt, Karma, Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, Stylus, Sass, CoffeeScript, and Less.'
@@ -43,7 +44,21 @@ User.find({}).remove(function() {
     email: 'admin@admin.com',
     password: 'admin'
   }, function() {
-      console.log('finished populating users');
-    }
+    console.log('finished populating users');
+  }
   );
+});
+
+Category.find({}).remove(function() {
+  var cat_params = [];
+  for (var i=1 ; i <= 12 ; ++i) {
+    cat_params.push({
+      provider: 'local',
+      name: 'Category ' + i,
+      description: 'Category :i description goes here.'.replace(/:i/, i)
+    });
+  }
+  Category.create(cat_params, function() {
+    console.log('finished populating categories');
+  });
 });
