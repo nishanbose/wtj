@@ -4,10 +4,37 @@ var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
 var Seed = require('../../config/seed');
+var List = require('./list.model');
+
+describe('List', function() {
+
+  before(function(done) {
+    Seed.createLists(5, done);
+  });
+
+  it('should contain a title, about, and items', function(done) {
+    List.findOne(function(err, list) {
+      if (err) return done(err);
+      list.title.should.be.ok;
+      list.about.should.be.ok;
+      list.items.should.be.ok;
+      (list.items.length !== undefined).should.be.true;
+      done();
+    });
+  });
+
+  it('should contain one or more categories', function(done) {
+    List.findOne(function(err, list) {
+      if (err) return done(err);
+      list.categories.should.be.ok;
+      (list.categories.length !== undefined).should.be.true;
+      done();
+    });
+  });
+});
 
 describe('GET /api/lists', function() {
-
-  beforeEach(function(done) {
+  before(function(done) {
     Seed.createLists(5, done);
   });
   it('should respond with JSON array', function(done) {
@@ -35,22 +62,34 @@ describe('GET /api/lists', function() {
   });
 });
 
-var List = require('./list.model');
-
-describe('List', function() {
-
-  beforeEach(function(done) {
+describe('GET /api/list', function() {
+  var lists = null;
+  
+  before(function(done) {
     Seed.createLists(5, done);
   });
 
-  it('should contain a title, about, and items', function(done) {
-    List.findOne(function(err, list) {
+  it('should respond with a single list', function(done) {
+    List.findOne(function(err) {
       if (err) return done(err);
-      list.title.should.be.ok;
-      list.about.should.be.ok;
-      list.items.should.be.ok;
-      (list.items.length !== undefined).should.be.true;
-      done();
+      var list = arguments[1];
+      // console.log('list');
+      // console.log(list);
+      var id = list._id;
+
+      request(app)
+      .get('/api/lists/' + id)
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        if (err) return done(err);
+        res.body.should.be.instanceof(Object);
+        res.body.items.should.be.instanceof(Array);
+        res.body.categories.should.be.instanceof(Array);
+        res.body.categories[0].should.be.instanceof(Object);
+        res.body.categories[0].name.should.be.instanceof(String);
+        done();
+      });
     });
   });
 });

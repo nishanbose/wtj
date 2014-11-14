@@ -49,7 +49,7 @@ exports.createUsers = function(n, done) {
         password: 'test'
       });
     }
-    User.create(user_params, function(err) {
+    User.create(user_params, function(err, items) {
       console.log('finished populating users');
       if (err) done(err);
       done();
@@ -68,32 +68,52 @@ exports.createCategories = function(n, done) {
       });
     }
     Category.create(cat_params, function(err) {
+      var cats = [];
+      for (var i=1 ; i < arguments.length ; ++i) {
+        cats.push(arguments[i]);
+      }
+      // console.log(cats);
       console.log('finished populating categories');
-      if (err) done(err);
-      done();
+      done(err, cats);
     });
   });
 };
 
+// Return n random items from array
+var pickRandom = function(ar, n) {
+  var result = [];
+  for (var i=0 ; i < n ; ++i) {
+    var r = Math.floor(Math.random() * ar.length);
+    result.push(ar[r]);
+  }
+  return result;
+}
+
 exports.createLists = function(n, done) {
-  List.find({}).remove(function() {
-    var list_params = [];
-    var items = [];
-    for (var i=1 ; i <= 12; ++i) {
-      items.push('item ' + i)
-    }
-    for (var i=1 ; i <= 12 ; ++i) {
-      list_params.push({
-        provider: 'local',
-        title: 'List ' + i,
-        about: 'List :i description goes here.'.replace(/:i/, i),
-        items: items
+  exports.createCategories(20, function(err) {
+    var cats = arguments[1];
+    // console.log(cats);
+    // console.log( pickRandom(cats, 3).map(function(cat) { return cat._id }));
+    List.find({}).remove(function() {
+      var list_params = [];
+      var items = [];
+      for (var i=1 ; i <= 12 ; ++i) {
+        items.push('item ' + i)
+      }
+      for (var i=1 ; i <= 12 ; ++i) {
+        list_params.push({
+          provider: 'local',
+          title: 'List ' + i,
+          about: 'List :i description goes here.'.replace(/:i/, i),
+          categories: pickRandom(cats, 3).map(function(cat) { return cat._id }),
+          items: items
+        });
+      }
+      List.create(list_params, function(err) {
+        var lists = Array.prototype.slice.call(arguments, 1);
+        console.log('finished populating lists');
+        done(err, lists);
       });
-    }
-    List.create(list_params, function(err) {
-      console.log('finished populating lists');
-      if (err) done(err);
-      done();
     });
   });
 };

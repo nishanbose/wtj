@@ -22,7 +22,10 @@ exports.show = function(req, res) {
   List.findById(req.params.id, function (err, list) {
     if(err) { return handleError(res, err); }
     if(!list) { return res.send(404); }
-    return res.json(list);
+    List.populate(list, { path: 'categories' }, function(err, popList) {
+      if(err) { return handleError(res, err); }
+      return res.json(list);
+    });
   });
 };
 
