@@ -23,5 +23,6 @@ angular.module 'wtjApp'
       socket.unsyncUpdates 'thing'
 ###
 angular.module 'wtjApp'
-.controller 'MainCtrl', ($scope, Category) ->
+.controller 'MainCtrl', ($scope, Category, List) ->
   $scope.categories = Category.query()
+  $scope.lists = List.query()

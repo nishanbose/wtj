@@ -35,7 +35,7 @@ describe('Category', function() {
   it('should contain a name and about', function(done) {
     Category.findOne(function(err, cat) {
       if (err) return done(err);
-      console.log(cat);
+      // console.log(cat);
       cat.name.should.be.ok;
       cat.about.should.be.ok;
       done();
