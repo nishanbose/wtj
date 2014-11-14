@@ -5,27 +5,27 @@
     "env": {
       "COMMON_VARIABLE": "true"
     },
-    "env_development" : {
+    "dev" : {
       "NODE_ENV": "development"
     },
-    "env_production" : {
+    "prod" : {
       "NODE_ENV": "production"
     }
   }],
   "deploy" : {
     "production" : {
-      "user" : "node",
+      "user" : "lsiden",
       "host" : "104.131.98.97",
       "ref"  : "origin/master",
-      "repo" : "git@github.com:lsiden/wtj.git",
+      "repo" : "https://github.com/lsiden/wtj.git",
       "path" : "/home/lsiden/wtj/webapp",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env production"
     },
     "dev" : {
-      "user" : "node",
+      "user" : "lsiden",
       "host" : "104.131.98.97",
       "ref"  : "origin/master",
-      "repo" : "git@github.com:lsiden/wtj.git",
+      "repo" : "https://github.com/lsiden/wtj.git",
       "path" : "/home/lsiden/wtj/webapp",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env dev"
     }
