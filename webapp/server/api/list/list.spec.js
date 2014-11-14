@@ -21,6 +21,18 @@ describe('GET /api/lists', function() {
         done();
       });
   });
+  it('should respond with top n', function(done) {
+    request(app)
+      .get('/api/lists?top=3')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        if (err) return done(err);
+        res.body.should.be.instanceof(Array);
+        res.body.length.should.equal(3);
+        done();
+      });
+  });
 });
 
 var List = require('./list.model');

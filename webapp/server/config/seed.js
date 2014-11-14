@@ -34,7 +34,13 @@
 
 exports.createUsers = function(n, done) {
   User.find({}).remove(function() {
-    var user_params = [];
+    var user_params = [{
+      provider: 'local',
+      role: 'admin',
+      name: 'Admin',
+      email: 'admin@admin.com',
+      password: 'admin'
+    }];
     for (var i=1 ; i <= n ; ++i) {
       user_params.push({
         provider: 'local',

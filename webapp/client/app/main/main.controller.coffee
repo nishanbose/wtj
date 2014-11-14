@@ -25,4 +25,4 @@ angular.module 'wtjApp'
 angular.module 'wtjApp'
 .controller 'MainCtrl', ($scope, Category, List) ->
   $scope.categories = Category.query()
-  $scope.lists = List.query()
+  $scope.lists = List.query({ top: 3 })

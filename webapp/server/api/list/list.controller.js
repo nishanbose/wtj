@@ -5,7 +5,13 @@ var List = require('./list.model');
 
 // Get list of lists
 exports.index = function(req, res) {
-  List.find(function (err, lists) {
+  var query = _.clone(req.query);
+  var top = parseInt(query.top) || 0;
+  delete query.top;
+  var q = List.find(query);
+
+  if (top) { q.limit(top); }
+  q.exec(function (err, lists) {
     if(err) { return handleError(res, err); }
     return res.json(200, lists);
   });
