@@ -1,5 +1,5 @@
 /server/config/local.env.js
-node_modules/
+# node_modules/
 client/bower_components/
 dist/
 .tmp/
