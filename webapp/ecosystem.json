@@ -1,7 +1,7 @@
 {
   "apps" : [{
     "name"      : "Welcome to Jackson",
-    "script"    : "server/app.js",
+    "script"    : "webapp/server/app.js",
     "env": {
       "COMMON_VARIABLE": "true"
     },
@@ -18,7 +18,7 @@
       "host" : "104.131.98.97",
       "ref"  : "origin/master",
       "repo" : "https://github.com/lsiden/wtj.git",
-      "path" : "/home/lsiden/wtj/webapp",
+      "path" : "/home/lsiden/wtj",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env production"
     },
     "dev" : {
@@ -26,7 +26,7 @@
       "host" : "104.131.98.97",
       "ref"  : "origin/master",
       "repo" : "https://github.com/lsiden/wtj.git",
-      "path" : "/home/lsiden/wtj/webapp",
+      "path" : "/home/lsiden/wtj",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env dev"
     }
   }
