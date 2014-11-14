@@ -1,22 +1,27 @@
 'use strict'
 
+###
 angular.module 'wtjApp'
 .controller 'MainCtrl', ($scope, $http, socket) ->
-  $scope.awesomeThings = []
+    $scope.awesomeThings = []
 
-  $http.get('/api/things').success (awesomeThings) ->
-    $scope.awesomeThings = awesomeThings
-    socket.syncUpdates 'thing', $scope.awesomeThings
+    $http.get('/api/things').success (awesomeThings) ->
+      $scope.awesomeThings = awesomeThings
+      socket.syncUpdates 'thing', $scope.awesomeThings
 
-  $scope.addThing = ->
-    return if $scope.newThing is ''
-    $http.post '/api/things',
-      name: $scope.newThing
+    $scope.addThing = ->
+      return if $scope.newThing is ''
+      $http.post '/api/things',
+        name: $scope.newThing
 
-    $scope.newThing = ''
+      $scope.newThing = ''
 
-  $scope.deleteThing = (thing) ->
-    $http.delete '/api/things/' + thing._id
+    $scope.deleteThing = (thing) ->
+      $http.delete '/api/things/' + thing._id
 
-  $scope.$on '$destroy', ->
-    socket.unsyncUpdates 'thing'
+    $scope.$on '$destroy', ->
+      socket.unsyncUpdates 'thing'
+###
+angular.module 'wtjApp'
+.controller 'MainCtrl', ($scope, Category) ->
+  $scope.categories = Category.query()
