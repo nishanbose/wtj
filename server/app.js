@@ -21,7 +21,6 @@ if(config.seedDB) {
     if (arg) console.log(arg);
   }
   Seed.createUsers(12, callback);
-  Seed.createCategories(12, callback);
   Seed.createLists(12, callback);
 }
 
