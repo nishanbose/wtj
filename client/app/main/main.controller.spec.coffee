@@ -10,6 +10,7 @@ describe 'Controller: MainCtrl', ->
   scope = undefined
   $httpBackend = undefined
 
+  ###
   # Initialize the controller and a mock scope
   beforeEach inject (_$httpBackend_, $controller, $rootScope) ->
     $httpBackend = _$httpBackend_
@@ -26,3 +27,4 @@ describe 'Controller: MainCtrl', ->
   it 'should attach a list of things to the scope', ->
     $httpBackend.flush()
     expect(scope.awesomeThings.length).toBe 4
+  ###
