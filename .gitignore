@@ -1,6 +1,7 @@
 /server/config/local.env.js
 .tmp/
 .sass-cache/
+.cache/
 .idea/
 .tags
 *.sublime-workspace
