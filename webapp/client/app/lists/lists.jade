@@ -1,2 +1,7 @@
-.col-md-12
-    | This is the lists view.
+//- Display a collection of lists
+
+div(ng-include='"components/navbar/navbar.html"')
+
+ul.lists
+  li.list(ng-repeat="list in lists")
+    a(ui-sref="list({id: list._id})") {{ list.title }}

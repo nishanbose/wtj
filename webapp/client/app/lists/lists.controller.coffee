@@ -3,8 +3,8 @@
 angular.module 'wtjApp'
 
 # Controller for a listing of lists.
-.controller 'ListsCtrl', ($scope) ->
-  $scope.message = 'Hello'
+.controller 'ListsCtrl', ($scope, List) ->
+  $scope.lists = List.query()
 
 # Controller for a single list
 .controller 'ListCtrl', ($scope, List, $state) ->
