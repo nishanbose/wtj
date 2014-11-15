@@ -1,7 +1,7 @@
 {
   "apps" : [{
     "name"      : "Welcome to Jackson",
-    "script"    : "webapp/server/app.js",
+    "script"    : "server/app.js",
     "env": {
       "COMMON_VARIABLE": "true"
     },
