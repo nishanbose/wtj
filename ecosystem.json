@@ -21,7 +21,7 @@
       "path" : "/home/lsiden/wtj",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env production"
     },
-    "dev" : {
+    "development" : {
       "user" : "lsiden",
       "host" : "104.131.98.97",
       "ref"  : "origin/master",
