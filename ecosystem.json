@@ -13,7 +13,7 @@
     }
   }],
   "deploy" : {
-    "production" : {
+    "prod" : {
       "user" : "lsiden",
       "host" : "104.131.98.97",
       "ref"  : "origin/master",
@@ -21,7 +21,7 @@
       "path" : "/home/lsiden/wtj",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env production"
     },
-    "development" : {
+    "dev" : {
       "user" : "lsiden",
       "host" : "104.131.98.97",
       "ref"  : "origin/master",
