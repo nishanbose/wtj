@@ -69,8 +69,8 @@ exports.createCategories = function(n, done) {
     }
     Category.create(cat_params, function(err) {
       var cats = [];
-      for (var i=1 ; i < arguments.length ; ++i) {
-        cats.push(arguments[i]);
+      for (var k=1 ; k < arguments.length ; ++k) {
+        cats.push(arguments[k]);
       }
       // console.log(cats);
       console.log('finished populating categories');
@@ -100,11 +100,11 @@ exports.createLists = function(n, done) {
       for (var i=1 ; i <= 12 ; ++i) {
         items.push('item ' + i)
       }
-      for (var i=1 ; i <= 12 ; ++i) {
+      for (var k=1 ; k <= 12 ; ++k) {
         list_params.push({
           provider: 'local',
-          title: 'List ' + i,
-          about: 'List :i description goes here.'.replace(/:i/, i),
+          title: 'List ' + k,
+          about: 'List :k description goes here.'.replace(/:k/, k),
           categories: pickRandom(cats, 3).map(function(cat) { return cat._id }),
           items: items
         });

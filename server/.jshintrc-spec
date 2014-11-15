@@ -1,4 +1,5 @@
 {
+  "expr": true,
   "extends": ".jshintrc",
   "globals": {
     "describe": true,
