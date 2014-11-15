@@ -1,11 +1,13 @@
 'use strict'
 
 angular.module 'wtjApp', [
-  'ngCookies',
-  'ngResource',
-  'ngSanitize',
-  'btford.socket-io',
-  'ui.router',
+  'ngCookies'
+  'ngResource'
+  'ngSanitize'
+  'btford.socket-io'
+  'ui.router'
+  'ui.bootstrap'
+  'ngGrid'
   'ui.bootstrap'
 ]
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->

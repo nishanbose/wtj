@@ -23,3 +23,8 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'main/main.scss';
 @import 'modal/modal.scss';
 // endinjector
+
+.gridStyle {
+    border: 1px solid rgb(212,212,212);
+    height: 40em;
+}

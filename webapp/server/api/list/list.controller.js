@@ -13,7 +13,10 @@ exports.index = function(req, res) {
   if (top) { q.limit(top); }
   q.exec(function (err, lists) {
     if(err) { return handleError(res, err); }
-    return res.json(200, lists);
+    List.populate(lists, { path: 'categories' }, function(err, popList) {
+      if(err) { return handleError(res, err); }
+      return res.json(200, lists);
+    });
   });
 };
 
