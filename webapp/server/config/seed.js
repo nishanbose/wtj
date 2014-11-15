@@ -90,7 +90,7 @@ var pickRandom = function(ar, n) {
 }
 
 exports.createLists = function(n, done) {
-  exports.createCategories(20, function(err) {
+  exports.createCategories(5, function(err) {
     var cats = arguments[1];
     // console.log(cats);
     // console.log( pickRandom(cats, 3).map(function(cat) { return cat._id }));

@@ -15,7 +15,6 @@ angular.module 'wtjApp'
       list.$promise.then (list) ->
         date = new Date(list.updatedAt)
         list.datePretty = date.toDateString()
-        list.categoriesPretty = (cat.name for cat in list.categories).join(', ')
       list
 
   self

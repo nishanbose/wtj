@@ -1,0 +1,9 @@
+<div class="ngCellText" ng-class="col.colIndex()">
+  <span ng-cell-text>
+    <span ng-repeat="cat in row.getProperty('categories')">
+      <button  ng-click="goToListForCategory(cat._id)">
+        {{ cat.name }}
+      </button>
+    </span>
+  </span>
+</div>

@@ -37,7 +37,7 @@ div(ng-include='"components/navbar/navbar.html"')
     //- .col-sm-2(ng-repeat="cat in categories")
     p Categories will be clickable (to be implemented).
     span(ng-repeat="cat in categories")
-      button.btn.btn-default(type="button") {{ cat.name }}
+      button.btn.btn-default(type="button", ui-sref="lists({ category: cat._id })") {{ cat.name }}
 
 footer.footer
   .container

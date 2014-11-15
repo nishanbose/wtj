@@ -2,18 +2,25 @@
 
 var _ = require('lodash');
 var List = require('./list.model');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 // Get list of lists
 exports.index = function(req, res) {
   var query = _.clone(req.query);
   var top = parseInt(query.top) || 0;
+  var catId = query.category || false;
   delete query.top;
-  var q = List.find(query);
+  delete query.category;
 
+  var q = List.find(query);
+  // console.log(catId);
+  if (catId) { q.find({ categories: { $in: [ catId ]}}) }
   if (top) { q.limit(top); }
+  // mongoose.set('debug', true);
   q.exec(function (err, lists) {
     if(err) { return handleError(res, err); }
-    List.populate(lists, { path: 'categories' }, function(err, popList) {
+    List.populate(lists, { path: 'categories', select: '_id name' }, function(err, popList) {
       if(err) { return handleError(res, err); }
       return res.json(200, lists);
     });
@@ -25,9 +32,9 @@ exports.show = function(req, res) {
   List.findById(req.params.id, function (err, list) {
     if(err) { return handleError(res, err); }
     if(!list) { return res.send(404); }
-    List.populate(list, { path: 'categories' }, function(err, popList) {
+    List.populate(list, { path: 'categories', select: '_id name' }, function(err, popList) {
       if(err) { return handleError(res, err); }
-      return res.json(list);
+      return res.json(200, list);
     });
   });
 };

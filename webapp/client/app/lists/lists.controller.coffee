@@ -11,9 +11,19 @@ compareDate = (_a, _b) ->
 angular.module 'wtjApp'
 
 # Controller for a listing of lists.
-.controller 'ListsCtrl', ($scope, List, listService) ->
-  
-  $scope.lists = List.query (lists) ->
+.controller 'ListsCtrl', ($scope, $state, List, Category, listService) ->
+  $scope.title = 'Lists'
+  query = {}
+
+  if $state.params.category
+    query.category = $state.params.category
+
+    Category.get { id: $state.params.category }, (cat) ->
+      # console.log(cat)
+      $scope.title = 'Lists Matching ' + cat.name
+
+  $scope.lists = List.query query, (lists) ->
+    # console.log lists
     listService.decorate list for list in lists
 
   $scope.gridOptions = 
@@ -30,11 +40,18 @@ angular.module 'wtjApp'
       }
       { field: 'datePretty', displayName: 'Updated', sortable: true, sortFn: compareDate }
       # { field: 'owner', displayName: 'Submitted By', sortable: true }
-      { field: 'categoriesPretty', displayName: 'Categories', sortable: false }
+      {
+        field: 'categories'
+        displayName: 'Categories'
+        cellTemplate: 'app/lists/categories-cell.html'
+        sortable: false
+      }
     ]
 
+  $scope.goToListForCategory = (catId) ->
+    $state.go('lists', { category: catId })
+
 # Controller for a single list
-.controller 'ListCtrl', ($scope, List, $state) ->
+.controller 'ListCtrl', ($scope, List, $state, listService) ->
   $scope.list = List.get { id: $state.params.id }, (list) ->
-    console.log(list)
-    # list.items = list.items.split(',')
+    listService.decorate list
