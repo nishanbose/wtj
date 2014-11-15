@@ -1,14 +1,14 @@
 'use strict'
 
-describe 'Service: list', ->
+describe 'Service: listService', ->
 
   # load the service's module
   beforeEach module 'wtjApp'
 
   # instantiate service
-  list = undefined
-  beforeEach inject (_list_) ->
-    list = _list_
+  listService = undefined
+  beforeEach inject (_listService_) ->
+    listService = _listService_
 
   it 'should do something', ->
-    expect(!!list).toBe true
+    expect(!!listService).toBe true
