@@ -21,6 +21,9 @@ var UserSchema = new Schema({
   github: {}
 });
 
+var timestamps = require('mongoose-timestamp')
+UserSchema.plugin(timestamps);
+
 /**
  * Virtuals
  */

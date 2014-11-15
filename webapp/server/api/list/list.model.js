@@ -11,4 +11,7 @@ var ListSchema = new Schema({
   active: Boolean
 });
 
+var timestamps = require('mongoose-timestamp')
+ListSchema.plugin(timestamps);
+
 module.exports = mongoose.model('List', ListSchema);
