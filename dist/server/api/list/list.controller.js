@@ -32,7 +32,7 @@ exports.show = function(req, res) {
   List.findById(req.params.id, function (err, list) {
     if(err) { return handleError(res, err); }
     if(!list) { return res.send(404); }
-    List.populate(list, { path: 'categories', select: '_id name' }, function(err, popList) {
+    List.populate(list, { path: 'categories author', select: '_id name email' }, function(err, popList) {
       if(err) { return handleError(res, err); }
       return res.json(200, list);
     });
