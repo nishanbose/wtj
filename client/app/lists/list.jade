@@ -5,7 +5,8 @@ div(ng-include='"components/navbar/navbar.html"')
 .container
   h1 {{ list.title }}
 
-  .author {{ list.author.name }}
+  .author 
+    mail-to(email="{{list.author.email}}", name="{{ list.author.name }}")
 
   ul.list
     li.item(ng-repeat="item in list.items") {{ item }}
