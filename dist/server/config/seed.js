@@ -115,7 +115,7 @@ exports.assignListCategoriesAndAuthors = function(lists, cats, users, callback) 
   var promises = [];
   lists.forEach(function(list) {
     list.categories = pickRandom(cats, 3).map(function(cat) { return cat._id });
-    list.author = users[Math.floor(Math.rand * users.length)];
+    list.author = users[Math.floor(Math.random() * users.length)];
     promises.push(function(callback2) {
       list.save(function(err) {
         var results = Array.prototype.slice.call(arguments, 1);
