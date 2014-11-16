@@ -20,7 +20,7 @@ exports.index = function(req, res) {
   // mongoose.set('debug', true);
   q.exec(function (err, lists) {
     if(err) { return handleError(res, err); }
-    List.populate(lists, { path: 'categories', select: '_id name' }, function(err, popList) {
+    List.populate(lists, { path: 'categories author', select: '_id name email' }, function(err, popList) {
       if(err) { return handleError(res, err); }
       return res.json(200, lists);
     });

@@ -32,53 +32,47 @@
   });
 });
 
-exports.createUsers = function(n) {
-  return function(callback) {
-    User.find({}).remove(function() {
-      var user_params = [{
+exports.createUsers = function(n, callback) {
+  User.find({}).remove(function() {
+    var user_params = [{
+      provider: 'local',
+      role: 'admin',
+      name: 'Admin',
+      email: 'admin@admin.com',
+      password: 'admin'
+    }];
+    for (var i=1 ; i <= n ; ++i) {
+      user_params.push({
         provider: 'local',
-        role: 'admin',
-        name: 'Admin',
-        email: 'admin@admin.com',
-        password: 'admin'
-      }];
-      for (var i=1 ; i <= n ; ++i) {
-        user_params.push({
-          provider: 'local',
-          name: 'Test User ' + i,
-          email: 'test:i@test.com'.replace(/:i/, i),
-          password: 'test'
-        });
-      }
-      User.create(user_params, function(err) {
-        console.log('finished populating users');
-        var users = Array.prototype.slice.call(arguments, 1);
-        // console.log(users.length);
-        if (callback) { return callback(err, users); }
+        name: 'Test User ' + i,
+        email: 'test:i@test.com'.replace(/:i/, i),
+        password: 'test'
       });
+    }
+    User.create(user_params, function(err) {
+      if (err) console.log(err ? err : 'finished populating users');
+      var results = Array.prototype.slice.call(arguments, 1);
+      callback(err, results);
     });
-  };
+  });
 };
 
-exports.createCategories = function(n) {
-  return function(callback) {
-    Category.find({}).remove(function() {
-      var cat_params = [];
-      for (var i=1 ; i <= n ; ++i) {
-        cat_params.push({
-          provider: 'local',
-          name: 'Category ' + i,
-          about: 'Category :i description goes here.'.replace(/:i/, i)
-        });
-      }
-      Category.create(cat_params, function(err) {
-        var cats = Array.prototype.slice.call(arguments, 1);
-        // console.log(cats);
-        console.log('finished populating categories');
-        if (callback) { callback(err, cats); }
+exports.createCategories = function(n, callback) {
+  Category.find({}).remove(function() {
+    var cat_params = [];
+    for (var i=1 ; i <= n ; ++i) {
+      cat_params.push({
+        provider: 'local',
+        name: 'Category ' + i,
+        about: 'Category :i description goes here.'.replace(/:i/, i)
       });
+    }
+    Category.create(cat_params, function(err) {
+      console.log(err ? err : 'finished populating categories');
+      var results = Array.prototype.slice.call(arguments, 1);
+      callback(err, results);
     });
-  };
+  });
 };
 
 // Return n random items from array
@@ -91,29 +85,27 @@ var pickRandom = function(ar, n) {
   return result;
 }
 
-exports.createLists = function(n) {
-  return function(callback) {
-    List.find({}).remove(function() {
-      var list_params = [];
-      var items = [];
-      for (var i=1 ; i <= 12 ; ++i) {
-        items.push('item ' + i)
-      }
-      for (var k=1 ; k <= 12 ; ++k) {
-        list_params.push({
-          provider: 'local',
-          title: 'List ' + k,
-          about: 'List :k description goes here.'.replace(/:k/, k),
-          items: items
-        });
-      }
-      List.create(list_params, function(err) {
-        console.log('finished populating lists');
-        var lists = Array.prototype.slice.call(arguments, 1);
-        if (callback) { return callback(err, lists); }
+exports.createLists = function(n, callback) {
+  List.find({}).remove(function() {
+    var list_params = [];
+    var items = [];
+    for (var i=1 ; i <= 12 ; ++i) {
+      items.push('item ' + i)
+    }
+    for (var k=1 ; k <= 12 ; ++k) {
+      list_params.push({
+        provider: 'local',
+        title: 'List ' + k,
+        about: 'List :k description goes here.'.replace(/:k/, k),
+        items: items
       });
+    }
+    List.create(list_params, function(err) {
+      console.log(err ? err : 'finished populating lists');
+      var results = Array.prototype.slice.call(arguments, 1);
+      callback(err, results);
     });
-  };
+  });
 };
 
 exports.assignListCategoriesAndAuthors = function(lists, cats, users, callback) {
@@ -126,13 +118,15 @@ exports.assignListCategoriesAndAuthors = function(lists, cats, users, callback) 
     list.author = users[Math.floor(Math.rand * users.length)];
     promises.push(function(callback2) {
       list.save(function(err) {
-        callback2(err);
+        var results = Array.prototype.slice.call(arguments, 1);
+        callback2(err, results);
       });
     });
   });
   var async = require('async');
   async.series(promises, function(err) {
-    console.log('async callback 2');
-    callback(err);
+    console.log(err ? err : 'finished assigning users and categories to lists');
+    var results = Array.prototype.slice.call(arguments, 1);
+    callback(err, results);
   });
 };

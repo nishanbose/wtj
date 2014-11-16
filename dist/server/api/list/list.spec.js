@@ -14,9 +14,9 @@ var callback = function(err, results) {
 var setup = function(done) {
   var async = require('async');
   async.series([
-    Seed.createUsers(10),
-    Seed.createCategories(5),
-    Seed.createLists(30)
+    function(callback) { Seed.createUsers(10, callback) },
+    function(callback) { Seed.createCategories(5, callback) },
+    function(callback) { Seed.createLists(30, callback) }
     ], function(err, results) {
       // console.log('async callback 1')
       if (err) { return done(err); }
@@ -26,8 +26,7 @@ var setup = function(done) {
       var lists = results[2];
       
       Seed.assignListCategoriesAndAuthors(lists, cats, users, function(err) {
-        if (err) return done(err);
-        done();
+        done(err);
       });
   });
 };
