@@ -5,10 +5,17 @@ var app = require('../../app');
 var request = require('supertest');
 var Seed = require('../../config/seed');
 
+var setup = function(done) {
+  var async = require('async');
+  async.series([Seed.createCategories(5)], function(err, results) {
+    done(err, results);
+  });
+};
+
 describe('GET /api/categories', function() {
 
   beforeEach(function(done) {
-    Seed.createCategories(5, done);
+    setup(done);
   });
 
   it('should respond with JSON array', function(done) {
@@ -29,7 +36,7 @@ var Category = require('./category.model');
 describe('Category', function() {
 
   beforeEach(function(done) {
-    Seed.createCategories(5, done);
+    setup(done);
   });
 
   it('should contain a name and about', function(done) {

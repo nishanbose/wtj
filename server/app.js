@@ -16,12 +16,25 @@ mongoose.connect(config.mongo.uri, config.mongo.options);
 
 // Populate DB with sample data
 if(config.seedDB) { 
+  var async = require('async');
   var Seed = require('./config/seed');
   var callback = function(arg) {
     if (arg) console.log(arg);
-  }
-  Seed.createUsers(12, callback);
-  Seed.createLists(12, callback);
+  };
+  var promises = [
+    Seed.createUsers(12, callback),
+    Seed.createLists(30, callback),
+    Seed.createCategories(5, callback)
+  ];
+  async.parallel(promises, function(err, results) {
+    if (err) { console.log(err); return; }
+    var users = results[0];
+    var lists = results[1];
+    var cats = results[2];
+    Seed.assignListCategoriesAndAuthors(lists, cats, users, function(err) {
+      if (err) console.log(err);
+    });
+  });
 }
 
 // Setup server
