@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
 var ListSchema = new Schema({
   title: String,
   about: String,
+  author: { type: Schema.Types.ObjectId, ref: 'User' },
   categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
   items: [ String ],
   active: Boolean

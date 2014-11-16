@@ -6,10 +6,36 @@ var request = require('supertest');
 var Seed = require('../../config/seed');
 var List = require('./list.model');
 
+var callback = function(err, results) {
+  if (err) console.log(err);
+  return results;
+};
+
+var setup = function(done) {
+  var async = require('async');
+  async.series([
+    Seed.createUsers(10),
+    Seed.createCategories(5),
+    Seed.createLists(30)
+    ], function(err, results) {
+      // console.log('async callback 1')
+      if (err) { return done(err); }
+
+      var users = results[0];
+      var cats = results[1];
+      var lists = results[2];
+      
+      Seed.assignListCategoriesAndAuthors(lists, cats, users, function(err) {
+        if (err) return done(err);
+        done();
+      });
+  });
+};
+
 describe('List', function() {
 
   before(function(done) {
-    Seed.createLists(5, done);
+    setup(done);
   });
 
   it('should contain a title, about, and items', function(done) {
@@ -35,7 +61,7 @@ describe('List', function() {
 
 describe('GET /api/lists', function() {
   before(function(done) {
-    Seed.createLists(5, done);
+    setup(done);
   });
   it('should respond with JSON array', function(done) {
     request(app)
@@ -85,7 +111,7 @@ describe('GET /api/list', function() {
   var lists = null;
   
   before(function(done) {
-    Seed.createLists(5, done);
+    setup(done);
   });
 
   it('should respond with a single list', function(done) {
