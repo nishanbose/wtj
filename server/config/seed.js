@@ -32,51 +32,53 @@
   });
 });
 
-exports.createUsers = function(n, done) {
-  User.find({}).remove(function() {
-    var user_params = [{
-      provider: 'local',
-      role: 'admin',
-      name: 'Admin',
-      email: 'admin@admin.com',
-      password: 'admin'
-    }];
-    for (var i=1 ; i <= n ; ++i) {
-      user_params.push({
+exports.createUsers = function(n) {
+  return function(callback) {
+    User.find({}).remove(function() {
+      var user_params = [{
         provider: 'local',
-        name: 'Test User ' + i,
-        email: 'test:i@test.com'.replace(/:i/, i),
-        password: 'test'
+        role: 'admin',
+        name: 'Admin',
+        email: 'admin@admin.com',
+        password: 'admin'
+      }];
+      for (var i=1 ; i <= n ; ++i) {
+        user_params.push({
+          provider: 'local',
+          name: 'Test User ' + i,
+          email: 'test:i@test.com'.replace(/:i/, i),
+          password: 'test'
+        });
+      }
+      User.create(user_params, function(err) {
+        console.log('finished populating users');
+        var users = Array.prototype.slice.call(arguments, 1);
+        // console.log(users.length);
+        if (callback) { return callback(err, users); }
       });
-    }
-    User.create(user_params, function(err, items) {
-      console.log('finished populating users');
-      if (err) done(err);
-      done();
     });
-  });
+  };
 };
 
-exports.createCategories = function(n, done) {
-  Category.find({}).remove(function() {
-    var cat_params = [];
-    for (var i=1 ; i <= n ; ++i) {
-      cat_params.push({
-        provider: 'local',
-        name: 'Category ' + i,
-        about: 'Category :i description goes here.'.replace(/:i/, i)
-      });
-    }
-    Category.create(cat_params, function(err) {
-      var cats = [];
-      for (var k=1 ; k < arguments.length ; ++k) {
-        cats.push(arguments[k]);
+exports.createCategories = function(n) {
+  return function(callback) {
+    Category.find({}).remove(function() {
+      var cat_params = [];
+      for (var i=1 ; i <= n ; ++i) {
+        cat_params.push({
+          provider: 'local',
+          name: 'Category ' + i,
+          about: 'Category :i description goes here.'.replace(/:i/, i)
+        });
       }
-      // console.log(cats);
-      console.log('finished populating categories');
-      done(err, cats);
+      Category.create(cat_params, function(err) {
+        var cats = Array.prototype.slice.call(arguments, 1);
+        // console.log(cats);
+        console.log('finished populating categories');
+        if (callback) { callback(err, cats); }
+      });
     });
-  });
+  };
 };
 
 // Return n random items from array
@@ -89,11 +91,8 @@ var pickRandom = function(ar, n) {
   return result;
 }
 
-exports.createLists = function(n, done) {
-  exports.createCategories(5, function(err) {
-    var cats = arguments[1];
-    // console.log(cats);
-    // console.log( pickRandom(cats, 3).map(function(cat) { return cat._id }));
+exports.createLists = function(n) {
+  return function(callback) {
     List.find({}).remove(function() {
       var list_params = [];
       var items = [];
@@ -105,15 +104,35 @@ exports.createLists = function(n, done) {
           provider: 'local',
           title: 'List ' + k,
           about: 'List :k description goes here.'.replace(/:k/, k),
-          categories: pickRandom(cats, 3).map(function(cat) { return cat._id }),
           items: items
         });
       }
       List.create(list_params, function(err) {
-        var lists = Array.prototype.slice.call(arguments, 1);
         console.log('finished populating lists');
-        done(err, lists);
+        var lists = Array.prototype.slice.call(arguments, 1);
+        if (callback) { return callback(err, lists); }
       });
     });
+  };
+};
+
+exports.assignListCategoriesAndAuthors = function(lists, cats, users, callback) {
+  // console.log('assignListCategories(), :lists lists, :cats cats'
+  // .replace(/:lists/, lists.length)
+  // .replace(/:cats/, cats.length));
+  var promises = [];
+  lists.forEach(function(list) {
+    list.categories = pickRandom(cats, 3).map(function(cat) { return cat._id });
+    list.author = users[Math.floor(Math.rand * users.length)];
+    promises.push(function(callback2) {
+      list.save(function(err) {
+        callback2(err);
+      });
+    });
+  });
+  var async = require('async');
+  async.series(promises, function(err) {
+    // console.log('async callback 2');
+    callback(err);
   });
 };
