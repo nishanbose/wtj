@@ -5,10 +5,12 @@ div(ng-include='"components/navbar/navbar.html"')
 .container
   h1 {{ list.title }}
 
+  .author {{ list.author.name }}
+
   ul.list
     li.item(ng-repeat="item in list.items") {{ item }}
 
-  h1 Categories
+  h2 Categories
   .row
     p Categories will be clickable (to be implemented).
     span(ng-repeat="cat in list.categories")
