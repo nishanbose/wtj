@@ -7,6 +7,11 @@ angular.module 'wtjApp'
     url: '/lists?category&author'
     templateUrl: 'app/lists/index/lists.html'
     controller: 'ListsCtrl'
+
+  $stateProvider.state 'my-lists',
+    url: '/lists/me'
+    templateUrl: 'app/lists/index/lists.html'
+    controller: 'ListsCtrl'
   
   $stateProvider.state 'list',
     url: '/lists/:id'
