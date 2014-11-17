@@ -44,6 +44,7 @@ exports.createUsers = function(n, callback) {
     for (var i=1 ; i <= n ; ++i) {
       user_params.push({
         provider: 'local',
+        role: 'user',
         name: 'Test User ' + i,
         email: 'test:i@test.com'.replace(/:i/, i),
         password: 'test'
