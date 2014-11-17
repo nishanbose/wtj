@@ -11,7 +11,7 @@ compareDate = (_a, _b) ->
 angular.module 'wtjApp'
 
 # Controller for a listing of lists.
-.controller 'ListsCtrl', ($scope, $state, List, Category, listService) ->
+.controller 'ListsCtrl', ($scope, $state, List, Category, User, listService) ->
   $scope.title = 'Lists'
   query = {}
 
@@ -21,6 +21,13 @@ angular.module 'wtjApp'
     Category.get { id: $state.params.category }, (cat) ->
       # console.log(cat)
       $scope.title = 'Lists Matching ' + cat.name
+
+  if $state.params.author
+    query.author = $state.params.author
+
+    User.get { id: $state.params.author }, (user) ->
+      # console.log(cat)
+      $scope.title = 'Lists Authored by ' + user.name
 
   $scope.lists = List.query query, (lists) ->
     # console.log lists
@@ -36,6 +43,12 @@ angular.module 'wtjApp'
         field: 'title'
         displayName: 'Title'
         cellTemplate: 'app/lists/index/title-cell-link.html'
+        sortable: true
+      }
+      {
+        field: 'author'
+        displayName: 'Author'
+        cellTemplate: 'app/lists/index/author-cell-link.html'
         sortable: true
       }
       { field: 'datePretty', displayName: 'Updated', sortable: true, sortFn: compareDate }

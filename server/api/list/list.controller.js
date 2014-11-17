@@ -13,7 +13,6 @@ exports.index = function(req, res) {
   var catId = query.category || false;
   delete query.top;
   delete query.category;
-
   var q = List.find(query);
   // console.log(catId);
   if (catId) { q.find({ categories: { $in: [ catId ]}}) }
