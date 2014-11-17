@@ -11,24 +11,28 @@ compareDate = (_a, _b) ->
 angular.module 'wtjApp'
 
 # Controller for a listing of lists.
-.controller 'ListsCtrl', ($scope, $state, List, Category, User, listService) ->
+.controller 'ListsCtrl', ($scope, $state, List, Category, User, Auth, listService) ->
   $scope.title = 'Lists'
   query = {}
+
+  title_elements = []
 
   if $state.params.category
     query.category = $state.params.category
 
     Category.get { id: $state.params.category }, (cat) ->
-      # console.log(cat)
-      $scope.title = 'Lists Matching ' + cat.name
+      title_elements.push 'Matching ' + cat.name
 
-  if $state.params.author
+  if $state.is 'my-lists'
+    query.author = Auth.getCurrentUser()._id
+  else if $state.params.author
     query.author = $state.params.author
 
-    User.get { id: $state.params.author }, (user) ->
-      # console.log(cat)
-      $scope.title = 'Lists Authored by ' + user.name
+  if query.author
+    User.get { id: query.author }, (user) ->
+      title_elements.push 'Authored by ' + user.name
 
+  $scope.title = 'Lists ' + title_elements.join(', ')
   $scope.lists = List.query query, (lists) ->
     # console.log lists
     listService.decorate list for list in lists
