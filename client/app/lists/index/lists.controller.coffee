@@ -35,7 +35,7 @@ angular.module 'wtjApp'
       {
         field: 'title'
         displayName: 'Title'
-        cellTemplate: 'app/lists/title-cell-link.html'
+        cellTemplate: 'app/lists/index/title-cell-link.html'
         sortable: true
       }
       { field: 'datePretty', displayName: 'Updated', sortable: true, sortFn: compareDate }
@@ -43,7 +43,7 @@ angular.module 'wtjApp'
       {
         field: 'categories'
         displayName: 'Categories'
-        cellTemplate: 'app/lists/categories-cell.html'
+        cellTemplate: 'app/lists/index/categories-cell.html'
         sortable: false
       }
     ]
