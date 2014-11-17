@@ -67,8 +67,3 @@ angular.module 'wtjApp'
 
   $scope.goToListForCategory = (catId) ->
     $state.go('lists', { category: catId })
-
-# Controller for a single list
-.controller 'ListCtrl', ($scope, List, $state, listService) ->
-  $scope.list = List.get { id: $state.params.id }, (list) ->
-    listService.decorate list

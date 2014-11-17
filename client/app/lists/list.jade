@@ -5,9 +5,12 @@ div(ng-include='"components/navbar/navbar.html"')
 .container
   h1 {{ list.title }}
 
-  .author 
-    mail-to(email="{{list.author.email}}", name="{{ list.author.name }}")
+  .author
+    //- mail-to(email="{{list.author.email}}", name="{{ list.author.name }}")
+    a(ui-sref="lists({author: list.author._id})") {{ list.author.name }}
 
+  .gotoEdit(ng-show='canEdit')
+    a(ui-sref='edit({ id: list._id })') edit
   ul.list
     li.item(ng-repeat="item in list.items") {{ item }}
 
