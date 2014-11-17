@@ -1,7 +1,8 @@
 {
   "apps" : [{
     "name"      : "Welcome to Jackson",
-    "script"    : "server/app.js",
+    "old script"    : "server/app.js",
+    "script"    : "grunt server:dist",
     "env": {
       "COMMON_VARIABLE": "true"
     },
