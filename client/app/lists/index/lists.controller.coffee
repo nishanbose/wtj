@@ -14,10 +14,11 @@ angular.module 'wtjApp'
 .controller 'ListsCtrl', ($scope, $state, $sce, List, Category, User, Auth, listService) ->
   $scope.title = 'Lists'
   $scope.trust = $sce.trustAsHtml
+  $scope.canCreate = $state.is 'my-lists'  # Use can create a new list
   query = {}
-
   title_elements = []
 
+  # Set page header
   if $state.params.category
     query.category = $state.params.category
 
@@ -38,6 +39,9 @@ angular.module 'wtjApp'
   $scope.lists = List.query query, (lists) ->
     # console.log lists
     listService.decorate list for list in lists
+
+  $scope.newList = ->
+    $state.go('list-edit', { id: 'new' })
 
   $scope.gridOptions = 
     data: 'lists'
