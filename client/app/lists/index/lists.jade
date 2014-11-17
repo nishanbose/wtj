@@ -3,9 +3,9 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container
   h1(ng-bind-html="trust(title)")
-  //- ul.lists
-  //-   li.list(ng-repeat="list in lists")
-  //-     a(ui-sref="list({id: list._id})") {{ list.title }}
+
+  .create_new(ng-show="canCreate")
+    button.btn.btn-primary.fa.fa-plus(ng-click="newList()") &nbsp;New List
 
   div.gridStyle(ng-grid='gridOptions')
 

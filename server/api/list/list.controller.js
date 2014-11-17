@@ -5,6 +5,7 @@ var List = require('./list.model');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = require('mongoose').Types.ObjectId;
+var auth = require('../../auth/auth.service');
 
 // Get list of lists
 exports.index = function(req, res) {
@@ -41,6 +42,8 @@ exports.show = function(req, res) {
 
 // Creates a new list in the DB.
 exports.create = function(req, res) {
+  req.body.author = _.clone(req.user._doc);
+  console.log(req.body);
   List.create(req.body, function(err, list) {
     if(err) { return handleError(res, err); }
     return res.json(201, list);
@@ -49,6 +52,7 @@ exports.create = function(req, res) {
 
 // Updates an existing list in the DB.
 exports.update = function(req, res) {
+  if (!auth.hasRole('admin') && req.user._id !== req.body.author._id) {return res.send(401); }
   if(req.body._id) { delete req.body._id; }
   if(req.body.author) { delete req.body.author; } // not allowed
   List.findById(req.params.id, function (err, list) {

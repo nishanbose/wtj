@@ -10,7 +10,7 @@ div(ng-include='"components/navbar/navbar.html"')
     a(ui-sref="lists({author: list.author._id})") {{ list.author.name }}
 
   .gotoEdit(ng-show='canEdit')
-    a(ui-sref='edit({ id: list._id })') edit
+    a(ui-sref='list-edit({ id: list._id })') edit
     
   ul.list
     li.item(ng-repeat="item in list.items") {{ item }}
