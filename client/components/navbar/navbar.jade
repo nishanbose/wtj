@@ -10,7 +10,7 @@ div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
 
     div#navbar-main.navbar-collapse.collapse(collapse='isCollapsed')
       ul.nav.navbar-nav
-        li(ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
+        li(ng-repeat='item in menu', ng-class='{active: isActive(item.link)}', ng-show='!item.role || isLoggedIn()')
           a(ng-href='{{item.link}}') {{item.title}}
 
         li(ng-show='isAdmin()', ng-class='{active: isActive("/admin")}')
