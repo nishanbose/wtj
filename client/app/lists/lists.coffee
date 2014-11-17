@@ -12,3 +12,8 @@ angular.module 'wtjApp'
     url: '/lists/:id'
     templateUrl: 'app/lists/list.html'
     controller: 'ListCtrl'
+
+  $stateProvider.state 'edit',
+    url: '/lists/:id/edit'
+    templateUrl: 'app/lists/edit/edit.html'
+    controller: 'ListEditCtrl'
