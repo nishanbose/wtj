@@ -19,6 +19,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 // injector
 @import 'account/login/login.scss';
 @import 'admin/admin.scss';
+@import 'lists/edit/edit.scss';
 @import 'lists/lists.scss';
 @import 'main/main.scss';
 @import 'modal/modal.scss';
@@ -27,4 +28,23 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 .gridStyle {
     border: 1px solid rgb(212,212,212);
     height: 40em;
+}
+
+.form-group {
+  label {
+    @extend .col-sm-2;
+  }
+  div.input {
+    @extend .col-sm-10;
+
+    select {
+      width: inherit;
+    }
+  }
+}
+
+// Cannot be nested.
+form p.help-block {
+  @extend .col-sm-offset-2;
+  @extend .col-sm-10;
 }
