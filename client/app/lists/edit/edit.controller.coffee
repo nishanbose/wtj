@@ -34,6 +34,7 @@ angular.module 'wtjApp'
       list.$update()
     else
       list.$save
+    $state.go('list', { id: list._id })
   
   $scope.dragControlListeners = {
     accept: (sourceItemHandleScope, destSortableScope) ->
