@@ -11,6 +11,7 @@ div(ng-include='"components/navbar/navbar.html"')
 
   .gotoEdit(ng-show='canEdit')
     a(ui-sref='edit({ id: list._id })') edit
+    
   ul.list
     li.item(ng-repeat="item in list.items") {{ item }}
 

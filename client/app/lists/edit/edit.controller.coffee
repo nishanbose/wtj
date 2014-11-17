@@ -10,11 +10,8 @@ angular.module 'wtjApp'
     $scope.list_master = angular.copy($scope.list)
   , (headers) ->
     flash.error = headers.message
+  
   $scope.list_master = angular.copy($scope.list)
-  # $scope.categories = [
-  #   { name: 'cat', _id: 1}
-  #   { name: 'dog', _id: 2}
-  # ]
   $scope.categories = Category.query()
 
   $scope.appendItem = ->
