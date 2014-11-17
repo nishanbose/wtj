@@ -14,7 +14,17 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  User.find({}, '-salt -hashedPassword', function (err, users) {
+  var select;
+  var auth = require('../../auth/auth.service');
+
+  if (auth.hasRole('admin')) 
+    select = '-salt -hashedPassword';
+  else if (auth.hasRole('user'))
+    select = '+_id +name +email';
+  else
+    select = '+_id +name';
+  
+  User.find({}, select, function (err, users) {
     if(err) return res.send(500, err);
     res.json(200, users);
   });
