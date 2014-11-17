@@ -4,6 +4,7 @@ var _ = require('lodash');
 var List = require('./list.model');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = require('mongoose').Types.ObjectId;
 
 // Get list of lists
 exports.index = function(req, res) {
@@ -50,6 +51,7 @@ exports.create = function(req, res) {
 // Updates an existing list in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
+  if(req.body.author) { delete req.body.author; } // not allowed
   List.findById(req.params.id, function (err, list) {
     if (err) { return handleError(res, err); }
     if(!list) { return res.send(404); }

@@ -7,8 +7,10 @@ angular.module 'wtjApp', [
   'btford.socket-io'
   'ui.router'
   'ui.bootstrap'
+  'ui.sortable'
   'ngGrid'
-  'ui.bootstrap'
+  'angular-flash.service'
+  'angular-flash.flash-alert-directive'
 ]
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider

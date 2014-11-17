@@ -12,11 +12,13 @@
     "angular-cookies": ">=1.2.*",
     "angular-sanitize": ">=1.2.*",
     "angular-bootstrap": "~0.11.0",
-    "font-awesome": ">=4.1.0",
     "lodash": "~2.4.1",
     "angular-socket-io": "~0.6.0",
     "angular-ui-router": "~0.2.10",
-    "ng-grid": "~2.0.14"
+    "ng-grid": "~2.0.14",
+    "ng-sortable": "~1.1.7",
+    "font-awesome": "~4.2.0",
+    "angular-flash": "~0.1.14"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

@@ -1,0 +1,46 @@
+div(ng-include='"components/navbar/navbar.html"')
+.container
+  h1 Editing {{ list.title }}
+
+  //- {{ list }}
+
+  form.form(name='form', ng-submit='submit(form)', novalidate='', class='form-horizontal')
+
+    .form-group
+      label(for='fieldTitle', control-label) Title
+      .input
+        input#fieldTitle.form-control(type='text', name='name', ng-model='list.title', required='')
+      p.help-block(ng-show="form.name.$error.required" class="error") What is the title of this list?
+
+    .form-group
+      label(for='fieldAbout', control-label) About
+      .input
+        textarea#fieldAbout.form-control(type='text', name='about', ng-model='list.about', required='')
+      p.help-block(ng-show="form.about.$error.required" class="error") What is this list about?
+
+    .form-group
+      label(for='fieldItems', control-label) Items
+      .input
+        #fieldItems(as-sortable="dragControlListeners" name="items", ng-model="list.items")
+          div.item(ng-repeat="item in list.items" as-sortable-item='')
+              .input-group.fa.fa-bars.item-handle(as-sortable-item-handle='')
+                input.item(type="text", ng-model="list.items[$index].val")
+                | &nbsp;
+                span.fa.fa-minus(ng-click="removeItem($index)")
+
+      .fa.fa-plus.col-sm-offset-2.col-sm-10(ng-click="appendItem()") New Item
+      //- {{ list.items }}
+
+    .form-group
+      label(for='fieldCategories, control-label') Categories
+      .input
+        select#fieldCategories(multiple='', name="categories", ng-model='list.categories', ng-options='cat.name for cat in categories track by cat._id')
+      //- {{ list.categories }}
+
+    p.help-block  {{ message }}
+
+    .form-group.buttons
+      .col-sm-offset-2.col-sm-10
+        button.btn.btn-sm.btn-default(ng-click='reset(form)', ng-disabled="form.$pristine") Reset
+        button.btn.btn-sm.btn-success(type='submit', ng-disabled="passwordForm.$invalid") Save
+
