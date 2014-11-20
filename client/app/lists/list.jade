@@ -12,7 +12,7 @@ div(ng-include='"components/navbar/navbar.html"')
   .gotoEdit(ng-show='canEdit')
     a(ui-sref='list-edit({ id: list._id })') edit
     
-  ul.list
+  ol.list
     li.item(ng-repeat="item in list.items") {{ item }}
 
   h2 Categories
