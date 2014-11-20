@@ -28,6 +28,11 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+    <!-- Subscribe to all flash messages. -->
+    <div flash-alert active-class="in" class="alert fade" duration="10000"> <!-- disable fade -->
+      <span class="alert-message">{{flash.message}}</span>
+    </div>
+
     <!-- Add your site or application content here -->
     <div ui-view=""></div>
 
