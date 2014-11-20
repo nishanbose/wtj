@@ -39,7 +39,8 @@ exports.createUsers = function(n, callback) {
       role: 'admin',
       name: 'Admin',
       email: 'admin@admin.com',
-      password: 'admin'
+      password: 'admin',
+      active: true
     }];
     for (var i=1 ; i <= n ; ++i) {
       user_params.push({
@@ -47,7 +48,8 @@ exports.createUsers = function(n, callback) {
         role: 'user',
         name: 'Test User ' + i,
         email: 'test:i@test.com'.replace(/:i/, i),
-        password: 'test'
+        password: 'test',
+        active: true
       });
     }
     User.create(user_params, function(err) {
