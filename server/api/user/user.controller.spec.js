@@ -8,7 +8,6 @@ var User = require('./user.model');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var helpers = require('../helpers.service');
-var tracer = require('tracer').console({ level: 'trace' });
 
 var createUsers = function(done) {
   var users = [
@@ -36,10 +35,10 @@ var createUsers = function(done) {
 };
 
 describe('GET /api/users', function() {
-  before(createUsers);
+  beforeEach(createUsers);
   var token;  // auth token
 
-  before(function(done) {
+  beforeEach(function(done) {
     request(app).post('/auth/local')
     .send({email: 'admin@admin.com', password: 'admin'})
     .expect(200)
@@ -82,6 +81,7 @@ describe('GET /api/users', function() {
   });
   
   it('should fetch a user', function(done) {
+    var tracer = require('tracer').console({ level: 'warn' });
     User.findOne(function(err, user) {
       if (err) return done(err, user);
       user._id.should.be.instanceof(Object);
@@ -93,34 +93,33 @@ describe('GET /api/users', function() {
         if (err) return done(err);
         tracer.log(res.body);
         res.body.should.be.instanceof(Object);
-        var res_user = res.body;
-        (res_user.hashedPassword === undefined).should.be.true;
-        (res_user.salt === undefined).should.be.true;
-        res_user._id.should.be.equal('' + user._id);
+        (res.body.hashedPassword === undefined).should.be.true;
+        (res.body.salt === undefined).should.be.true;
+        res.body._id.should.be.equal('' + user._id);
         done();
       });
     });
   });
-/*  
+
   it('should update a user', function(done) {
-    request(app)
-    .post('/api/users')
-    .send({
-      name: 'Test User',
-      email: "test@user.com",
-      password: 'password',
-      active: true
-    })
-    .expect(201)
-    .expect('Content-Type', /json/)
-    .end(function(err, res) {
-      if (err) return done(err);
-      res.body.should.be.instanceof(Object);
-      res.body.token.should.be.instanceof(String);
-      done();
+    User.findOne(function(err, user) {
+      if (err) return done(err, user);
+      request(app)
+      .put('/api/users/' + user._id)
+      .send({
+        active: false
+      })
+      .set('authorization', 'Bearer ' + token)
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        if (err) return done(err);
+        res.body.should.be.instanceof(Object);
+        res.body.active.should.be.false;
+        done();
+      });
     });
   });
-*/
 /*
   it('should respond to an array of ObjectId', function(done) {
     Event.find({}).limit(3).exec(function(err, events) {

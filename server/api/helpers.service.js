@@ -13,28 +13,23 @@ var tracer = require('tracer').console({ level: 'info' });
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-function processQuery(_query) {
+exports.processQuery = function(_query) {
   var query = _.cloneDeep(_query);
   tracer.debug(query);
   for (var key in query) {
     if (_.isArray(query[key])) {
-      query[key] = (key === '_id[]') ? { $in: query[key].map(toObjectId) } : { $in: query[key] };
+      query[key] = (key === '_id[]') ? { $in: query[key].map(exports.toObjectId) } : { $in: query[key] };
     }
   }
   tracer.debug(query);
   return query;
-}
+};
 
-function handleError(res, err) {
-  // tracer.error(err);
-  console.log(err);
+exports.handleError = function(res, err) {
+  tracer.warn(err);
   return res.send(500, err);
-}
+};
 
-function toObjectId(id) { 
+exports.toObjectId = function(id) { 
   return Schema.Types.ObjectId(id)
-}
-
-exports.processQuery = processQuery;
-exports.handleError = handleError;
-exports.toObjectId = toObjectId;
+};
