@@ -7,9 +7,9 @@ var jwt = require('jsonwebtoken');
 var _ = require('lodash');
 var auth = require('../../auth/auth.service');
 var helpers = require('../helpers.service');
-var tracer = require('tracer').console({ level: 'info' });
 
 var validationError = function(res, err) {
+  var tracer = require('tracer').console({ level: 'warn' });
   tracer.warn(err);
   return res.json(422, err);
 };
@@ -39,6 +39,8 @@ exports.index = function(req, res) {
  * Creates a new user
  */
 exports.create = function (req, res, next) {
+  var tracer = require('tracer').console({ level: 'warn' });
+  tracer.trace('User.create()');
   var newUser = new User(req.body);
   newUser.provider = 'local';
   newUser.role = 'user';
@@ -52,11 +54,15 @@ exports.create = function (req, res, next) {
 
 // Updates an existing user in the DB.
 exports.update = function(req, res) {
+  var tracer = require('tracer').console({ level: 'warn' });
+  tracer.trace('User.update()');
+  tracer.log(req.params);
   if(req.body._id) { delete req.body._id; }
   if(req.body.password) { delete req.body.password; }
 
   User.findById(req.params.id, permittedFields(), function (err, user) {
     if (err) { return helpers.handleError(res, err); }
+    tracer.debug(user);
     if(!user) { return res.send(404); }
     var updated = _.merge(user, req.body);
     updated.save(function (err) {
