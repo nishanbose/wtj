@@ -48,3 +48,7 @@ form p.help-block {
   @extend .col-sm-offset-2;
   @extend .col-sm-10;
 }
+
+input[type="checkbox"] {
+  margin-right: 1em;
+}
