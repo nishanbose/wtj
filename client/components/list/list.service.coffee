@@ -18,5 +18,3 @@ angular.module 'wtjApp'
         list.author ||= {}
         list.categories ||= []
       list
-
-  self
