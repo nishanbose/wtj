@@ -4,6 +4,10 @@
 		{
 			"follow_symlinks": true,
 			"path": "webapp"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "."
 		}
 	]
 }
