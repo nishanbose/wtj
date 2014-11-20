@@ -4,6 +4,7 @@ var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
+var helpers = require('../helpers.service');
 
 var validationError = function(res, err) {
   return res.json(422, err);
