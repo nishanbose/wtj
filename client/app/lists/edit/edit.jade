@@ -28,7 +28,11 @@ div(ng-include='"components/navbar/navbar.html"')
                 | &nbsp;
                 span.fa.fa-minus(ng-click="removeItem($index)")
 
-      .fa.fa-plus.col-sm-offset-2.col-sm-10(ng-click="appendItem()") New Item
+      .form-group
+        label
+        .input
+          button.btn.btn-default
+            .fa.fa-plus(ng-click="appendItem()") New Item
       //- {{ list.items }}
 
     .form-group
