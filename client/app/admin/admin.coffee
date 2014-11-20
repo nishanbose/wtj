@@ -3,7 +3,7 @@
 angular.module 'wtjApp'
 .config ($stateProvider) ->
   $stateProvider
-  .state 'admin',
-    url: '/admin'
-    templateUrl: 'app/admin/admin.html'
+  .state 'admin-accounts',
+    url: '/admin/accounts'
+    templateUrl: 'app/admin/accounts/index.html'
     controller: 'AdminCtrl'
