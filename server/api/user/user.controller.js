@@ -4,28 +4,32 @@ var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
+var _ = require('lodash');
+var auth = require('../../auth/auth.service');
 var helpers = require('../helpers.service');
+var tracer = require('tracer').console({ level: 'info' });
 
 var validationError = function(res, err) {
+  tracer.warn(err);
   return res.json(422, err);
 };
 
+var permittedFields = function() {
+  if (auth.hasRole('admin')) 
+    return '-salt -hashedPassword';
+  else if (auth.hasRole('user'))
+    return '+_id +name +email';
+  else
+    return '+_id +name';
+}
 /**
  * Get list of users
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
   var select;
-  var auth = require('../../auth/auth.service');
-
-  if (auth.hasRole('admin')) 
-    select = '-salt -hashedPassword';
-  else if (auth.hasRole('user'))
-    select = '+_id +name +email';
-  else
-    select = '+_id +name';
   
-  User.find({}, select, function (err, users) {
+  User.find(req.query, permittedFields(), function (err, users) {
     if(err) return res.send(500, err);
     res.json(200, users);
   });
@@ -39,9 +43,26 @@ exports.create = function (req, res, next) {
   newUser.provider = 'local';
   newUser.role = 'user';
   newUser.save(function(err, user) {
+    // console.log(err);
     if (err) return validationError(res, err);
     var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
-    res.json({ token: token });
+    res.json(201, { token: token });
+  });
+};
+
+// Updates an existing user in the DB.
+exports.update = function(req, res) {
+  if(req.body._id) { delete req.body._id; }
+  if(req.body.password) { delete req.body.password; }
+
+  User.findById(req.params.id, permittedFields(), function (err, user) {
+    if (err) { return helpers.handleError(res, err); }
+    if(!user) { return res.send(404); }
+    var updated = _.merge(user, req.body);
+    updated.save(function (err) {
+      if (err) { return helpers.handleError(res, err); }
+      return res.json(200, user);
+    });
   });
 };
 
@@ -51,10 +72,10 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var userId = req.params.id;
 
-  User.findById(userId, function (err, user) {
+  User.findById(userId, permittedFields(), function (err, user) {
     if (err) return next(err);
     if (!user) return res.send(401);
-    res.json(user.profile);
+    res.json(user);
   });
 };
 

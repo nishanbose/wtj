@@ -6,19 +6,20 @@ var crypto = require('crypto');
 var authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var UserSchema = new Schema({
+  provider: String,
   name: String,
   email: { type: String, lowercase: true },
   role: {
     type: String,
     default: 'user'
   },
+  active: Boolean,
   hashedPassword: String,
-  provider: String,
-  salt: String,
   facebook: {},
   twitter: {},
+  // github: {}
   google: {},
-  github: {}
+  salt: String
 });
 
 var timestamps = require('mongoose-timestamp')
@@ -36,16 +37,6 @@ UserSchema
   })
   .get(function() {
     return this._password;
-  });
-
-// Public profile information
-UserSchema
-  .virtual('profile')
-  .get(function() {
-    return {
-      'name': this.name,
-      'role': this.role
-    };
   });
 
 // Non-sensitive info we'll be putting in the token
