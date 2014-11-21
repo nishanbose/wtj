@@ -5,15 +5,28 @@ div(ng-include='"components/navbar/navbar.html"')
 .container
   h1 {{ list.title }}
 
+  .gotoEdit(ng-show='canEdit')
+    a(ui-sref='list-edit({ id: list._id })') edit
+
   .author
     //- mail-to(email="{{list.author.email}}", name="{{ list.author.name }}")
     a(ui-sref="lists({author: list.author._id})") {{ list.author.name }}
-
-  .gotoEdit(ng-show='canEdit')
-    a(ui-sref='list-edit({ id: list._id })') edit
     
   ol.list
     li.item(ng-repeat="item in list.items") {{ item }}
+
+  .like
+    h2.likes Likes {{ votes.length }}
+    button.btn.btn-primary(type="button", ng-click="vote(list)", ng-disabled="alreadyVoted")
+      span.fa.fa-plus &nbsp;Like
+    p(ng-show="alreadyVoted") You like this list!
+
+    //- br
+    //- | {{ user | json }}
+    //- br
+    //- | {{ votes | json }}
+    //- br
+    //- | alreadyVoted={{ alreadyVoted }}
 
   h2 Categories
   .row.categories
