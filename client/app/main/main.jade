@@ -24,17 +24,19 @@ div(ng-include='"components/navbar/navbar.html"')
 //-         button.btn.btn-primary(type='submit', ng-click='addThing()') Add New
 
 .container
-  h1 Top Trending Lists
+
+  h1 Categories
+  .row.categories
+    span.category
+      button.btn.btn-primary(type="button", ui-sref="lists({ featured: true })") Featured
+    span.category(ng-repeat="cat in categories")
+      button.btn.btn-default(type="button", ui-sref="lists({ category: cat._id })") {{ cat.name }}
+
+  h1 Lists from Jackson
   p Will display top n by number of votes (to be implemented).
   ul.list
     li.item(ng-repeat="list in lists")
       a(ui-sref="list({id: list._id})") {{ list.title }}
-
-  h1 Categories
-  .row.categories
-    button.btn.btn-primary(type="button", ui-sref="lists({ featured: true })") Featured
-    span(ng-repeat="cat in categories")
-      button.btn.btn-default(type="button", ui-sref="lists({ category: cat._id })") {{ cat.name }}
     //- br
     //- {{ categories }}
 
