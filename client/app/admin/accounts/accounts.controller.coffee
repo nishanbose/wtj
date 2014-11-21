@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'wtjApp'
-.controller 'AdminCtrl', ($scope, $http, flash, User) ->
+.controller 'AdminAccountCtrl', ($scope, $http, flash, User) ->
 
   $scope.users = User.query { role: 'user' }, (users) ->
     for i in [0 .. users.length-1]
