@@ -13,10 +13,10 @@ angular.module 'wtjApp'
   .state 'admin-categories',
     url: '/admin/categories'
     templateUrl: 'app/admin/categories/index.html'
-    controller: 'AdminCategoriesCtrl'
+    controller: 'AdminCategoriesIndex'
 
   $stateProvider
   .state 'admin-category',
     url: '/admin/categories/:id'
     templateUrl: 'app/admin/categories/edit.html'
-    controller: 'AdminCategoryCtrl'
+    controller: 'AdminCategoryEdit'

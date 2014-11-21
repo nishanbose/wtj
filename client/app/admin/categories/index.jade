@@ -1,5 +1,9 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container
+
+  div.new
+    button.btn.btn-primary.fa.fa-plus(ng-click="new()") &nbsp;New Category
+
   ul.list-group
     li.list-group-item(ng-repeat='category in categories track by $index')
       .row
