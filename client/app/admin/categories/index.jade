@@ -5,8 +5,12 @@ div(ng-include='"components/navbar/navbar.html"')
       .row
         .col-sm-2
           a(ui-sref='admin-category({ id: category._id })') {{ category.name }}
-        .col-sm-9
+        .col-sm-7
           | {{ category.about }}
+        .col-sm-2
+          label
+            input(type="checkbox", ng-model="category.featured")
+            | Featured
         .col-sm-1
           a.trash(ng-click='delete(category)')
             span.glyphicon.glyphicon-trash.pull-right
