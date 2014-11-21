@@ -3,7 +3,7 @@
     "name"      : "Welcome to Jackson",
     "old script"    : "server/app.js",
     "script"    : "/usr/local/bin/grunt",
-    "args"      : "['server:dist']",
+    "args"      : "['server']",
     "env": {
       "COMMON_VARIABLE": "true"
     },
