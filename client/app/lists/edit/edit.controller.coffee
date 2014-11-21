@@ -37,6 +37,9 @@ angular.module 'wtjApp'
     angular.copy $scope.list_master, $scope.list
 
   $scope.submit = ->
+    $scope.submitted = true
+    return unless form.$valid
+
     list = angular.copy($scope.list)
     list.categories = (cat._id for cat in $scope.list.categories)
     list.items = ( item.val for item in list.items when item.val.length > 0 ) # unwrap the items and skip empties

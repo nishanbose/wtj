@@ -26,9 +26,11 @@ exports.show = function(req, res) {
 
 // Creates a new vote in the DB.
 exports.create = function(req, res) {
-  Vote.find(req.params, function(err, vote) {
+var tracer = require('tracer').console({ level: 'log' });
+  Vote.find(req.params, function(err, votes) {
     if(err) { return handleError(res, err); }
-    if (vote) { return res.send(403); }
+    tracer.log(votes);
+    if (votes.length > 0) { return res.send(403); }
     Vote.create(req.body, function(err, vote) {
       if(err) { return handleError(res, err); }
       return res.json(201, vote);

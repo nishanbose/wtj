@@ -41,6 +41,9 @@ angular.module 'wtjApp'
     $scope.category = angular.copy $scope.category_master
 
   $scope.submit = (form) ->
+    $scope.submitted = true
+    return unless form.$valid
+
     $scope.category.$update (category) ->
       flash.success = 'Updated :name category.'.replace(/:name/, category.name)
       $state.go 'admin-categories'
