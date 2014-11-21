@@ -3,7 +3,20 @@
 angular.module 'wtjApp'
 .controller 'AdminCategoriesCtrl', ($scope, $http, flash, Category, Modal) ->
 
-  $scope.categories = Category.query()
+  $scope.categories = Category.query (categories) ->
+    categories.sort (a, b) ->
+      return 0 if a.name == b.name
+      return 1 if a.name > b.name
+      return -1
+
+    for i in [0 .. categories.length-1]
+      do (i) ->
+        $scope.$watch 'categories[:i].featured'.replace(/:i/, i), (featured, oldVal) ->
+          if featured != oldVal
+            categories[i].$update ->
+              noop = 1
+            , (headers) ->
+              flash.error = headers.message
 
   $scope.delete = (category) ->
     return if category._id == 'new'
