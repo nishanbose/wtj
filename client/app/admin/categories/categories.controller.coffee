@@ -9,15 +9,6 @@ angular.module 'wtjApp'
       return 1 if a.name > b.name
       return -1
 
-    for i in [0 .. categories.length-1]
-      do (i) ->
-        $scope.$watch 'categories[:i].featured'.replace(/:i/, i), (featured, oldVal) ->
-          if featured != oldVal
-            categories[i].$update ->
-              noop = 1
-            , (headers) ->
-              flash.error = headers.message
-
   $scope.new = ->
     Category.save (category) ->
       $state.go('admin-category', { id: category._id })

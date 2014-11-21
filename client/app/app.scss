@@ -42,7 +42,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     }
   }
   button {
-    margin-right: 0.5cm;
+    margin-right: 0.3cm;
   }
 }
 
@@ -54,4 +54,8 @@ form p.help-block {
 
 input[type="checkbox"] {
   margin-right: 1em;
+}
+
+.categories button {
+  margin-right: 0.3cm;
 }

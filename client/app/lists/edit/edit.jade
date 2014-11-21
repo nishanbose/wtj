@@ -41,6 +41,16 @@ div(ng-include='"components/navbar/navbar.html"')
         select#fieldCategories(multiple='', name="categories", ng-model='list.categories', ng-options='cat.name for cat in categories track by cat._id')
       //- {{ list.categories }}
 
+    .form-group(ng-show="isAdmin")
+      label(for='fieldFeatured, control-label') Featured
+      .input
+        .row
+          .col-sm-1
+            input#fieldFeatured.form-control(type="checkbox", name="featured", ng-model='list.featured')
+      
+      //- br
+      //- | {{ list }}
+
     p.help-block  {{ message }}
 
     .form-group.buttons

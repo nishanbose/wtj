@@ -6,4 +6,5 @@ angular.module 'wtjApp'
   $scope.canEdit = false
   $scope.list = List.get { id: $state.params.id }, (list) ->
     listService.decorate list
-    $scope.canEdit = list.author._id == Auth.getCurrentUser()._id
+    user = Auth.getCurrentUser()
+    $scope.canEdit = user.role == 'admin' || list.author._id == user._id

@@ -2,8 +2,10 @@
 
 # Controller for editing a list
 angular.module 'wtjApp'
-.controller 'ListEditCtrl', ($scope, $state, flash, List, Category, listService) ->
+.controller 'ListEditCtrl', ($scope, $state, flash, Auth, List, Category, listService) ->
   $scope.message = ''
+  $scope.isAdmin = Auth.getCurrentUser().role == 'admin'
+  console.log Auth.getCurrentUser()
 
   if !$state.params.id || $state.params.id == 'new'
     $scope.list = listService.decorate(new List)

@@ -84,6 +84,7 @@
     "open": "~0.0.4",
     "requirejs": "~2.1.11",
     "should": "~3.3.1",
+    "superagent": "^0.21.0",
     "supertest": "~0.11.0",
     "time-grunt": "~0.3.1",
     "tracer": "^0.7.3"

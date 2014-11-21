@@ -8,12 +8,14 @@ var expressJwt = require('express-jwt');
 var compose = require('composable-middleware');
 var User = require('../api/user/user.model');
 var validateJwt = expressJwt({ secret: config.secrets.session });
+var tracer = require('tracer').console({ level: 'warn' });
 
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
  */
 function isAuthenticated() {
+  tracer.trace('isAuthenticated()');
   return compose()
     // Validate jwt
     .use(function(req, res, next) {
@@ -21,14 +23,15 @@ function isAuthenticated() {
       if(req.query && req.query.hasOwnProperty('access_token')) {
         req.headers.authorization = 'Bearer ' + req.query.access_token;
       }
+      tracer.debug('calling validateJwt');
       validateJwt(req, res, next);
     })
     // Attach user to request
     .use(function(req, res, next) {
       User.findById(req.user._id, function (err, user) {
         if (err) return next(err);
+        tracer.debug(user);
         if (!user) return res.send(401);
-
         req.user = user;
         next();
       });
@@ -53,6 +56,10 @@ function hasRole(roleRequired) {
     });
 }
 
+function isAdmin() {
+  return exports.hasRole('admin');
+}
+
 /**
  * Returns a jwt token signed by the app secret
  */
@@ -72,5 +79,6 @@ function setTokenCookie(req, res) {
 
 exports.isAuthenticated = isAuthenticated;
 exports.hasRole = hasRole;
+exports.isAdmin = isAdmin;
 exports.signToken = signToken;
 exports.setTokenCookie = setTokenCookie;

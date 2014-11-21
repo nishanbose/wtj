@@ -6,11 +6,11 @@ var mongoose = require('mongoose'),
 var CategorySchema = new Schema({
   name: String,
   about: String,
+  featured: Boolean,
   active: Boolean
 });
 
 var timestamps = require('mongoose-timestamp')
 CategorySchema.plugin(timestamps);
-
 
 module.exports = mongoose.model('Category', CategorySchema);
