@@ -33,9 +33,7 @@ var setup = function(done) {
 
 describe('List', function() {
 
-  before(function(done) {
-    setup(done);
-  });
+  before(setup);
 
   it('should contain a title, about, and items', function(done) {
     List.findOne(function(err, list) {
