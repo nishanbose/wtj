@@ -23,21 +23,20 @@ div(ng-include='"components/navbar/navbar.html"')
 //-       span.input-group-btn
 //-         button.btn.btn-primary(type='submit', ng-click='addThing()') Add New
 
-.container(ng-controller="MainCtrl")
+.container
   h1 Top Trending Lists
   p Will display top n by number of votes (to be implemented).
-  p Each list will be clickable.
   ul.list
     li.item(ng-repeat="list in lists")
       a(ui-sref="list({id: list._id})") {{ list.title }}
 
   h1 Categories
-  .row
-    //- {{ categories }}
-    //- .col-sm-2(ng-repeat="cat in categories")
-    p Categories will be clickable (to be implemented).
+  .row.categories
+    button.btn.btn-primary(type="button", ui-sref="lists({ featured: true })") Featured
     span(ng-repeat="cat in categories")
       button.btn.btn-default(type="button", ui-sref="lists({ category: cat._id })") {{ cat.name }}
+    //- br
+    //- {{ categories }}
 
 footer.footer
   .container

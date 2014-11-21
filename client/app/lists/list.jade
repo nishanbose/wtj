@@ -16,8 +16,8 @@ div(ng-include='"components/navbar/navbar.html"')
     li.item(ng-repeat="item in list.items") {{ item }}
 
   h2 Categories
-  .row
-    p Categories will be clickable (to be implemented).
+  .row.categories
+    button.btn.btn-primary(type="button", ui-sref="lists({ featured: true })", ng-show="list.featured") Featured
     span(ng-repeat="cat in list.categories")
       button.btn.btn-default(type="button" ui-sref="lists({category: cat._id})") {{ cat.name }}
 
