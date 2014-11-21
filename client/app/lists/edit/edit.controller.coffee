@@ -5,22 +5,24 @@ angular.module 'wtjApp'
 .controller 'ListEditCtrl', ($scope, $state, flash, Auth, List, Category, listService) ->
   $scope.message = ''
   $scope.isAdmin = Auth.getCurrentUser().role == 'admin'
-  console.log Auth.getCurrentUser()
+  # console.log Auth.getCurrentUser()
 
-  if !$state.params.id || $state.params.id == 'new'
-    $scope.list = listService.decorate(new List)
-  else
-    $scope.list = List.get { id: $state.params.id }, (list) ->
-      listService.decorate list
+  $scope.list = List.get { id: $state.params.id }, (list) ->
+    listService.decorate list
+    if list.items
       $scope.list.items = ( { val: item } for item in list.items ) # http://jsfiddle.net/sirhc/z9cGm/
-      $scope.list_master = angular.copy($scope.list)
-    , (headers) ->
-      flash.error = headers.message
+    else
+      list.items = []
+    $scope.list_master = angular.copy($scope.list)
+  , (headers) ->
+    flash.error = headers.message
   
   $scope.list_master = angular.copy($scope.list)
   $scope.categories = Category.query()
 
   $scope.appendItem = ->
+    if !$scope.list.items
+      $scope.list.items = []
     $scope.list.items.push { val: '' }
 
   $scope.removeItem = (i) ->

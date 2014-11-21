@@ -11,7 +11,7 @@ compareDate = (_a, _b) ->
 angular.module 'wtjApp'
 
 # Controller for a listing of lists.
-.controller 'ListsCtrl', ($scope, $state, $sce, List, Category, User, Auth, listService) ->
+.controller 'ListIndexCtrl', ($scope, $state, $sce, List, Category, User, Auth, listService) ->
   $scope.title = 'Lists'
   $scope.trust = $sce.trustAsHtml
   $scope.canCreate = $state.is 'my-lists'  # Use can create a new list
@@ -44,7 +44,11 @@ angular.module 'wtjApp'
     listService.decorate list for list in lists
 
   $scope.newList = ->
-    $state.go('list-edit', { id: 'new' })
+    $scope.list = List.save (list) ->
+      author: Auth.getCurrentUser()._id
+      $state.go('list-edit', { id: list._id })
+    , (headers) ->
+      flash.error = headers.message
 
   $scope.gridOptions = 
     data: 'lists'
