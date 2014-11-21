@@ -11,7 +11,7 @@
  var List = require('../api/list/list.model');
 
 /*
- Thing.find({}).remove(function() {
+ Thing.find().remove(function() {
   Thing.create({
     name : 'Development Tools',
     info : 'Integration with popular tools such as Bower, Grunt, Karma, Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, Stylus, Sass, CoffeeScript, and Less.'
@@ -35,7 +35,7 @@
 */
 
 exports.createUsers = function(n, callback) {
-  User.find({}).remove(function() {
+  User.find().remove(function() {
     var user_params = [{
       provider: 'local',
       role: 'admin',
@@ -48,8 +48,8 @@ exports.createUsers = function(n, callback) {
       user_params.push({
         provider: 'local',
         role: 'user',
-        name: 'Test User ' + i,
-        email: 'test:i@test.com'.replace(/:i/, i),
+        name: 'Test User ' + i+100,
+        email: 'test:i@test.com'.replace(/:i/, i+100),
         password: 'test',
         active: true
       });
@@ -63,7 +63,7 @@ exports.createUsers = function(n, callback) {
 };
 
 exports.createCategories = function(n, callback) {
-  Category.find({}).remove(function() {
+  Category.find().remove(function() {
     var cat_params = [];
     for (var i=1 ; i <= n ; ++i) {
       cat_params.push({
@@ -91,7 +91,7 @@ var pickRandom = function(ar, n) {
 }
 
 exports.createLists = function(n, callback) {
-  List.find({}).remove(function() {
+  List.find().remove(function() {
     var list_params = [];
     var items = [];
     for (var i=1 ; i <= 12 ; ++i) {

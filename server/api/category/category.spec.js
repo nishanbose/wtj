@@ -4,8 +4,9 @@ var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
 var Seed = require('../../config/seed');
+var Category = require('./category.model');
 
-describe('GET /api/categories', function() {
+describe('/api/categories', function() {
 
   beforeEach(function(done) {
     Seed.createCategories(5, done);
@@ -21,15 +22,6 @@ describe('GET /api/categories', function() {
         res.body.should.be.instanceof(Array);
         done();
       });
-  });
-});
-
-var Category = require('./category.model');
-
-describe('Category', function() {
-
-  beforeEach(function(done) {
-    Seed.createCategories(5, done);
   });
 
   it('should contain a name and about', function(done) {
