@@ -44,7 +44,7 @@ exports.show = function(req, res) {
 
 // Creates a new list in the DB.
 exports.create = function(req, res) {
-  var tracer = require('tracer').console({ level: 'log' });
+  var tracer = require('tracer').console({ level: 'warn' });
   var list_params = _.extend({ author: req.user._doc, featured: false}, req.body);
   tracer.log(list_params);
   List.create(list_params, function(err, list) {
