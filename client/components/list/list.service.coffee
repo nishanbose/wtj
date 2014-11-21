@@ -11,10 +11,8 @@ angular.module 'wtjApp'
       if !list
         throw 'listService.decorate(): null argument'
 
-      list.$promise ||= $q.when(list)
-      list.$promise.then (list) ->
-        date = new Date(list.updatedAt)
-        list.datePretty = date.toDateString()
-        list.author ||= {}
-        list.categories ||= []
+      console.log list
+      list.datePretty = (new Date(list.createdAt)).toDateString()
+      list.author ||= {}
+      list.categories ||= []
       list
