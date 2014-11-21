@@ -1,25 +1,24 @@
 /**
  * Broadcast updates to client when the model changes
  */
-/*
+
 'use strict';
 
-var thing = require('./thing.model');
+var Vote = require('./vote.model');
 
 exports.register = function(socket) {
-  thing.schema.post('save', function (doc) {
+  Vote.schema.post('save', function (doc) {
     onSave(socket, doc);
   });
-  thing.schema.post('remove', function (doc) {
+  Vote.schema.post('remove', function (doc) {
     onRemove(socket, doc);
   });
 }
 
 function onSave(socket, doc, cb) {
-  socket.emit('thing:save', doc);
+  socket.emit('vote:save', doc);
 }
 
 function onRemove(socket, doc, cb) {
-  socket.emit('thing:remove', doc);
+  socket.emit('vote:remove', doc);
 }
-*/

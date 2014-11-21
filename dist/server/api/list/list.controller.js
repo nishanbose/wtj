@@ -10,17 +10,14 @@ var helpers = require('../helpers.service');
 
 // Get list of lists
 exports.index = function(req, res) {
-  var tracer = require('tracer').console({ level: 'trace' });
+  var tracer = require('tracer').console({ level: 'warn' });
   var query = _.clone(req.query);
+  tracer.log(req.query);
   var top = parseInt(query.top) || 0;
   var catId = query.category || false;
   delete query.top;
   delete query.category;
-  tracer.debug('/api/index query');
-  tracer.debug(query);
   var q = List.find(query);
-  tracer.debug('catId');
-  tracer.debug(catId);
   if (catId) { q.find({ categories: { $in: [ catId ]}}) }
   if (top) { q.limit(top); }
   // mongoose.set('debug', true);

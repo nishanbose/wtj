@@ -5,11 +5,12 @@
 
  'use strict';
 
- var Thing = require('../api/thing/thing.model');
+ // var Thing = require('../api/thing/thing.model');
  var User = require('../api/user/user.model');
  var Category = require('../api/category/category.model');
  var List = require('../api/list/list.model');
 
+/*
  Thing.find({}).remove(function() {
   Thing.create({
     name : 'Development Tools',
@@ -31,6 +32,7 @@
     info : 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators'
   });
 });
+*/
 
 exports.createUsers = function(n, callback) {
   User.find({}).remove(function() {
