@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'wtjApp'
-.controller 'AdminAccountCtrl', ($scope, $http, flash, User) ->
+.controller 'AdminAccountCtrl', ($scope, $http, flash, Modal, User) ->
 
   $scope.users = User.query { role: 'user' }, (users) ->
     for i in [0 .. users.length-1]
@@ -17,5 +17,12 @@ angular.module 'wtjApp'
               flash.error = headers.message
 
   $scope.delete = (user) ->
-    User.remove id: user._id
-    _.remove $scope.users, user
+    return if user._id == 'new'
+
+    del = ->
+      user.$remove ->
+        _.remove $scope.users, user
+        flash.success = 'You have deleted :email.'.replace(/:email/, user.email)
+      , (headers) ->
+        flash.error = headers.message
+    Modal.confirm.delete(del) user.email
