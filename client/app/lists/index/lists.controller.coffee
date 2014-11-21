@@ -36,6 +36,9 @@ angular.module 'wtjApp'
       title_elements.push(if $state.is 'my-lists' then 'My Lists' else user.name)
       $scope.title = title_elements.join('<br />')
 
+  if $state.params.featured
+    query.featured = $state.params.featured
+    
   $scope.lists = List.query query, (lists) ->
     # console.log lists
     listService.decorate list for list in lists

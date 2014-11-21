@@ -9,6 +9,7 @@ var ListSchema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'User' },
   categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
   items: [ String ],
+  featured: Boolean,
   active: Boolean
 });
 
