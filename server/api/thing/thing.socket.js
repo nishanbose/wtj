@@ -1,7 +1,7 @@
 /**
  * Broadcast updates to client when the model changes
  */
-
+/*
 'use strict';
 
 var thing = require('./thing.model');
@@ -22,3 +22,4 @@ function onSave(socket, doc, cb) {
 function onRemove(socket, doc, cb) {
   socket.emit('thing:remove', doc);
 }
+*/
