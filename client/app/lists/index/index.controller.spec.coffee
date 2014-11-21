@@ -1,16 +1,16 @@
 'use strict'
 
-describe 'Controller: ListsCtrl', ->
+describe 'Controller: ListIndexCtrl', ->
 
   # load the controller's module
   beforeEach module 'wtjApp'
-  ListsCtrl = undefined
+  ListIndexCtrl = undefined
   scope = undefined
 
   # Initialize the controller and a mock scope
   beforeEach inject ($controller, $rootScope) ->
     scope = $rootScope.$new()
-    ListsCtrl = $controller 'ListsCtrl',
+    ListIndexCtrl = $controller 'ListIndexCtrl',
       $scope: scope
 
   it 'should ...', ->
