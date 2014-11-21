@@ -63,3 +63,10 @@ input[type="checkbox"] {
     width: 100%;
   }
 }
+
+input.ng-invalid,
+input.ng-required,
+input.ng-mask,
+textarea.ng-invalid {
+  border: thin solid red;
+}

@@ -55,6 +55,8 @@ div(ng-include='"components/navbar/navbar.html"')
 
     .form-group.buttons
       .col-sm-offset-2.col-sm-10
-        button.btn.btn-sm.btn-default(ng-click='reset(form)', ng-disabled="form.$pristine") Reset
-        button.btn.btn-sm.btn-success(type='submit', ng-disabled="passwordForm.$invalid") Save
+        button.btn.btn-sm.btn-default(type="button" ng-click='reset(form)', ng-disabled="!isChanged(form)") Reset
+        button.btn.btn-sm.btn-success(type='submit', ng-disabled="form.$invalid || !isChanged(form)") Save
 
+    //- br
+    //- | {{ list }}
