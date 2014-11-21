@@ -1,0 +1,31 @@
+div(ng-include='"components/navbar/navbar.html"')
+.container
+  h1 Editing {{ category.name }}
+
+  //- {{ category }}
+
+  form.form(name='form', ng-submit='submit(form)', novalidate='', class='form-horizontal')
+
+    .form-group
+      label(for='fieldName', control-label) Name
+      .input
+        input#fieldName.form-control(type='text', name='name', ng-model='category.name', required='')
+      p.help-block(ng-show="form.name.$error.required" class="error") What is the name of this category?
+
+    .form-group
+      label(for='fieldAbout', control-label) About
+      .input
+        textarea#fieldAbout.form-control(type='text', name='about', ng-model='category.about', required='')
+      p.help-block(ng-show="form.about.$error.required" class="error") What is this category about?
+
+    p.help-block  {{ message }}
+
+    .form-group.buttons
+      .col-sm-offset-2.col-sm-10
+        button.btn.btn-sm.btn-default(ng-click='reset(form)', ng-disabled="!isChanged(form)") Reset
+        button.btn.btn-sm.btn-success(type='submit', ng-disabled="!isChanged(form) || form.$invalid") Save
+
+    //- br
+    //- | {{ form }}
+    //- br
+    //- | {{ category }}
