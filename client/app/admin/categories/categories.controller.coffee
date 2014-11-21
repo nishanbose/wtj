@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'wtjApp'
-.controller 'AdminCategoriesCtrl', ($scope, $http, flash, Category, Modal) ->
+.controller 'AdminCategoriesIndex', ($scope, $http, $state, flash, Category, Modal) ->
 
   $scope.categories = Category.query (categories) ->
     categories.sort (a, b) ->
@@ -18,6 +18,12 @@ angular.module 'wtjApp'
             , (headers) ->
               flash.error = headers.message
 
+  $scope.new = ->
+    Category.save (category) ->
+      $state.go('admin-category', { id: category._id })
+    , (headers) ->
+      flash.error = headers.message
+
   $scope.delete = (category) ->
     return if category._id == 'new'
 
@@ -29,7 +35,7 @@ angular.module 'wtjApp'
         flash.error = headers.message
     Modal.confirm.delete(del) category.name
 
-.controller 'AdminCategoryCtrl', ($scope, $http, flash, $state, Category) ->
+.controller 'AdminCategoryEdit', ($scope, $http, flash, $state, Category) ->
 
   $scope.category_master = {}
   $scope.category = Category.get { id: $state.params.id }, (category) ->
