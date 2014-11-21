@@ -8,13 +8,13 @@ var expressJwt = require('express-jwt');
 var compose = require('composable-middleware');
 var User = require('../api/user/user.model');
 var validateJwt = expressJwt({ secret: config.secrets.session });
-var tracer = require('tracer').console({ level: 'warn' });
 
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
  */
 function isAuthenticated() {
+  var tracer = require('tracer').console({ level: 'warn' });
   tracer.trace('isAuthenticated()');
   return compose()
     // Validate jwt
