@@ -48,8 +48,8 @@ exports.createUsers = function(n, callback) {
       user_params.push({
         provider: 'local',
         role: 'user',
-        name: 'Test User ' + i+100,
-        email: 'test:i@test.com'.replace(/:i/, i+100),
+        name: 'Test User ' + Number(i+100),
+        email: 'test:i@test.com'.replace(/:i/, Number(i+100)),
         password: 'test',
         active: true
       });
