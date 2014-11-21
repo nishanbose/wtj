@@ -34,7 +34,7 @@ var createUsers = function(done) {
   });
 };
 
-describe('GET /api/users', function() {
+describe('/api/users', function() {
   beforeEach(createUsers);
   var token;  // auth token
 
@@ -120,26 +120,4 @@ describe('GET /api/users', function() {
       });
     });
   });
-/*
-  it('should respond to an array of ObjectId', function(done) {
-    Event.find({}).limit(3).exec(function(err, events) {
-      if (err) return done(err);
-      var query = events.map(function(ev) {
-        return '_id[]=' + ev._id
-      }).join('&');
-      // console.log(query);
-      request(app)
-      .get('/api/events?' + query)
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function(err, res) {
-        if (err) return done(err);
-        res.body.should.be.instanceof(Array);
-        res.body.length.should.equal(3);
-        done();
-      });
-    });
-  });
-*/
-
 });
