@@ -31,11 +31,11 @@ var setup = function(done) {
   });
 };
 
-describe('List', function() {
+describe('/api/list', function() {
 
   before(setup);
 
-  it('should contain a title, about, and items', function(done) {
+  it('/api/list/:id response should contain a title, about, and items', function(done) {
     List.findOne(function(err, list) {
       if (err) return done(err);
       list.title.should.be.ok;
@@ -46,7 +46,7 @@ describe('List', function() {
     });
   });
 
-  it('should contain one or more categories', function(done) {
+  it('/api/list/:id response should contain one or more categories', function(done) {
     List.findOne(function(err, list) {
       if (err) return done(err);
       list.categories.should.be.ok;
@@ -54,13 +54,8 @@ describe('List', function() {
       done();
     });
   });
-});
 
-describe('GET /api/lists', function() {
-  before(function(done) {
-    setup(done);
-  });
-  it('should respond with JSON array', function(done) {
+  it('/api/list response should respond with JSON array', function(done) {
     request(app)
       .get('/api/lists')
       .expect(200)
@@ -71,7 +66,7 @@ describe('GET /api/lists', function() {
         done();
       });
   });
-  it('should respond with top n', function(done) {
+  it('/api/list response should respond with top n voted', function(done) {
     request(app)
       .get('/api/lists?top=3')
       .expect(200)
@@ -84,7 +79,7 @@ describe('GET /api/lists', function() {
       });
   });
 
-  it('should be populated with categories', function(done) {
+  it('/api/list response should be populated with categories', function(done) {
     request(app)
       .get('/api/lists?top=3')
       .expect(200)
@@ -102,14 +97,6 @@ describe('GET /api/lists', function() {
         done();
       });
   });
-});
-
-describe('GET /api/list', function() {
-  var lists = null;
-  
-  before(function(done) {
-    setup(done);
-  });
 
   it('should respond with a single list', function(done) {
     List.findOne(function(err) {
@@ -126,10 +113,12 @@ describe('GET /api/list', function() {
       .end(function(err, res) {
         if (err) return done(err);
         res.body.should.be.instanceof(Object);
+        res.body.should.have.property('items');
+        res.body.should.have.property('categories');
+        res.body.should.have.property('featured');
         res.body.items.should.be.instanceof(Array);
         res.body.categories.should.be.instanceof(Array);
-        res.body.categories[0].should.be.instanceof(Object);
-        res.body.categories[0].name.should.be.instanceof(String);
+        res.body.featured.should.be.instanceof(Boolean);
         done();
       });
     });

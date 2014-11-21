@@ -8,7 +8,10 @@ var auth = require('../../auth/auth.service');
 exports.index = function(req, res) {
   Vote.find(function (err, votes) {
     if(err) { return handleError(res, err); }
-    return res.json(200, votes);
+    Vote.populate(votes, { path: 'user list', select: '_id email title' }, function(err, popVotes) {
+      if(err) { return handleError(res, err); }
+      return res.json(200, popVotes);
+    });
   });
 };
 
@@ -23,9 +26,13 @@ exports.show = function(req, res) {
 
 // Creates a new vote in the DB.
 exports.create = function(req, res) {
-  Vote.create(req.body, function(err, vote) {
+  Vote.find(req.params, function(err, vote) {
     if(err) { return handleError(res, err); }
-    return res.json(201, vote);
+    if (vote) { return res.send(403); }
+    Vote.create(req.body, function(err, vote) {
+      if(err) { return handleError(res, err); }
+      return res.json(201, vote);
+    });
   });
 };
 

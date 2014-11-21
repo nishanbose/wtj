@@ -9,7 +9,7 @@ var VoteSchema = new Schema({
   list: { type: Schema.Types.ObjectId, ref: 'List', index: true }
 });
 
-VoteSchema.index({ volunteer: 1, event: 1 }, { unique: true });
 VoteSchema.plugin(timestamps);
+VoteSchema.index({ user: 1, list: 1 }, { unique: true });
 
 module.exports = mongoose.model('Vote', VoteSchema);
