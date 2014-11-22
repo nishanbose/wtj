@@ -26,8 +26,10 @@ exports.index = function(req, res) {
     tracer.trace('sort by recent');
     q.sort({ udpatedAt: -1 });    
   } else if (order === 'popular') {
+    tracer.trace('sort by popular');
     q.sort({ nVotes: -1 });
   } else {
+    tracer.trace('sort by title');
     q.sort({ title: 1 });
   }
   if (catId) { q.find({ categories: { $in: [ catId ]}}) }
@@ -67,15 +69,22 @@ exports.create = function(req, res) {
 
 // Updates an existing list in the DB.
 exports.update = function(req, res) {
+  var tracer = require('tracer').console({ level: 'log' });
+  
   if (!auth.hasRole('admin') && req.user._id !== req.body.author._id) {return res.send(401); }
   if(req.body._id) { delete req.body._id; }
   if(req.body.author) { delete req.body.author; } // not allowed
+
   List.findById(req.params.id, function (err, list) {
     if (err) { return helpers.handleError(res, err); }
     if(!list) { return res.send(404); }
+  
     var updated = _.merge(list, req.body);
-    updated.save(function (err) {
+    tracer.trace('updating ', updated);
+    updated.save(function (err, saved) {
       if (err) { return helpers.handleError(res, err); }
+      tracer.trace('updated list ', saved.title);
+      tracer.trace(saved);
       return res.json(200, list);
     });
   });

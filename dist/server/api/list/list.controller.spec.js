@@ -131,15 +131,13 @@ describe('/api/list', function() {
   });
 
   it('should respond with a single list', function(done) {
-    List.findOne(function(err) {
+    var tracer = require('tracer').console({ level: 'warn' });
+    List.findOne(function(err, list) {
       if (err) return done(err);
-      var list = arguments[1];
-      // console.log('list');
-      // console.log(list);
-      var id = list._id;
+      tracer.log(list._id);
 
       request(app)
-      .get('/api/lists/' + id)
+      .get('/api/lists/' + list._id)
       .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
@@ -152,6 +150,66 @@ describe('/api/list', function() {
         res.body.categories.should.be.instanceof(Array);
         res.body.featured.should.be.instanceof(Boolean);
         done();
+      });
+    });
+  });
+
+  // done = function(err, token, results) {}
+  var withAuthUser = function(done) {
+    var User = require('../user/user.model');
+    var tracer = require('tracer').console({ level: 'warn' });
+
+    User.findOne(function(err, user) {
+      if (err) return done(err);
+      tracer.trace('withAuthUser');
+      tracer.trace(user.email);
+  
+      // Authenticate user
+      request(app).post('/auth/local')
+      .send({email: user.email, password: 'test'})
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        done(err, res.body.token, res);
+      });
+    });
+  };
+
+  it('should update a list and its items', function(done) {
+    var User = require('../user/user.model');
+    var tracer = require('tracer').console({ level: 'warn' });
+
+    List.findOne(function(err, list) {
+      if (err) return done(err);
+      list.items.should.be.instanceof(Array);
+      list.items.length.should.be.ok;
+      list.items[0].should.be.instanceof(String);
+
+      list.items[0] = 'one';
+      list.items[1] = 'two';
+      list.items[2] = 'three';
+
+      withAuthUser(function(err, token, results) {
+        // Attempt to update the list.
+        tracer.trace('PUT /api/lists/' + list._id);
+        request(app).put('/api/lists/' + list._id)
+        .set('authorization', 'Bearer ' + token) // see https://github.com/DaftMonk/generator-angular-fullstack/issues/494#issuecomment-53716281
+        .send(list)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) return done(err);
+          // Verify that the items have been updated.
+          List.findById(list._id, function(err, updated) {
+            if (err) return done(err);
+            list.items.should.be.instanceof(Array);
+            list.items.length.should.be.ok;
+            list.items[0].should.be.instanceof(String);
+            list.items[0].should.be.equal('one');
+            list.items[1].should.be.equal('two');
+            list.items[2].should.be.equal('three');
+            done();
+          });
+        });
       });
     });
   });
