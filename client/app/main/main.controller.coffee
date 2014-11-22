@@ -23,6 +23,16 @@ angular.module 'wtjApp'
       socket.unsyncUpdates 'thing'
 ###
 angular.module 'wtjApp'
-.controller 'MainCtrl', ($scope, $state, Category, List) ->
+.controller 'MainCtrl', ($scope, $state, Category, List, listService) ->
+  $scope.order = 'recent'
   $scope.categories = Category.query()
-  $scope.lists = List.query({ top: 3 })
+
+  updateLists = ->
+    $scope.lists = List.query { top: 5, order: $scope.order }, (lists) ->
+      listService.decorate list for list in lists
+    
+  updateLists()
+
+  $scope.$watch 'order', (order, oldVal) ->
+    if order != oldVal
+      updateLists()

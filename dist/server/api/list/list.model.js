@@ -10,6 +10,7 @@ var ListSchema = new Schema({
   categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
   items: [ String ],
   featured: { type: Boolean, default: false },
+  nVotes: { type: Number, default: 0 },
   active: Boolean
 });
 

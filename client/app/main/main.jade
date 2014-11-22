@@ -33,12 +33,29 @@ div(ng-include='"components/navbar/navbar.html"')
       button.btn.btn-default(type="button", ui-sref="lists({ category: cat._id })") {{ cat.name }}
 
   h1 Lists from Jackson
-  p Will display top n by number of votes (to be implemented).
-  ul.list
-    li.item(ng-repeat="list in lists")
+  .row.order-by
+    .form-group
+      select.form-control(ng-model="order")
+        option(value='popular') Popular
+        option(value='recent') Recent
+
+  .row.item.header
+    .col-xs-offset-6.col-xs-3
+       | Author
+    .col-xs-3
+       | Updated
+  
+  .row.item(ng-repeat="list in lists")
+    .col-xs-3
       a(ui-sref="list({id: list._id})") {{ list.title }}
-    //- br
-    //- {{ categories }}
+    .col-xs-3
+      | {{ list.nVotes }} Likes
+    .col-xs-3
+       a(ui-sref="lists({ author: list.author._id })") {{ list.author.name }}
+    .col-xs-3
+       | {{ list.updatedPretty }}
+      //- br
+      //- {{ categories }}
 
 footer.footer
   .container

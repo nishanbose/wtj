@@ -20,6 +20,9 @@ angular.module 'wtjApp'
           $scope.alreadyVoted = true
           break
 
+  $scope.edit = ->
+    $state.go 'list-edit', { id: $state.params.id }
+
   $scope.vote = (list) ->
     listService.vote list._id, (vote) ->
       $scope.alreadyVoted = true
