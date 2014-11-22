@@ -9,11 +9,11 @@
 // var User = require('../api/user/user.model');
 // var validateJwt = expressJwt({ secret: config.secrets.session });
 var _ = require('lodash')
-var tracer = require('tracer').console({ level: 'info' });
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 exports.processQuery = function(_query) {
+  var tracer = require('tracer').console({ level: 'warn' });
   var query = _.cloneDeep(_query);
   tracer.debug(query);
   for (var key in query) {
@@ -26,7 +26,8 @@ exports.processQuery = function(_query) {
 };
 
 exports.handleError = function(res, err) {
-  tracer.warn(err);
+  var tracer = require('tracer').console({ level: 'info' });
+  tracer.error(err);
   return res.send(500, err);
 };
 

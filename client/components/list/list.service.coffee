@@ -17,26 +17,26 @@ angular.module 'wtjApp'
       list.categories ||= []
       list
 
-    # callback(vote) - new vote
+    # callback(vote), optional- new vote
     vote: (listId, callback) ->
       # If volunteer is not yet authenticated, remember his intent and redirect him to /login.
       Auth.isLoggedInAsync (isLoggedIn) ->
         if !isLoggedIn
-          self.voteAfterLogin listId
+          self.deferredVoteListId listId
           return $state.go('login')
 
         params = { user: Auth.getCurrentUser()._id, list: listId } # query params
 
         Vote.query params, (votes) ->
           if votes.length > 0
-            flash.success = $sce.trustAsHtml 'You have already liked this list.  We\'e glad you like it so much!'
+            flash.success = 'You have already liked this list.  We\'e glad you like it so much!'
             $state.go('list', { id: listId })
             return callback?(false)
-            
+
           vote = new Vote(params)
           vote.$save (data, headers) ->
-            callback?(data)
-            flash.success = $sce.trustAsHtml 'We\'re glad you like it!'
+            callback?(vote)
+            flash.success = 'We\'re glad you like it!'
             $state.go('list', { id: listId })
           , (headers) ->
             callback?(false)
@@ -45,7 +45,7 @@ angular.module 'wtjApp'
     # Return list id that user tried to vote for
     # before being redirected to /login page.
     # fn() gets, fn(val) sets, and fn(null) clears the value.
-    voteAfterLogin: ->
+    deferredVoteListId: ->
       key = 'after-login-votefor-list'
 
       if arguments.length > 0
@@ -55,3 +55,9 @@ angular.module 'wtjApp'
           $cookieStore.remove key
       else
         $cookieStore.get key
+
+    # User was redirected here after attempting to volunteer,
+    # so we satisfy his intent.
+    voteDeferredList: (listId) ->
+      self.deferredVoteListId(null) # clear it
+      self.vote(listId)
