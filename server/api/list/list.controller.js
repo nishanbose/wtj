@@ -10,14 +10,28 @@ var helpers = require('../helpers.service');
 
 // Get list of lists
 exports.index = function(req, res) {
-  var tracer = require('tracer').console({ level: 'warn' });
+  var tracer = require('tracer').console({ level: 'trace' });
   var query = _.clone(req.query);
   tracer.log(req.query);
   var top = parseInt(query.top) || 0;
   var catId = query.category || false;
+  var order = query.order || 'recent'
+  
   delete query.top;
   delete query.category;
+  delete query.order;
   var q = List.find(query);
+  
+  if (order === 'recent') {
+    tracer.trace('sort by recent');
+    q.sort({ udpatedAt: -1 });    
+  } else if (order === 'popular') {
+    tracer.trace('sort by popular');
+    q.sort({ nVotes: -1 });
+  } else {
+    tracer.trace('sort by title');
+    q.sort({ title: 1 });
+  }
   if (catId) { q.find({ categories: { $in: [ catId ]}}) }
   if (top) { q.limit(top); }
   // mongoose.set('debug', true);
