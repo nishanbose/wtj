@@ -22,6 +22,7 @@ angular.module 'wtjApp'
 
   $scope.vote = (list) ->
     listService.vote list._id, (vote) ->
+      $scope.alreadyVoted = true
       $scope.votes.push vote if vote
 
 

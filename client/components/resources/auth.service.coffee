@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'wtjApp'
-.factory 'Auth', ($location, $rootScope, $http, User, $cookieStore, $q) ->
+.factory 'Auth', ($location, $rootScope, $http, $cookieStore, $q, User) ->
   currentUser = if $cookieStore.get 'token' then User.get() else {}
 
   ###
@@ -21,7 +21,7 @@ angular.module 'wtjApp'
       $cookieStore.put 'token', data.token
       currentUser = User.get()
       deferred.resolve data
-      callback?()
+      callback? currentUser
 
     .error (err) =>
       @logout()

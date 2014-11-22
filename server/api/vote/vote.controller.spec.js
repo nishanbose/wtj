@@ -114,6 +114,8 @@ describe('/api/votes', function() {
       if (err) return done(err);
       var uid = vote.user;
       var lid = vote.list;
+      tracer.log(uid);
+      tracer.log(lid);
 
       User.findById(uid, function(err, user) {
         if (err) return done(err);
@@ -125,7 +127,7 @@ describe('/api/votes', function() {
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function(err, res) {
-          var token = res.body.token;    
+          var token = res.body.token;
 
           // Attempt to vote again on same list.
           request(app).post('/api/votes')

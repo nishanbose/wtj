@@ -1,23 +1,26 @@
 'use strict'
 
 angular.module 'wtjApp'
-.controller 'LoginCtrl', ($scope, Auth, $location, $window) ->
+.controller 'LoginCtrl', ($scope, $location, $state, $window, Auth, listService) ->
   $scope.user = {}
   $scope.errors = {}
   $scope.login = (form) ->
     $scope.submitted = true
+    return unless form.$valid
 
-    if form.$valid
-      # Logged in, redirect to home
-      Auth.login
-        email: $scope.user.email
-        password: $scope.user.password
+    Auth.login
+      email: $scope.user.email
+      password: $scope.user.password
 
-      .then ->
-        $location.path '/'
+    .then (result) ->
+      if _.has(result, 'token') && (listId = listService.deferredVoteListId())
+        listService.voteDeferredList listId
+        $state.go 'list', { id: listId }
+      else        
+        $state.go 'main'
 
-      .catch (err) ->
-        $scope.errors.other = err.message
+    .catch (err) ->
+      $scope.errors.other = err.message
 
   $scope.loginOauth = (provider) ->
     $window.location.href = '/auth/' + provider
