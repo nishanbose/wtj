@@ -30,7 +30,7 @@ exports.create = function(req, res) {
   var User = require('../user/user.model');
   var List = require('../list/list.model');
   var async = require('async');
-  var tracer = require('tracer').console({ level: 'log' });
+  // var tracer = require('tracer').console({ level: 'warn' });
   if (!_.has(req.body, 'user') || !_.has(req.body, 'list')) {
     return res.send(400, 'Missing user or list id');
   }

@@ -10,13 +10,12 @@ var List = require('../list/list.model');
 var async = require('async');
 
 var setup = function(done) {
-  var tracer = require('tracer').console({ level: 'log' });
+  var tracer = require('tracer').console({ level: 'info' });
   async.parallel([
     function(callback) { Seed.createUsers(10, callback) },
     function(callback) { Seed.createCategories(5, callback) },
     function(callback) { Seed.createLists(30, callback) }
     ], function(err, results) {
-      // console.log('async callback 1')
       if (err) { return done(err); }
 
       var users = results[0];
