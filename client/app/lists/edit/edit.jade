@@ -24,7 +24,7 @@ div(ng-include='"components/navbar/navbar.html"')
         div.item(ng-repeat="item in list.items track by $index" as-sortable-item='')
           .input-group
             .input-group-addon.fa.fa-bars.item-handle(as-sortable-item-handle='')
-            input.item(type="text", ng-model="list.items[$index]")
+            input.item(type="text", ng-model="list.items[$index].val")
             .input-group-addon.fa.fa-minus(ng-click="removeItem($index)")
 
     .form-group

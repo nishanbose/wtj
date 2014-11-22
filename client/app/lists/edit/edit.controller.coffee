@@ -5,9 +5,7 @@ angular.module 'wtjApp'
 .controller 'ListEditCtrl', ($scope, $state, flash, Auth, List, Category, listService) ->
   $scope.message = ''
   $scope.isAdmin = Auth.getCurrentUser().role == 'admin'
-  $scope.list =
-    items: []
-    categories: []
+  $scope.list = listService.decorate {}
   $scope.list_master = angular.copy $scope.list
   # console.log Auth.getCurrentUser()
 
@@ -15,6 +13,7 @@ angular.module 'wtjApp'
     # $scope.list.items.length = 0
     # $scope.list.items.push = { val: item } for item in list.items # http://jsfiddle.net/sirhc/z9cGm/
     listService.decorate list
+    list.items = ({ val: item } for item in list.items)  # http://jsfiddle.net/sirhc/z9cGm/
     angular.copy list, $scope.list_master
     # console.log($scope.list_master)
   , (headers) ->
@@ -26,7 +25,7 @@ angular.module 'wtjApp'
     !angular.equals $scope.list_master, $scope.list
 
   $scope.appendItem = ->
-    $scope.list.items.push ''
+    $scope.list.items.push { val: '' }
 
   $scope.removeItem = (i) ->
     delete $scope.items[i]
@@ -38,12 +37,14 @@ angular.module 'wtjApp'
     $scope.submitted = true
     return unless form.$valid
 
-    $scope.list.categories = (cat._id for cat in $scope.list.categories)
-    $scope.list.$update()
-    $state.go('list', { id: $state.params.id })
+    list = angular.copy $scope.list
+    list.items = (item.val for item in list.items)
+    list.$update ->
+      $state.go('list', { id: $state.params.id })
+    , (headers) ->
+      flash.error = headers.message
   
   $scope.dragControlListeners =
     accept: (sourceItemHandleScope, destSortableScope) ->
-      true;
-    
+      true    
     containment: '#edit-list-items' # optional
