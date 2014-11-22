@@ -28,3 +28,11 @@
     margin-top: 70px;
     border-top: 1px solid #E5E5E5;
 }
+
+.order-by .form-group {
+    @extend .col-xs-4;
+}
+
+.row.item.header {
+    font-weight: bold;
+}

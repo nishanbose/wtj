@@ -12,9 +12,11 @@ angular.module 'wtjApp'
         throw 'listService.decorate(): null argument'
 
       # console.log list
-      list.datePretty = (new Date(list.createdAt)).toDateString()
+      dt = new Date(list.updatedAt)
+      list.updatedPretty = dt.toDateString() + ' ' + dt.toLocaleTimeString()
       list.author ||= {}
       list.categories ||= []
+      # console.log list
       list
 
     # callback(vote), optional- new vote

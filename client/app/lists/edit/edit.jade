@@ -4,7 +4,7 @@ div(ng-include='"components/navbar/navbar.html"')
 
   //- {{ list }}
 
-  form.form(name='form', ng-submit='submit(form)', novalidate='', class='form-horizontal')
+  form.form.form-horizontal(name='form', ng-submit='submit(form)', novalidate='')
 
     .form-group
       label(for='fieldTitle', control-label) Title
@@ -20,13 +20,12 @@ div(ng-include='"components/navbar/navbar.html"')
 
     .form-group
       label(for='fieldItems', control-label) Items
-      .input
-        #fieldItems(as-sortable="dragControlListeners" name="items", ng-model="list.items")
-          div.item(ng-repeat="item in list.items" as-sortable-item='')
-              .input-group.fa.fa-bars.item-handle(as-sortable-item-handle='')
-                input.item(type="text", ng-model="list.items[$index].val")
-                | &nbsp;
-                span.fa.fa-minus(ng-click="removeItem($index)")
+      .input#fieldItems(as-sortable="dragControlListeners" name="items", ng-model="list.items")
+        div.item(ng-repeat="item in list.items track by $index" as-sortable-item='')
+          .input-group
+            .input-group-addon.fa.fa-bars.item-handle(as-sortable-item-handle='')
+            input.item(type="text", ng-model="list.items[$index]")
+            .input-group-addon.fa.fa-minus(ng-click="removeItem($index)")
 
     .form-group
       label
@@ -48,8 +47,8 @@ div(ng-include='"components/navbar/navbar.html"')
           .col-sm-1
             input#fieldFeatured.form-control(type="checkbox", name="featured", ng-model='list.featured')
       
-      //- br
-      //- | {{ list }}
+    br
+    | {{ list }}
 
     p.help-block  {{ message }}
 

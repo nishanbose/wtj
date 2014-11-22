@@ -44,7 +44,7 @@ angular.module 'wtjApp'
     listService.decorate list for list in lists
 
   $scope.newList = ->
-    $scope.list = List.save (list) ->
+    List.save (list) ->
       author: Auth.getCurrentUser()._id
       $state.go('list-edit', { id: list._id })
     , (headers) ->
@@ -68,7 +68,7 @@ angular.module 'wtjApp'
         cellTemplate: 'app/lists/index/author-cell-link.html'
         sortable: true
       }
-      { field: 'datePretty', displayName: 'Updated', sortable: true, sortFn: compareDate }
+      { field: 'updatedPretty', displayName: 'Updated', sortable: true, sortFn: compareDate }
       # { field: 'owner', displayName: 'Submitted By', sortable: true }
       {
         field: 'categories'
