@@ -53,7 +53,7 @@ exports.create = function(req, res) {
           .replace(/:user/, user)
           .replace(/:list/, list)); 
       }
-      Vote.create(req.body, function(err, vote) {
+      Vote.create({user: user._id, list: list._id}, function(err, vote) {
         if(err) { return helpers.handleError(res, err); }
         return res.json(201, vote);
       });
