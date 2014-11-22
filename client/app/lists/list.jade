@@ -3,10 +3,15 @@
 div(ng-include='"components/navbar/navbar.html"')
 
 .container
+
+  .goto-edit(ng-show='canEdit')
+    button.btn.btn-primary(ng-click="edit()") 
+      span.fa.fa-pencil &nbsp;Edit
+
   h1 {{ list.title }}
 
-  .gotoEdit(ng-show='canEdit')
-    a(ui-sref='list-edit({ id: list._id })') edit
+  .updatedAt
+    {{ list.updatedPretty }}
 
   .author
     //- mail-to(email="{{list.author.email}}", name="{{ list.author.name }}")
