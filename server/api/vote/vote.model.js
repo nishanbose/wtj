@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 
 var VoteSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', index: true },
-  list: { type: Schema.Types.ObjectId, ref: 'List', index: true }
+  list: { type: Schema.Types.ObjectId, ref: 'List', index: true },
 });
 
 VoteSchema.plugin(timestamps);

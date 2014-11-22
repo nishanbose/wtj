@@ -41,21 +41,25 @@ exports.create = function(req, res) {
     ], function(err, results) {
       if(err) { return helpers.handleError(res, err); }
 
-      var user = results[0];
-      var list = results[1];
+      var userId = results[0];
+      var listId = results[1];
       var votes = results[2];
 
-      if (!user) { return res.send(400, 'No user for _id=' + req.body.user); }
-      if (!list) { return res.send(400, 'No list for _id=' + req.body.list); }
+      if (!userId) { return res.send(400, 'No user for _id=' + req.body.user); }
+      if (!listId) { return res.send(400, 'No list for _id=' + req.body.list); }
       if (votes.length > 0) {
         return res.send(403,
-          'User :user already voted for list :list'
-          .replace(/:user/, user)
-          .replace(/:list/, list)); 
+          'User :userId already voted for list :listId.'
+          .replace(/:userId/, userId)
+          .replace(/:listId/, listId)); 
       }
-      Vote.create({user: user._id, list: list._id}, function(err, vote) {
+      Vote.create({ user: userId, list: listId }, function(err, vote) {
         if(err) { return helpers.handleError(res, err); }
-        return res.json(201, vote);
+
+        List.update({ _id: listId }, { $inc: { nVotes: 1}}, function(err, numAffected, raw) {
+          if(err) { return helpers.handleError(res, err); }
+          return res.json(201, vote);
+        });
       });
   });
 };

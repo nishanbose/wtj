@@ -66,17 +66,49 @@ describe('/api/list', function() {
         done();
       });
   });
-  it('/api/list response should respond with top n voted', function(done) {
-    request(app)
-      .get('/api/lists?top=3')
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function(err, res) {
+  
+  it('/api/list?order=popular should respond with top n voted', function(done) {
+    // Pick a list and fake some votes.
+    List.findOne(function(err, list) {
+      if (err) return done(err);
+      list.update({ $set: { nVotes: 99 }}, function(err) {
         if (err) return done(err);
-        res.body.should.be.instanceof(Array);
-        res.body.length.should.equal(3);
-        done();
+        request(app)
+        .get('/api/lists?top=3&order=popular')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) return done(err);
+          res.body.should.be.instanceof(Array);
+          res.body.length.should.equal(3);
+          res.body[0]._id.should.be.equal(String(list._id));
+          res.body[0].nVotes.should.be.equal(99);
+          done();
+        });
       });
+    });
+  });
+  
+  it('/api/list?order=recent should respond with top n recently updated', function(done) {
+    // Pick a list and update it.
+    List.findOne(function(err, list) {
+      if (err) return done(err);
+      list.update({ $set: { nVotes: -1 }}, function(err) {
+        if (err) return done(err);
+        request(app)
+        .get('/api/lists?top=3&order=recent')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) return done(err);
+          res.body.should.be.instanceof(Array);
+          res.body.length.should.equal(3);
+          res.body[0]._id.should.be.equal(String(list._id));
+          res.body[0].nVotes.should.be.equal(-1);
+          done();
+        });
+      });
+    });
   });
 
   it('/api/list response should be populated with categories', function(done) {
