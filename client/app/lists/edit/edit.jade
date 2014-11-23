@@ -4,58 +4,51 @@ div(ng-include='"components/navbar/navbar.html"')
 
   //- {{ list }}
 
-  form.form.form-horizontal(name='form', ng-submit='submit(form)', novalidate='')
+  form(name='form', role='form', ng-submit='submit(form)', novalidate='')
 
     .form-group
-      label(for='fieldTitle', control-label) Title
-      .input
-        input#fieldTitle.form-control(type='text', name='name', ng-model='list.title', required='')
-      p.help-block(ng-show="form.name.$error.required" class="error") What is the title of this list?
+      label(for='fieldTitle', control-label='') Title
+      input#fieldTitle.form-control(type='text', name='name', ng-model='list.title', required='', placeholder='What is the title of this list?')
 
     .form-group
-      label(for='fieldAbout', control-label) About
-      .input
-        textarea#fieldAbout.form-control(type='text', name='about', ng-model='list.about', required='')
-      p.help-block(ng-show="form.about.$error.required" class="error") What is this list about?
+      label(for='fieldAbout', control-label='') About
+      textarea#fieldAbout.form-control(type='text', name='about', ng-model='list.about', required='', placeholder='What is this list about?')
 
     .form-group
-      label(for='fieldItems', control-label) Items
-      .input#fieldItems(as-sortable="dragControlListeners" name="items", ng-model="list.items")
-        div.item(ng-repeat="item in list.items track by $index" as-sortable-item='')
-          .input-group
-            .input-group-addon.fa.fa-bars.item-handle(as-sortable-item-handle='')
-            input.item(type="text", ng-model="list.items[$index].val")
-            .input-group-addon.fa.fa-minus(ng-click="removeItem($index)")
+      label(for='fieldItems', control-label='') Items
+      #fieldItems(as-sortable="dragControlListeners" name="items", ng-model="list.items")
+        div.input-group(ng-repeat="item in list.items track by $index" as-sortable-item='')
+          .input-group-addon.fa.fa-bars.item-handle(as-sortable-item-handle='')
+          input(type="text", ng-model="list.items[$index].val")
+          .input-group-addon.fa.fa-minus(ng-click="removeItem($index)")
 
     .form-group
-      label
-      .input
-        button.btn.btn-default(type="button")
-          .fa.fa-plus(ng-click="appendItem()") &nbsp;New Item
+      label(control-label='')
+      button.btn.btn-default(type="button")
+        .fa.fa-plus(ng-click="appendItem()") &nbsp;New Item
       //- {{ list.items }}
 
     .form-group
-      label(for='fieldCategories, control-label') Categories
-      .input
-        select#fieldCategories(multiple='', name="categories", ng-model='list.categories', ng-options='cat.name for cat in categories track by cat._id')
+      label(for='fieldCategories', control-label='') Categories
+      select#fieldCategories(multiple='', name="categories", ng-model='list.categories', ng-options='cat.name for cat in categories track by cat._id')
       //- {{ list.categories }}
 
     .form-group(ng-show="isAdmin")
-      label(for='fieldFeatured, control-label') Featured
-      .input
-        .row
-          .col-sm-1
-            input#fieldFeatured.form-control(type="checkbox", name="featured", ng-model='list.featured')
+      //- Not rendering with desired placement.
+      //- See "checkbox" in http://getbootstrap.com/css/#forms-controls
+      .checkbox
+        label(control-label='')
+          input(type="checkbox", name="featured", ng-model='list.featured')
+          | Featured
       
-    br
-    | {{ list }}
+    //- br
+    //- | {{ list }}
 
     p.help-block  {{ message }}
 
     .form-group.buttons
-      .col-sm-offset-2.col-sm-10
-        button.btn.btn-sm.btn-default(type="button" ng-click='reset(form)', ng-disabled="!isChanged(form)") Reset
-        button.btn.btn-sm.btn-success(type='submit', ng-disabled="form.$invalid || !isChanged(form)") Save
+      button.btn.btn-sm.btn-default(type="button" ng-click='reset(form)', ng-disabled="!isChanged(form)") Reset
+      button.btn.btn-sm.btn-success(type='submit', ng-disabled="form.$invalid || !isChanged(form)") Save
 
     //- br
     //- | {{ list }}
