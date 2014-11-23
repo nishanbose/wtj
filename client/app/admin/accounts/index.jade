@@ -9,9 +9,10 @@ div(ng-include='"components/navbar/navbar.html"')
           .row
             span.text-muted {{user.email}}
         .col-sm-2
-          label
-            input(type="checkbox", ng-model="user.active")
-            | Active
+          .checkbox
+            label
+              input(type="checkbox", ng-model="user.active", name="active[]")
+              | Active
         .col-sm-1
           a.trash(ng-click='delete(user)')
             span.glyphicon.glyphicon-trash.pull-right
