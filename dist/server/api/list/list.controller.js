@@ -69,22 +69,26 @@ exports.create = function(req, res) {
 
 // Updates an existing list in the DB.
 exports.update = function(req, res) {
-  var tracer = require('tracer').console({ level: 'log' });
+  var tracer = require('tracer').console({ level: 'warn' });
   
   if (!auth.hasRole('admin') && req.user._id !== req.body.author._id) {return res.send(401); }
   if(req.body._id) { delete req.body._id; }
   if(req.body.author) { delete req.body.author; } // not allowed
 
+  req.body.categories = req.body.categories.map(function(cat) {
+    return _.has(cat, '_id') ? cat._id : cat;
+  });
+
   List.findById(req.params.id, function (err, list) {
     if (err) { return helpers.handleError(res, err); }
     if(!list) { return res.send(404); }
   
-    var updated = _.merge(list, req.body);
+    // var updated = _.merge(list, req.body);
+    var updated = _.assign(list, req.body);
     tracer.trace('updating ', updated);
-    updated.save(function (err, saved) {
+    // updated.save(function (err, saved) {
+    updated.save(function (err) {
       if (err) { return helpers.handleError(res, err); }
-      tracer.trace('updated list ', saved.title);
-      tracer.trace(saved);
       return res.json(200, list);
     });
   });

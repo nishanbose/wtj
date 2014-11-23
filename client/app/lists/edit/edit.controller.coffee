@@ -2,7 +2,7 @@
 
 # Controller for editing a list
 angular.module 'wtjApp'
-.controller 'ListEditCtrl', ($scope, $state, flash, Auth, List, Category, listService) ->
+.controller 'ListEditCtrl', ($scope, $state, flash, Auth, List, Category, listService, Modal) ->
   $scope.message = ''
   $scope.isAdmin = Auth.getCurrentUser().role == 'admin'
   $scope.list = listService.decorate {}
@@ -48,3 +48,12 @@ angular.module 'wtjApp'
     accept: (sourceItemHandleScope, destSortableScope) ->
       true    
     containment: '#edit-list-items' # optional
+
+  $scope.delete = ->
+    del = ->
+      $scope.list.$delete ->
+        flash.success = 'Deleted ' + $scope.list.title
+        $state.go 'my-lists'
+      , (headers) ->
+        flash.error = headers.message
+    Modal.confirm.delete(del) $scope.list.title

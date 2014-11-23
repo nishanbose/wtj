@@ -2,12 +2,15 @@
 
 div(ng-include='"components/navbar/navbar.html"')
 .container
-  h1(ng-bind-html="trust(title)")
 
-  .create_new(ng-show="canCreate")
-    button.btn.btn-primary.fa.fa-plus(ng-click="newList()") &nbsp;New List
+  .title-bar
+    h1(ng-bind-html="trust(title)")
 
-  div.gridStyle(ng-grid='gridOptions')
+    button.btn.btn-default(ng-show="canCreate", ng-click="newList()") 
+      span.fa.fa-plus
+      | New List
+
+  .gridStyle(ng-grid='gridOptions')
 
   //- br
   //- | {{ state }}
