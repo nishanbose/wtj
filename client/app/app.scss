@@ -30,16 +30,36 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     height: 40em;
 }
 
-.form-group {
-  button {
-    margin-right: 0.3cm;
+form {
+  @extend .form-horizontal;
+
+  .form-group {
+    button {
+      margin-right: 0.3cm;
+    }
+    .checkbox label {
+      font-weight: bold;
+    }
+
+    input.ng-invalid,
+    input.ng-required,
+    input.ng-mask,
+    textarea.ng-invalid {
+      border: thin solid red;
+    }
+
+    label {
+      @extend .col-sm-2;
+    }
+    label + div,
+    label + .form-control {
+      @extend .col-sm-10;
+    }
   }
 
-  input.ng-invalid,
-  input.ng-required,
-  input.ng-mask,
-  textarea.ng-invalid {
-    border: thin solid red;
+  .checkbox,
+  .form-group.buttons {
+    @extend .col-sm-offset-2;
   }
 }
 
