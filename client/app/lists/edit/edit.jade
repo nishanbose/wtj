@@ -24,8 +24,8 @@ div(ng-include='"components/navbar/navbar.html"')
 
     .form-group
       label(control-label='')
-      button.btn.btn-default(type="button")
-        .fa.fa-plus(ng-click="appendItem()") &nbsp;New Item
+      button.btn.btn-default(type="button", ng-click="appendItem()")
+        span.fa.fa-plus &nbsp;New Item
       //- {{ list.items }}
 
     .form-group
@@ -34,12 +34,10 @@ div(ng-include='"components/navbar/navbar.html"')
       //- {{ list.categories }}
 
     .form-group(ng-show="isAdmin")
-      //- Not rendering with desired placement.
-      //- See "checkbox" in http://getbootstrap.com/css/#forms-controls
       .checkbox
         label(control-label='')
           input(type="checkbox", name="featured", ng-model='list.featured')
-          | Featured
+          strong Featured
       
     //- br
     //- | {{ list }}
