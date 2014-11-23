@@ -31,29 +31,16 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 }
 
 .form-group {
-  label {
-    @extend .col-sm-2;
-  }
-  div.input {
-    @extend .col-sm-10;
-
-    select {
-      width: inherit;
-    }
-  }
   button {
     margin-right: 0.3cm;
   }
-}
 
-// Cannot be nested.
-form p.help-block {
-  @extend .col-sm-offset-2;
-  @extend .col-sm-10;
-}
-
-input[type="checkbox"] {
-  margin-right: 1em;
+  input.ng-invalid,
+  input.ng-required,
+  input.ng-mask,
+  textarea.ng-invalid {
+    border: thin solid red;
+  }
 }
 
 .row.categories span.category {
@@ -62,11 +49,4 @@ input[type="checkbox"] {
   button {
     width: 100%;
   }
-}
-
-input.ng-invalid,
-input.ng-required,
-input.ng-mask,
-textarea.ng-invalid {
-  border: thin solid red;
 }
