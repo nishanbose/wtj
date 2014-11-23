@@ -1,6 +1,10 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container
-  h1 Editing {{ category.name }}
+  .title-bar
+    h1 Editing {{ category.name }}
+    //- button.btn.btn-warning(ng-click="delete()")
+    //-   span.fa.fa-minus 
+    //-   | Delete
 
   //- {{ category }}
 

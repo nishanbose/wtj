@@ -16,8 +16,6 @@ angular.module 'wtjApp'
       flash.error = headers.message
 
   $scope.delete = (category) ->
-    return if category._id == 'new'
-
     del = ->
       category.$remove ->
         _.remove $scope.categories, category
