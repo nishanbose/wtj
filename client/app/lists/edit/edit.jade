@@ -1,6 +1,11 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container
-  h1 Editing {{ list.title }}
+  .title-bar
+    h1 Editing {{ list.title }}
+
+    button.btn.btn-default(ng-click="delete()") 
+      span.fa.fa-plus
+      | Delete List
 
   //- {{ list }}
 

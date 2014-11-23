@@ -70,3 +70,18 @@ form {
     width: 100%;
   }
 }
+
+.title-bar {
+  position: relative;
+  top: -20px;
+
+  button.btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    span.fa {
+      padding-right: 0.5em;
+    }
+  }
+}
