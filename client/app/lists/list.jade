@@ -4,11 +4,12 @@ div(ng-include='"components/navbar/navbar.html"')
 
 .container
 
-  .goto-edit(ng-show='canEdit')
-    button.btn.btn-primary(ng-click="edit()") 
-      span.fa.fa-pencil &nbsp;Edit
-
-  h1 {{ list.title }}
+  .title-bar
+    h1 {{ list.title }}
+    
+    .goto-edit(ng-show='canEdit')
+      button.btn.btn-primary(ng-click="edit()") 
+        span.fa.fa-pencil &nbsp;Edit
 
   .updatedAt
     {{ list.updatedPretty }}
