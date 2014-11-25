@@ -11,37 +11,43 @@ compareDate = (_a, _b) ->
 angular.module 'wtjApp'
 
 # Controller for a listing of lists.
-.controller 'ListIndexCtrl', ($scope, $state, $sce, List, Category, User, Auth, listService) ->
+.controller 'ListIndexCtrl', ($scope, $state, $sce, $q, List, Category, User, Auth, listService) ->
   $scope.title = 'Lists'
   $scope.trust = $sce.trustAsHtml
   $scope.canCreate = $state.is 'my-lists'  # Use can create a new list
-  query = {}
-  title_elements = []
 
-  # Set page header
-  if $state.params.category
-    query.category = $state.params.category
-
-    Category.get { id: $state.params.category }, (cat) ->
-      title_elements.push cat.name
-      $scope.title = title_elements.join('<br />')
-
-  if $state.is 'my-lists'
-    query.author = Auth.getCurrentUser()._id
-  else if $state.params.author
-    query.author = $state.params.author
-
-  if query.author
-    User.get { id: query.author }, (user) ->
-      title_elements.push(if $state.is 'my-lists' then 'My Lists' else user.name)
-      $scope.title = title_elements.join('<br />')
-
-  if $state.params.featured
-    query.featured = $state.params.featured
+  # Set up query
+  do (cat = $q.when(false), user = $q.when(false), query={}) ->
+    if $state.is 'my-lists'
+      query.author = Auth.getCurrentUser()._id
+      $title.elements.push 'My Lists'
+    else if $state.params.author
+      query.author = $state.params.author
+      user = User.get { id: $state.params.author }
     
-  $scope.lists = List.query query, (lists) ->
-    # console.log lists
-    listService.decorate list for list in lists
+    if $state.params.category
+      query.category = $state.params.category
+      cat = Category.get { id: $state.params.category }
+
+    # Set up list title
+    do (title_elements=[]) ->
+      if (cat || user)
+        $q.all({cat: cat, user: user}).then (result) ->
+          # FIXME - then returns before result.cat and result.user are resolved
+          title_elements.push result.cat.name if result.cat.$resolved
+          title_elements.push result.user.name if result.user.$resolved
+        , (reason) ->
+          flash.error = 'An error occured: ' + reason
+
+      $scope.title = 'Lists'
+      $scope.title += ' of ' + title.elements.join('<br />') if title_elements.length > 0
+
+    if $state.params.featured
+      query.featured = $state.params.featured
+    
+    $scope.lists = List.query query, (lists) ->
+      # console.log lists
+      listService.decorate list for list in lists
 
   $scope.newList = ->
     List.save (list) ->
