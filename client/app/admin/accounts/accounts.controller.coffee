@@ -17,8 +17,6 @@ angular.module 'wtjApp'
               flash.error = headers.message
 
   $scope.delete = (user) ->
-    return if user._id == 'new'
-
     del = ->
       user.$remove ->
         _.remove $scope.users, user
