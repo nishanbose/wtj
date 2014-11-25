@@ -2,7 +2,7 @@
 
 # Controller for a single list
 angular.module 'wtjApp'
-.controller 'ListCtrl', ($scope, $state, List, Vote, Auth, listService) ->
+.controller 'ListCtrl', ($scope, $state, List, Vote, Auth, Modal, flash, listService) ->
   $scope.canEdit = false
   $scope.votes = []
   $scope.alreadyVoted = false
@@ -29,4 +29,11 @@ angular.module 'wtjApp'
       $scope.votes.push vote if vote
 
 
-
+  $scope.delete = ->
+    del = ->
+      $scope.list.$remove ->
+        flash.success = 'You have deleted your list ' + $scope.list.title
+        $state.go('my-lists')
+      , (headers) ->
+        flash.error = headers.message
+    Modal.confirm.delete(del) $scope.list.title
