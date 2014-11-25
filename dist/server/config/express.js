@@ -55,4 +55,5 @@ module.exports = function(app) {
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
   }
+  app.disable('etag'); // http://stackoverflow.com/a/23706137/270511
 };

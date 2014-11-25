@@ -23,10 +23,10 @@ exports.index = function(req, res) {
   var q = List.find(query);
   
   if (order === 'recent') {
-    tracer.trace('sort by recent');
-    q.sort({ udpatedAt: -1 });    
+    // tracer.trace('sort by recent');
+    q.sort({ updatedAt: -1 });    
   } else if (order === 'popular') {
-    tracer.trace('sort by popular');
+    // tracer.trace('sort by popular');
     q.sort({ nVotes: -1 });
   } else {
     tracer.trace('sort by title');
