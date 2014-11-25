@@ -74,14 +74,19 @@ form {
 .title-bar {
   position: relative;
   top: -20px;
+}
 
-  button.btn {
-    position: absolute;
-    top: 0;
-    right: 0;
+.title-bar > button.btn,
+.title-bar > .buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
 
-    span.fa {
-      padding-right: 0.5em;
-    }
+  span.fa {
+    padding-right: 0.5em;
   }
+}
+
+.buttons button {
+  margin-right: 0.25cm;
 }
