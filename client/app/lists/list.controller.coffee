@@ -19,7 +19,7 @@ angular.module 'wtjApp'
     user = Auth.getCurrentUser()
     if user
       for vote in votes
-        if vote.user._id = user._id
+        if vote.user._id == user._id
           $scope.alreadyVoted = true
           break
 
