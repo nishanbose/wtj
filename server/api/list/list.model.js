@@ -11,7 +11,7 @@ var ListSchema = new Schema({
   items: [ String ],
   featured: { type: Boolean, default: false },
   nVotes: { type: Number, default: 0 },
-  active: Boolean
+  active: { type: Boolean, default: true }
 });
 
 var timestamps = require('mongoose-timestamp')

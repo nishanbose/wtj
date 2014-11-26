@@ -76,8 +76,8 @@ form {
   top: -20px;
 }
 
-.title-bar > button.btn,
-.title-bar > .buttons {
+.title-bar > h1 + button.btn,
+.title-bar  > h1 + .buttons {
   position: absolute;
   top: 0;
   right: 0;
@@ -89,4 +89,8 @@ form {
 
 .buttons button {
   margin-right: 0.25cm;
+}
+
+.strike {
+  text-decoration: line-through;
 }
