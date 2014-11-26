@@ -5,6 +5,11 @@ angular.module 'wtjApp'
   # AngularJS will instantiate a singleton by calling 'new' on this function
 
   self =
+    censor: (lists) ->
+      return lists if Auth.isAdmin()
+      lists.filter (list) ->
+        list.active || list.author._id == Auth.getCurrentUser()._id 
+
     # Add .updatedPretty
     decorate: (list) ->
       # console.log typeof(list)

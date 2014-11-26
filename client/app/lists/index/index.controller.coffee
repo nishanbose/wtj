@@ -15,12 +15,16 @@ angular.module 'wtjApp'
   $scope.title = 'Lists'
   $scope.trust = $sce.trustAsHtml
   $scope.canCreate = $state.is 'my-lists'  # Use can create a new list
+  $scope.title = 'Lists'
 
   # Set up query
-  do (cat = $q.when(false), user = $q.when(false), query={}) ->
+  do (cat = $q.when(false), user = $q.when(false), query={}, title_elements=[]) ->
     if $state.is 'my-lists'
+      if !Auth.isLoggedIn()
+        $state.go('login')
+        return
+      title_elements.push 'My Lists'
       query.author = Auth.getCurrentUser()._id
-      $title.elements.push 'My Lists'
     else if $state.params.author
       query.author = $state.params.author
       user = User.get { id: $state.params.author }
@@ -29,24 +33,22 @@ angular.module 'wtjApp'
       query.category = $state.params.category
       cat = Category.get { id: $state.params.category }
 
-    # Set up list title
-    do (title_elements=[]) ->
-      if (cat || user)
-        $q.all({cat: cat, user: user}).then (result) ->
-          # FIXME - then returns before result.cat and result.user are resolved
-          title_elements.push result.cat.name if result.cat.$resolved
-          title_elements.push result.user.name if result.user.$resolved
-        , (reason) ->
-          flash.error = 'An error occured: ' + reason
+    if (cat || user)
+      $q.all({cat: cat, user: user}).then (result) ->
+        # FIXME - then returns before result.cat and result.user are resolved
+        title_elements.push result.cat.name if result.cat.$resolved
+        title_elements.push result.user.name if result.user.$resolved
+      , (reason) ->
+        flash.error = 'An error occured: ' + reason
 
-      $scope.title = 'Lists'
-      $scope.title += ' of ' + title.elements.join('<br />') if title_elements.length > 0
+    $scope.title = title_elements.join('<br />') if title_elements.length > 0
 
     if $state.params.featured
       query.featured = $state.params.featured
     
     $scope.lists = List.query query, (lists) ->
       # console.log lists
+      $scope.lists = listService.censor lists
       listService.decorate list for list in lists
 
   $scope.newList = ->
