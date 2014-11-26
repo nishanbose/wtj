@@ -64,10 +64,10 @@ form {
 }
 
 .row.categories span.category {
-  @extend .col-xs-4;
+  @extend .col-sm-1;
 
   button {
-    width: 100%;
+    @extend .btn-xs;
   }
 }
 
