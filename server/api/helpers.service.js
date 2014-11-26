@@ -8,7 +8,7 @@
 // var compose = require('composable-middleware');
 // var User = require('../api/user/user.model');
 // var validateJwt = expressJwt({ secret: config.secrets.session });
-var _ = require('lodash')
+var _ = require('lodash');
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
