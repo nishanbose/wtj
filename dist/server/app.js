@@ -4,8 +4,11 @@
 
 'use strict';
 
+var tracer = require('tracer').console({ level: 'info' });
+
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+tracer.info('NODE_ENV=' + process.env.NODE_ENV);
 
 var express = require('express');
 var mongoose = require('mongoose');
