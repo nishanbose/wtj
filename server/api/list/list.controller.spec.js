@@ -13,6 +13,7 @@ var callback = function(err, results) {
 };
 
 var setup = function(done) {
+  var tracer = require('tracer').console({ level: 'trace' });
   var async = require('async');
   async.series([
     function(callback) { Seed.createUsers(10, callback) },
@@ -25,7 +26,8 @@ var setup = function(done) {
       var users = results[0];
       var cats = results[1];
       var lists = results[2];
-      
+
+      tracer.trace('setup(), about to call Seed.assignListCategoriesAndAuthors()')      
       Seed.assignListCategoriesAndAuthors(lists, cats, users, function(err) {
         done(err);
       });
@@ -34,7 +36,7 @@ var setup = function(done) {
 
 describe('/api/list', function() {
 
-  before(setup);
+  beforeEach(setup);
 
   it('/api/list response should respond with JSON array', function(done) {
     request(app)
@@ -116,6 +118,8 @@ describe('/api/list', function() {
 });
 
 describe('/api/list/:id', function() {
+
+  beforeEach(setup);
 
   it('should update a list and its items', function(done) {
     var User = require('../user/user.model');
@@ -199,5 +203,10 @@ describe('/api/list/:id', function() {
       });
     });
   });
-  
+});
+
+describe('/api/list/:id/complain', function(done) {
+
+  beforeEach(setup);
+
 });
