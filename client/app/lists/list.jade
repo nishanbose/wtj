@@ -8,15 +8,18 @@ div(ng-include='"components/navbar/navbar.html"')
     h1(ng-class="{ strike: !list.active }") {{ list.title }}
 
     .buttons
-      .goto-edit(ng-show='canEdit')
+      span(ng-show='canEdit')
         button.btn.btn-primary(ng-click="edit()") 
           span.fa.fa-pencil &nbsp;Edit
-      .goto-edit(ng-show='canDelete')
+      span(ng-show='canDelete')
         button.btn.btn-danger(ng-click="delete()") 
           span.fa.fa-pencil &nbsp;Delete
-      .goto-edit(ng-show='canBlock')
+      span(ng-show='canBlock')
         button.btn.btn-warning(ng-class="{ active: !list.active }", ng-click="toggleActive()") 
           span.fa.fa-ban &nbsp;Block
+      span(ng-show='!canEdit && !canDelete && !canBlock', title="Notify site admin of inappropriate content.")
+        button.btn.btn-warning.btn-sm(ng-click="flagContent()")
+          span.fa.fa-exclamation-triangle &nbsp;Flag
   //- | {{ list }}
 
   .updatedAt
