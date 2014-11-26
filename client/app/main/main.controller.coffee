@@ -28,7 +28,7 @@ angular.module 'wtjApp'
   $scope.categories = Category.query()
 
   updateLists = ->
-    $scope.lists = List.query { top: 5, order: $scope.order }, (lists) ->
+    $scope.lists = List.query { top: 200, order: $scope.order }, (lists) ->
       $scope.lists = lists.filter (list) ->
         list.active
       listService.decorate list for list in lists
