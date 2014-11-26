@@ -88,7 +88,7 @@ exports.update = function(req, res) {
     var wasActive = _.clone(list.active);
     _.assign(list, req.body);
 
-    if (typeof list.active !== 'undefined' && list.active != wasActive) {
+    if (typeof list.active !== 'undefined' && list.active !== wasActive) {
       var mandrill = require('../../components/mail/mandrill.service');
       var message;
       if (list.active) {

@@ -1,25 +1,31 @@
 'use strict';
 
 var _ = require('lodash');
-var mandrill = require('mandrill-mail');
+var API_KEY = '4pZAUZFRRLEpADzvuoWL-g';
+var mandrill = require('node-mandrill')(API_KEY);
 var FROM_EMAIL = 'admin@experiencejackson.com';
 var FROM_NAME = 'Admin';
-var API_KEY = '4pZAUZFRRLEpADzvuoWL-g';
 
 
-exports.send = function(to, subj, html) {
+exports.send = function(to, subj, text) {
   var tracer = require('tracer').console({ level: 'log' });
   tracer.info('sending mail');
   tracer.info(to);
   tracer.info(subj);
   var params = {
-    to: to,
-    subject: subj,
-    html: html,
-    from_email: FROM_EMAIL,
-    from_name: FROM_NAME
+    message: {
+      to: to,
+      subject: subj,
+      text: text,
+      from_email: FROM_EMAIL,
+      from_name: FROM_NAME
+    }
   };
-  mandrill.send(API_KEY, params, function(json) {
-    tracer.log(json);
+  mandrill('/messages/send', params, function(err, res) {
+    if (err) {
+      tracer.error(JSON.stringify(err));
+    } else {
+      tracer.log(res);
+    }
   });
 };
