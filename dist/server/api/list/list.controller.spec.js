@@ -5,9 +5,6 @@ var app = require('../../app');
 var request = require('supertest');
 var Seed = require('../../config/seed');
 var List = require('./list.model');
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ObjectId = Schema.Types.ObjectId;
 
 var callback = function(err, results) {
   if (err) console.log(err);

@@ -1,5 +1,11 @@
 <div class="ngCellText" ng-class="col.colIndex()">
   <span ng-cell-text>
     <a ui-sref="list({ id: row.getProperty('_id') })">
-      {{ row.getProperty("title") || 'untitled' }}
-</a></span></div>
+      <span ng-class="{ strike: !row.getProperty('active') }">
+        {{ row.getProperty("title") || 'untitled' }}
+      </span>
+      <span class="fa", ng-class="{ 'fa-ban': !row.getProperty('active') }">
+      </span>
+    </a>
+  </span>
+</div>
