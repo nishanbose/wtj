@@ -114,6 +114,8 @@ exports.createLists = function(n, callback) {
 };
 
 exports.assignListCategoriesAndAuthors = function(lists, cats, users, callback) {
+  var tracer = require('tracer').console({ level: 'warn' });
+
   // console.log('assignListCategories(), :lists lists, :cats cats'
   // .replace(/:lists/, lists.length)
   // .replace(/:cats/, cats.length));
@@ -130,8 +132,11 @@ exports.assignListCategoriesAndAuthors = function(lists, cats, users, callback) 
   });
   var async = require('async');
   async.series(promises, function(err) {
-    console.log(err ? err : 'finished assigning users and categories to lists');
-    var results = Array.prototype.slice.call(arguments, 1);
-    callback(err, results);
+    if (err) {
+      tracer.error(err);
+    } else {
+      tracer.info('finished assigning users and categories to lists');
+    }
+    callback(err, Array.prototype.slice.call(arguments, 1));
   });
 };
