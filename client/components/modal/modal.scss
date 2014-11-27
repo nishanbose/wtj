@@ -23,3 +23,7 @@
 .modal-danger .modal-header {
   background: $brand-danger;
 }
+
+.modal-dialog textarea#reason {
+  width: 100%;
+}
