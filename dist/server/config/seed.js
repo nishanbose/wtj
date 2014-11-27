@@ -3,12 +3,13 @@
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
 
- 'use strict';
+'use strict';
 
- // var Thing = require('../api/thing/thing.model');
- var User = require('../api/user/user.model');
- var Category = require('../api/category/category.model');
- var List = require('../api/list/list.model');
+// var Thing = require('../api/thing/thing.model');
+var User = require('../api/user/user.model');
+var Category = require('../api/category/category.model');
+var List = require('../api/list/list.model');
+var tracer = require('tracer').console({ level: 'warn' });
 
 /*
  Thing.find().remove(function() {
@@ -55,7 +56,7 @@ exports.createUsers = function(n, callback) {
       });
     }
     User.create(user_params, function(err) {
-      if (err) console.log(err ? err : 'finished populating users');
+      if (err) tracer.info(err ? err : 'finished populating users');
       var results = Array.prototype.slice.call(arguments, 1);
       callback(err, results);
     });
@@ -73,7 +74,7 @@ exports.createCategories = function(n, callback) {
       });
     }
     Category.create(cat_params, function(err) {
-      console.log(err ? err : 'finished populating categories');
+      tracer.info(err ? err : 'finished populating categories');
       var results = Array.prototype.slice.call(arguments, 1);
       callback(err, results);
     });
@@ -106,7 +107,7 @@ exports.createLists = function(n, callback) {
       });
     }
     List.create(list_params, function(err) {
-      console.log(err ? err : 'finished populating lists');
+      tracer.info(err ? err : 'finished populating lists');
       var results = Array.prototype.slice.call(arguments, 1);
       callback(err, results);
     });
@@ -120,18 +121,23 @@ exports.assignListCategoriesAndAuthors = function(lists, cats, users, callback) 
   var promises = [];
   lists.forEach(function(list) {
     list.categories = pickRandom(cats, 3).map(function(cat) { return cat._id });
-    list.author = users[Math.floor(Math.random() * users.length)];
-    promises.push(function(callback2) {
+    list.author = pickRandom(users, 1)[0];
+    promises.push(function(cb) {
       list.save(function(err) {
-        var results = Array.prototype.slice.call(arguments, 1);
-        callback2(err, results);
+        if (err) { tracer.error(err); }
+        callback(err);
       });
     });
   });
+  
   var async = require('async');
   async.series(promises, function(err) {
-    console.log(err ? err : 'finished assigning users and categories to lists');
-    var results = Array.prototype.slice.call(arguments, 1);
-    callback(err, results);
+    if (err) {
+      tracer.error(err);
+      tracer.error(new Error().stack);
+    } else {
+      tracer.info('Finished assigning users and categories to lists.');
+    }
+    callback(err, Array.prototype.slice.call(arguments, 1));
   });
 };

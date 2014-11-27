@@ -12,6 +12,12 @@ describe('/api/categories', function() {
     Seed.createCategories(5, done);
   });
 
+  afterEach(function(done) {
+    Category.find().remove(function(err) {
+      done(err);
+    });
+  });
+
   it('should respond with JSON array', function(done) {
     request(app)
       .get('/api/categories')

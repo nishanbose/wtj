@@ -7,6 +7,7 @@ var Seed = require('../../config/seed');
 var Vote = require('./vote.model');
 var User = require('../user/user.model');
 var List = require('../list/list.model');
+var Category = require('../category/category.model');
 var async = require('async');
 
 var setup = function(done) {
@@ -46,9 +47,23 @@ var setup = function(done) {
   });
 };
 
+var teardown = function(done) {
+  var tracer = require('tracer').console({ level: 'log' });
+  var async = require('async');
+  async.series([
+    function(callback) { List.find().remove(callback); },
+    function(callback) { Category.find().remove(callback); },
+    function(callback) { User.find().remove(callback); }
+    ], function(err, results) {
+      if (err) { tracer.log(err); }
+      done(err);
+  });
+};
+
 describe('/api/votes', function() {
 
-  before(setup);
+  beforeEach(setup);
+  afterEach(teardown);
 
   it('should respond with JSON array', function(done) {
     request(app)
