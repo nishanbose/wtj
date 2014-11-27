@@ -16,8 +16,8 @@ angular.module 'wtjApp'
 
     .then (result) ->
       if _.has(result, 'token') && (listId = listService.deferredVoteListId())
-        listService.voteDeferredList listId
-        $state.go 'list', { id: listId }
+        listService.voteDeferredList listId, ->
+          $state.go 'list', { id: listId }
       else        
         $state.go 'main'
 
