@@ -422,6 +422,7 @@ module.exports = function (grunt) {
 
     // Run some tasks in parallel to speed up the build process
     concurrent: {
+      limit: 8, // may need to run --force.  Some of these time out on Digital Ocean hosts.
       server: [
         'coffee',
         'jade',

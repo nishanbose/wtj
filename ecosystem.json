@@ -1,17 +1,19 @@
 {
   "apps" : [{
     "name"      : "Welcome to Jackson",
-    "old script"    : "server/app.js",
-    "script"    : "/usr/local/bin/grunt",
-    "args"      : "['server']",
+    "script"    : "server/app.js",
+    "xscript"    : "/usr/local/bin/grunt",
+    "xargs"      : "['server']",
     "env": {
       "COMMON_VARIABLE": "true"
     },
     "dev" : {
-      "NODE_ENV": "development"
+      "NODE_ENV": "development",
+      "PORT": "9090"
     },
     "prod" : {
-      "NODE_ENV": "production"
+      "NODE_ENV": "production",
+      "PORT": "9000"
     }
   }],
   "deploy" : {
@@ -20,7 +22,7 @@
       "host" : "104.131.98.97",
       "ref"  : "origin/master",
       "repo" : "https://github.com/lsiden/wtj.git",
-      "path" : "/home/lsiden/wtj",
+      "path" : "/home/wtjwebapp/www",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env production"
     },
     "dev" : {
@@ -28,7 +30,7 @@
       "host" : "104.131.98.97",
       "ref"  : "origin/master",
       "repo" : "https://github.com/lsiden/wtj.git",
-      "path" : "/home/lsiden/wtj",
+      "path" : "/home/lsiden/wtj-dev",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env dev"
     }
   }
