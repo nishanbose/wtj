@@ -7,6 +7,7 @@ var ObjectId = Schema.Types.ObjectId;
 var ComplaintSchema = new Schema({
   list: { type: ObjectId, ref: 'List', index: true, required: true },
   source: { type: String, index: true }, // IP of source
+  email: String,
   reason: String
 });
 
