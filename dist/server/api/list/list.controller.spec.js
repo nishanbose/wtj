@@ -5,13 +5,12 @@ var app = require('../../app');
 var request = require('supertest');
 var Seed = require('../../config/seed');
 var List = require('./list.model');
-
-var callback = function(err, results) {
-  if (err) console.log(err);
-  return results;
-};
+var Category = require('../category/category.model');
+var User = require('../user/user.model');
+var helpers = require('../helpers.service')
 
 var setup = function(done) {
+  var tracer = require('tracer').console({ level: 'warn' });
   var async = require('async');
   async.series([
     function(callback) { Seed.createUsers(10, callback) },
@@ -24,36 +23,30 @@ var setup = function(done) {
       var users = results[0];
       var cats = results[1];
       var lists = results[2];
-      
+
       Seed.assignListCategoriesAndAuthors(lists, cats, users, function(err) {
         done(err);
       });
   });
 };
 
+var teardown = function(done) {
+  var tracer = require('tracer').console({ level: 'trace' });
+  var async = require('async');
+  async.series([
+    function(callback) { List.find().remove(callback); },
+    function(callback) { Category.find().remove(callback); },
+    function(callback) { User.find().remove(callback); }
+    ], function(err, results) {
+      // console.log('async callback 1')
+      done(err);
+  });
+};
+
 describe('/api/list', function() {
 
-  before(setup);
-
-  it('/api/list/:id response should contain a title, about, and items', function(done) {
-    List.findOne(function(err, list) {
-      if (err) return done(err);
-      list.title.should.be.ok;
-      list.about.should.be.ok;
-      list.items.should.be.ok;
-      (list.items.length !== undefined).should.be.true;
-      done();
-    });
-  });
-
-  it('/api/list/:id response should contain one or more categories', function(done) {
-    List.findOne(function(err, list) {
-      if (err) return done(err);
-      list.categories.should.be.ok;
-      (list.categories.length !== undefined).should.be.true;
-      done();
-    });
-  });
+  beforeEach(setup);
+  afterEach(teardown);
 
   it('/api/list response should respond with JSON array', function(done) {
     request(app)
@@ -132,6 +125,71 @@ describe('/api/list', function() {
         done();
       });
   });
+});
+
+describe('/api/list/:id', function() {
+
+  beforeEach(setup);
+  afterEach(teardown);
+
+  it('should update a list and its items', function(done) {
+    var User = require('../user/user.model');
+    var tracer = require('tracer').console({ level: 'warn' });
+
+    List.findOne(function(err, list) {
+      if (err) return done(err);
+      list.items.should.be.instanceof(Array);
+      list.items.length.should.be.ok;
+      list.items[0].should.be.instanceof(String);
+
+      list.items[0] = 'one';
+      list.items[1] = 'two';
+      list.items[2] = 'three';
+
+      helpers.withAuthUser(function(err, token, results) {
+        // Attempt to update the list.
+        tracer.trace('PUT /api/lists/' + list._id);
+        request(app).put('/api/lists/' + list._id)
+        .set('authorization', 'Bearer ' + token) // see https://github.com/DaftMonk/generator-angular-fullstack/issues/494#issuecomment-53716281
+        .send(list)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) return done(err);
+          // Verify that the items have been updated.
+          List.findById(list._id, function(err, updated) {
+            if (err) return done(err);
+            list.items.should.be.instanceof(Array);
+            list.items.length.should.be.ok;
+            list.items[0].should.be.instanceof(String);
+            list.items[0].should.be.equal('one');
+            list.items[1].should.be.equal('two');
+            list.items[2].should.be.equal('three');
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  it('/api/list/:id response should contain one or more categories', function(done) {
+    List.findOne(function(err, list) {
+      if (err) return done(err);
+      list.categories.should.be.ok;
+      (list.categories.length !== undefined).should.be.true;
+      done();
+    });
+  });
+
+  it('/api/list/:id response should contain a title, about, and items', function(done) {
+    List.findOne(function(err, list) {
+      if (err) return done(err);
+      list.title.should.be.ok;
+      list.about.should.be.ok;
+      list.items.should.be.ok;
+      (list.items.length !== undefined).should.be.true;
+      done();
+    });
+  });
 
   it('should respond with a single list', function(done) {
     var tracer = require('tracer').console({ level: 'warn' });
@@ -153,66 +211,6 @@ describe('/api/list', function() {
         res.body.categories.should.be.instanceof(Array);
         res.body.featured.should.be.instanceof(Boolean);
         done();
-      });
-    });
-  });
-
-  // done = function(err, token, results) {}
-  var withAuthUser = function(done) {
-    var User = require('../user/user.model');
-    var tracer = require('tracer').console({ level: 'warn' });
-
-    User.findOne(function(err, user) {
-      if (err) return done(err);
-      tracer.trace('withAuthUser');
-      tracer.trace(user.email);
-  
-      // Authenticate user
-      request(app).post('/auth/local')
-      .send({email: user.email, password: 'test'})
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function(err, res) {
-        done(err, res.body.token, res);
-      });
-    });
-  };
-
-  it('should update a list and its items', function(done) {
-    var User = require('../user/user.model');
-    var tracer = require('tracer').console({ level: 'warn' });
-
-    List.findOne(function(err, list) {
-      if (err) return done(err);
-      list.items.should.be.instanceof(Array);
-      list.items.length.should.be.ok;
-      list.items[0].should.be.instanceof(String);
-
-      list.items[0] = 'one';
-      list.items[1] = 'two';
-      list.items[2] = 'three';
-
-      withAuthUser(function(err, token, results) {
-        // Attempt to update the list.
-        tracer.trace('PUT /api/lists/' + list._id);
-        request(app).put('/api/lists/' + list._id)
-        .set('authorization', 'Bearer ' + token) // see https://github.com/DaftMonk/generator-angular-fullstack/issues/494#issuecomment-53716281
-        .send(list)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) return done(err);
-          // Verify that the items have been updated.
-          List.findById(list._id, function(err, updated) {
-            if (err) return done(err);
-            list.items.should.be.instanceof(Array);
-            list.items.length.should.be.ok;
-            list.items[0].should.be.instanceof(String);
-            list.items[0].should.be.equal('one');
-            list.items[1].should.be.equal('two');
-            list.items[2].should.be.equal('three');
-            done();
-          });
-        });
       });
     });
   });

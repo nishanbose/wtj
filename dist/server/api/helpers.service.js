@@ -34,3 +34,25 @@ exports.handleError = function(res, err) {
 exports.toObjectId = function(id) { 
   return Schema.Types.ObjectId(id)
 };
+
+exports.withAuthUser = function(done) {
+  var User = require('./user/user.model')
+  var tracer = require('tracer').console({ level: 'warn' });
+  var app = require('../app');
+  var request = require('supertest');
+
+  User.findOne(function(err, user) {
+    if (err) return done(err);
+    tracer.trace('withAuthUser');
+    tracer.trace(user.email);
+
+    // Authenticate user
+    request(app).post('/auth/local')
+    .send({email: user.email, password: 'test'})
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .end(function(err, res) {
+      done(err, res.body.token, res);
+    });
+  });
+};

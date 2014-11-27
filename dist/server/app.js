@@ -21,25 +21,22 @@ mongoose.connect(config.mongo.uri, config.mongo.options);
 if(config.seedDB) { 
   var async = require('async');
   var Seed = require('./config/seed');
-  var callback = function(err, results) {
-    if (err) console.log(err);
-    return results;
-  };
   async.series([
     function(callback) { Seed.createUsers(10, callback) },
     function(callback) { Seed.createCategories(5, callback) },
     function(callback) { Seed.createLists(30, callback) }
     ], function(err, results) {
-      // console.log('async callback 1')
-      if (err) { return callback(err); }
+      if (err) {
+        tracer.error(err);
+        throw new Error('Failed to seed database.')
+      }
 
       var users = results[0];
       var cats = results[1];
       var lists = results[2];
       
       Seed.assignListCategoriesAndAuthors(lists, cats, users, function(err) {
-        var results = Array.prototype.slice.call(arguments, 1);
-        callback(err, results);
+        if (err) { tracer.error(err); }
       });
   });
 }
