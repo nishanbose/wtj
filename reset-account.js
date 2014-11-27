@@ -26,7 +26,7 @@ var config = require('./server/config/environment');
 var User = require('./server/api/user/user.model');
 
 var params = {
-  password: gen_password() // 10 characters, "memorable"
+  active: true
 };
 
 if (argv.name) {
@@ -45,14 +45,21 @@ User.findOneAndUpdate({
   email: email,
 }, params, { upsert: true }, function(err, user) {
   // tracer.debug(arguments);
-  
   if (err) { 
-    tracer.log(err); 
-  } else {
-    console.log('Reset/created account ' + user.email);
-    console.log("Password set to ':password'".replace(/:password/, params.password));
-    console.log('Please note these settings.')
+    tracer.error(err); 
+    process.exit(1);
   }
-
-  process.exit();
+  var password = gen_password();
+  user.password = password;
+  user.save(function(err, user) {
+    tracer.log(user);
+    if (err) {
+      tracer.error(err);
+      process.exit(1);
+    }
+    console.log('Reset/created account ' + user.email);
+    console.log("Password set to ':password'".replace(/:password/, password));
+    console.log('Please note these settings.')
+    process.exit();
+  });
 });
