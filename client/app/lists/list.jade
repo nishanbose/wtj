@@ -18,7 +18,7 @@ div(ng-include='"components/navbar/navbar.html"')
         button.btn.btn-warning(ng-class="{ active: !list.active }", ng-click="toggleActive()") 
           span.fa.fa-ban &nbsp;Block
       span(ng-show='!canEdit && !canDelete && !canBlock', title="Notify site admin of inappropriate content.")
-        button.btn.btn-warning.btn-sm(ng-click="flagContent()")
+        button.btn.btn-warning.btn-sm(ng-click="complain()")
           span.fa.fa-exclamation-triangle &nbsp;Flag
   //- | {{ list }}
 

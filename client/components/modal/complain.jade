@@ -1,0 +1,19 @@
+.modal-header
+  button.close(ng-if='modal.dismissable', type='button', ng-click='$dismiss()') &times;
+  h4.modal-title Object to Content
+
+.modal-body
+  form#complaintForm(name='form', role='form', ng-submit='submit(form);', novalidate='')
+
+  .form-group
+    label(for='fieldReason', control-label='') Reason
+    textarea.form-control#fieldReason(rows="3" name="reason" ng-model="data.reason", required='', placeholder='Please state your objection in 240 characters or less.  Please be concise.')
+
+  .form-group
+    label(for='fieldEmail', control-label='') Email (optional)
+    input.form-control#fieldEmail(name="email" ng-model="data.email", placeholder='You may provide your email if you want to be contacted.')
+
+.modal-footer
+  button.btn.btn-default.btn-cancel(type="button", ng-click='$dismiss()') Cancel
+  button.btn.btn-sm.btn-success(type='button', ng-click='submit(form)', ng-disabled="form.$invalid") Save
+f

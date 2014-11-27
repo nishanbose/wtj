@@ -2,7 +2,12 @@
 
 angular.module 'wtjApp'
 .factory 'List', ($resource) ->
-  $resource '/api/lists/:id/:controller', { id: '@_id' },
+  $resource '/api/lists/:id/:controller', { id: '@_id' }, {
+    complain:
+      method: 'PUT'
+      controller: 'complain'
 
-  update:
-    method: 'PUT'
+    update:
+      method: 'PUT'
+      controller: 'update'
+  }

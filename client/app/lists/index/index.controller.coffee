@@ -15,7 +15,6 @@ angular.module 'wtjApp'
   $scope.title = 'Lists'
   $scope.trust = $sce.trustAsHtml
   $scope.canCreate = $state.is 'my-lists'  # Use can create a new list
-  $scope.title = 'Lists'
 
   # Set up query
   do (cat = $q.when(false), user = $q.when(false), query={}, title_elements=[]) ->

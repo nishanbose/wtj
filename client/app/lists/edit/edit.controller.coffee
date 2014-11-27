@@ -3,6 +3,7 @@
 # Controller for editing a list
 angular.module 'wtjApp'
 .controller 'ListEditCtrl', ($scope, $state, flash, Auth, List, Category, listService, Modal) ->
+  $scope.submitted = false
   $scope.message = ''
   $scope.isAdmin = Auth.getCurrentUser().role == 'admin'
   $scope.list = listService.decorate {}
