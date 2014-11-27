@@ -34,8 +34,16 @@ var createUsers = function(done) {
   });
 };
 
+var teardown = function(done) {
+  User.find().remove(function(err) {
+    done(err);
+  });
+};
+
 describe('/api/users', function() {
   beforeEach(createUsers);
+  afterEach(teardown);
+  
   var token;  // auth token
 
   beforeEach(function(done) {
@@ -80,7 +88,7 @@ describe('/api/users', function() {
     });
   });
   
-  it('should fetch a user', function(done) {
+  it('admin should fetch a user', function(done) {
     var tracer = require('tracer').console({ level: 'warn' });
     User.findOne(function(err, user) {
       if (err) return done(err, user);
@@ -101,7 +109,7 @@ describe('/api/users', function() {
     });
   });
 
-  it('should update a user', function(done) {
+  it('admin admin should update a user', function(done) {
     User.findOne(function(err, user) {
       if (err) return done(err, user);
       request(app)

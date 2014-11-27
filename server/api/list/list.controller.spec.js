@@ -5,15 +5,12 @@ var app = require('../../app');
 var request = require('supertest');
 var Seed = require('../../config/seed');
 var List = require('./list.model');
+var Category = require('../category/category.model');
+var User = require('../user/user.model');
 var helpers = require('../helpers.service')
 
-var callback = function(err, results) {
-  if (err) console.log(err);
-  return results;
-};
-
 var setup = function(done) {
-  var tracer = require('tracer').console({ level: 'trace' });
+  var tracer = require('tracer').console({ level: 'warn' });
   var async = require('async');
   async.series([
     function(callback) { Seed.createUsers(10, callback) },
@@ -27,16 +24,29 @@ var setup = function(done) {
       var cats = results[1];
       var lists = results[2];
 
-      tracer.trace('setup(), about to call Seed.assignListCategoriesAndAuthors()')      
       Seed.assignListCategoriesAndAuthors(lists, cats, users, function(err) {
         done(err);
       });
   });
 };
 
+var teardown = function(done) {
+  var tracer = require('tracer').console({ level: 'trace' });
+  var async = require('async');
+  async.series([
+    function(callback) { List.find().remove(callback); },
+    function(callback) { Category.find().remove(callback); },
+    function(callback) { User.find().remove(callback); }
+    ], function(err, results) {
+      // console.log('async callback 1')
+      done(err);
+  });
+};
+
 describe('/api/list', function() {
 
   beforeEach(setup);
+  afterEach(teardown);
 
   it('/api/list response should respond with JSON array', function(done) {
     request(app)
@@ -120,6 +130,7 @@ describe('/api/list', function() {
 describe('/api/list/:id', function() {
 
   beforeEach(setup);
+  afterEach(teardown);
 
   it('should update a list and its items', function(done) {
     var User = require('../user/user.model');
@@ -203,10 +214,4 @@ describe('/api/list/:id', function() {
       });
     });
   });
-});
-
-describe('/api/list/:id/complain', function(done) {
-
-  beforeEach(setup);
-
 });
