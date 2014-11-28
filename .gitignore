@@ -1,4 +1,4 @@
-/server/config/local.env.js
+local.env.js
 .tmp/
 .sass-cache/
 .cache/
