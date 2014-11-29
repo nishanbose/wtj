@@ -3,6 +3,11 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'font-awesome/scss/font-awesome';
+@import url(http://fonts.googleapis.com/css?family=Noto+Sans:400,700);
+
+body, h1, h2, h3, h4, h5, h6, div, p {
+  font-family: "Noto Sans";
+}
 
 /**
  * App-wide Styles
@@ -63,13 +68,13 @@ form {
   }
 }
 
-.row.categories span.category {
+/*.row.categories span.category {
   @extend .col-sm-1;
 
   button {
     @extend .btn-xs;
   }
-}
+}*/
 
 .title-bar {
   position: relative;
@@ -97,4 +102,57 @@ form {
 
 .alert-warn {
   background-color: orange;
+}
+
+.main-container .navbar{
+  margin-bottom: 0;
+  background-color: #00ACC2;
+  border: none;
+}
+
+.main-container .navbar-default .navbar-brand {
+  color: #fff;
+}
+
+.main-container .navbar-default .navbar-nav > li > a {
+  color: #fff;
+}
+
+.footer {
+background-color: #404040;
+margin-top: 70px;
+padding: 30px 0;
+text-align: center;
+color: #fff;
+}
+
+.main-lists-content .row.item {
+  margin-bottom: 20px;
+}
+
+.main-lists-content .title a {
+  font-size: 24px;
+}
+
+.main-content {
+  max-width: 700px;
+}
+
+.navbar-nav {
+  margin-top: 15px;
+}
+
+.navbar-brand {
+  height: auto;
+}
+
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* inline-block space fix */
+    margin-right:-4px;
 }
