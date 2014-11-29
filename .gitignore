@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/server/config/local.env.js
-=======
 local.env.js
->>>>>>> upstream/master
 .tmp/
 .sass-cache/
 .cache/
