@@ -36,3 +36,31 @@
 .row.item.header {
     font-weight: bold;
 }
+
+.alert.fade {
+    display: none;
+}
+
+.intro {
+    background-color: #00ACC2;
+color: white;
+min-height: 350px;
+}
+
+.intro-inner {
+    padding: 100px 0;
+}
+
+.row.categories h3{
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.row.categories {
+    padding-bottom: 40px;
+    border-bottom: 1px solid #ddd;
+}
+
+.row.categories span.category {
+    margin: 20px 0;
+}
