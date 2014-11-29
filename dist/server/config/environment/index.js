@@ -47,19 +47,6 @@ var all = {
     callbackURL:  (process.env.DOMAIN || '') + '/auth/facebook/callback'
   },
 
-<<<<<<< HEAD
-  twitter: {
-    clientID:     process.env.TWITTER_ID || 'id',
-    clientSecret: process.env.TWITTER_SECRET || 'secret',
-    callbackURL:  (process.env.DOMAIN || '') + '/auth/twitter/callback'
-  },
-
-  google: {
-    clientID:     process.env.GOOGLE_ID || 'id',
-    clientSecret: process.env.GOOGLE_SECRET || 'secret',
-    callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
-  }
-=======
   // twitter: {
   //   clientID:     process.env.TWITTER_ID || 'id',
   //   clientSecret: process.env.TWITTER_SECRET || 'secret',
@@ -71,15 +58,10 @@ var all = {
   //   clientSecret: process.env.GOOGLE_SECRET || 'secret',
   //   callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
   // }
->>>>>>> upstream/master
 };
 
 // Export the config object based on the NODE_ENV
 // ==============================================
 module.exports = _.merge(
   all,
-<<<<<<< HEAD
   require('./' + process.env.NODE_ENV + '.js') || {});
-=======
-  require('./' + process.env.NODE_ENV + '.js') || {});
->>>>>>> upstream/master

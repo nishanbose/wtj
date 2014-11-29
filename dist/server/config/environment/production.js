@@ -11,12 +11,8 @@ module.exports = {
   // Server port
   port:     process.env.OPENSHIFT_NODEJS_PORT ||
             process.env.PORT ||
-<<<<<<< HEAD
-            8080,
-=======
             //8080,
             undefined,
->>>>>>> upstream/master
 
   // MongoDB connection options
   mongo: {
@@ -25,8 +21,4 @@ module.exports = {
             process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME ||
             'mongodb://localhost/wtj'
   }
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> upstream/master
