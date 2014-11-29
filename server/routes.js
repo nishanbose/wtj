@@ -9,6 +9,7 @@ var errors = require('./components/errors');
 module.exports = function(app) {
 
   // Insert routes below
+  app.use('/api/resetpw', require('./api/resetpw'));
   app.use('/api/complaints', require('./api/complaint'));
   app.use('/api/votes', require('./api/vote'));
   app.use('/api/lists', require('./api/list'));

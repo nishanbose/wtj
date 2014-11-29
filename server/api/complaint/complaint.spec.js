@@ -64,10 +64,7 @@ describe('GET /api/complaints', function() {
       if (err) return done(err);
       request(app).post('/api/complaints')
       .send({ list: list._id, reason: 'the reason' })
-      .expect(204)
-      .end(function(err) {
-        done(err);
-      });
+      .expect(204, done);
     });
   });
 

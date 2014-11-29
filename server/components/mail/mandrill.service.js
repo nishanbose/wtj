@@ -1,14 +1,21 @@
 'use strict';
 
-var _ = require('lodash');
-var API_KEY = '4pZAUZFRRLEpADzvuoWL-g';
-var mandrill_api = require('mandrill-api/mandrill')
-var mandrill = new mandrill_api.Mandrill(API_KEY);
-var FROM_EMAIL = 'admin@experiencejackson.com';
-var FROM_NAME = 'Admin';
+// constants
+exports.apiKey = function() { 
+  if (process.env.NODE_ENV === 'test') {
+    return 'aXh9fnJDVId5AuZREf0UFw'; // test key
+  }
+  return '4pZAUZFRRLEpADzvuoWL-g'; // real key
+};
+exports.fromEmail = function() { return 'admin@experiencejackson.com'; };
+exports.fromName = function() { return 'Admin'; };
 
-exports.send = function(to, subj, html) {
-  var tracer = require('tracer').console({ level: 'log' });
+var _ = require('lodash');
+var mandrill_api = require('mandrill-api/mandrill')
+var mandrill = new mandrill_api.Mandrill(exports.apiKey());
+
+exports.send = function(to, subj, html, done) {
+  var tracer = require('tracer').console({ level: 'info' });
   tracer.info('sending mail');
   tracer.info(to);
   tracer.info(subj);
@@ -17,15 +24,13 @@ exports.send = function(to, subj, html) {
       to: to,
       subject: subj,
       html: html,
-      from_email: FROM_EMAIL,
-      from_name: FROM_NAME
+      from_email: exports.fromEmail(),
+      from_name: exports.fromName()
     }
   };
-  mandrill.messages.send(params, function(err, res) {
-    if (err) {
-      tracer.error(JSON.stringify(err));
-    } else {
-      tracer.log(res);
-    }
+  mandrill.messages.send(params, function(res) {
+    tracer.log(res);
+    if ({ rejected: true, invalid: true}[res.status]) { return done(res); }
+    done(null, res);
   });
 };

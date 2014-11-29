@@ -61,8 +61,8 @@ exports.upsert = function(req, res) {
         cb(err);
       });
     };
-    
-    var notify = function(cb) {
+
+    var notify = function(done) {
       User.findById(list.author, function(err, user) {
         if (err) { return helpers.handleError(res, err); }
 
@@ -87,8 +87,7 @@ exports.upsert = function(req, res) {
         .replace(/:title/, list.title)
         .replace(/:name/, user ? user.name : 'unknown author');
 
-        mandrill.send(to, subject, message);
-        cb(null);
+        mandrill.send(to, subject, message, done);
       });
     };
     var async = require('async');
