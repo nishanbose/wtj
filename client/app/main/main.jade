@@ -23,45 +23,47 @@ div(ng-include='"components/navbar/navbar.html"')
 //-       span.input-group-btn
 //-         button.btn.btn-primary(type='submit', ng-click='addThing()') Add New
 
-.container
+.container-fluid
+  .row.intro.text-center
+    .intro-inner
+      h1 Explore and Share all things Jackson
+      span A list based approach
 
-  h1 Categories
+.container.main-content
   .row.categories
-    span.category
+    h3 Explore Categories
+    span.category.col-md-4.text-center
       button.btn.btn-primary(type="button", ui-sref="lists({ featured: true })") Featured
-    span.category(ng-repeat="cat in categories")
+    span.category.col-md-4.text-center(ng-repeat="cat in categories")
       button.btn.btn-default(type="button", ui-sref="lists({ category: cat._id })") {{ cat.name }}
 
-  h1 Lists from Jackson
-  .row.order-by
-    .form-group
-      select.form-control(ng-model="order")
-        option(value='popular') Popular
-        option(value='recent') Recent
-
-  .row.item.header
-    .col-xs-offset-6.col-xs-3
-       | Author
-    .col-xs-3
-       | Updated
-  
-  .row.item(ng-repeat="list in lists")
-    .col-xs-3
-      a(ui-sref="list({id: list._id})") {{ list.title }}
-    .col-xs-3
-      | {{ list.nVotes }} Likes
-    .col-xs-3
-       a(ui-sref="lists({ author: list.author._id })") {{ list.author.name }}
-    .col-xs-3
-       | {{ list.updatedPretty }}
-      //- br
-      //- {{ categories }}
+  .main-lists.col-xs-12
+    .row.main-lists-sort.order-by
+      h3 Lists from Jackson
+      .form-group
+        select.form-control(ng-model="order")
+          option(value='popular') Popular
+          option(value='recent') Recent
+    
+    .row.main-lists-content
+      .row.item(ng-repeat="list in lists")
+        .col-xs-12.title
+          a(ui-sref="list({id: list._id})") {{ list.title }}
+        .col-xs-3.author
+         | by 
+         a(ui-sref="lists({ author: list.author._id })") {{ list.author.name }}
+        .col-xs-3.likes
+          | {{ list.nVotes }} Likes        
+      //-  .col-xs-3
+      //-     | {{ list.updatedPretty }}
+          //- br
+          //- {{ categories }}
 
 footer.footer
   .container
     p
-      | Angular Fullstack v2.0.13
+      | Gabble
       = ' | '
-      a(href='https://twitter.com/tyhenkel') @tyhenkel
+      | copyright 2014
       = ' | '
-      a(href='https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open') Issues
+      | About
