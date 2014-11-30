@@ -9,14 +9,14 @@ module.exports = {
   DOMAIN: 'http://localhost:9000',
   SESSION_SECRET: "wtj-secret",
 
-  FACEBOOK_ID: 'app-id',
-  FACEBOOK_SECRET: 'secret',
+  FACEBOOK_ID: '608527939270246',
+  FACEBOOK_SECRET: 'bbb5fe23097c59d75c37d22f9eed8489',
 
-  TWITTER_ID: 'app-id',
-  TWITTER_SECRET: 'secret',
+  // TWITTER_ID: 'app-id',
+  // TWITTER_SECRET: 'secret',
 
-  GOOGLE_ID: 'app-id',
-  GOOGLE_SECRET: 'secret',
+  // GOOGLE_ID: 'app-id',
+  // GOOGLE_SECRET: 'secret',
 
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''

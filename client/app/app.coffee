@@ -35,7 +35,7 @@ angular.module 'wtjApp', [
 
     $q.reject response
 
-.run ($rootScope, $location, Auth) ->
+.run ($rootScope, $location, $sce, Auth) ->
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, next) ->
     Auth.isLoggedInAsync (loggedIn) ->
@@ -43,3 +43,7 @@ angular.module 'wtjApp', [
 
   $rootScope.toSlug = (s) ->
     s.replace(/\s+/g, '_')
+
+  $rootScope.trust = (s) ->
+    console.log s
+    $sce.trustAsHtml s

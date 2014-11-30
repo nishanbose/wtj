@@ -4,7 +4,7 @@ div(ng-include='"components/navbar/navbar.html"')
 .container
 
   .title-bar
-    h1(ng-bind-html="trust(title)")
+    h1 {{ title }}
 
     button.btn.btn-default(ng-show="canCreate", ng-click="newList()") 
       span.fa.fa-plus
