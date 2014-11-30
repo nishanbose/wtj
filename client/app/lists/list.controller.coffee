@@ -59,13 +59,13 @@ angular.module 'wtjApp'
 
         $scope.submit = (form) ->
           # $scope.submitted = true
-          console.log form
+          # console.log form
           $modalInstance.close $scope.data
       dismissable: true
     , 'modal-warning'
 
     modal.result.then (data) ->
-      console.log data
+      # console.log data
       if data.reason
         Complaint.save _.assign(data, { list: $scope.list._id }), ->
           flash.success = 'Thank you.  The site admin will be notified.'

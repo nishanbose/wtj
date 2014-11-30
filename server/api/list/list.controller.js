@@ -10,7 +10,7 @@ var helpers = require('../helpers.service');
 
 // Get list of lists
 exports.index = function(req, res) {
-  var tracer = require('tracer').console({ level: 'log' });
+  var tracer = require('tracer').console({ level: 'warn' });
   var query = _.clone(req.query);
   var top = parseInt(query.top) || 0;
   var catId = query.category || false;

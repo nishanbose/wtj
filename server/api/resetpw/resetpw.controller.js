@@ -16,20 +16,29 @@ exports.index = function(req, res) {
 // Reset password
 // requires req.body.key
 exports.resetpw = function(req, res) {
+  var tracer = require('tracer').console({ level: 'warn' });
+  tracer.info('resetpw()');
+  tracer.debug(req.params);
   if (!req.params.key) { return res.status(400).send('Missing key'); }
 
   Resetpw.findOne({key: req.params.key})
   .populate('user')
   .exec(function (err, resetpw) {
+    tracer.debug(resetpw);
     if(err) { return helpers.handleError(res, err); }
-    if(!resetpw) { return res.send(404); }
+    if(!resetpw) { return res.redirect('/login?linkexpired=1'); }
+    if(!resetpw.user) { return res.redirect('/login?linkexpired=1'); }
     var pw = require('password-generator')(32, false);
     var User = require('../user/user.model');
     User.findOneAndUpdate({ _id: resetpw.user._id }, { hashedPassword: pw }, function(err, user) {
+      tracer.debug(user);
       if(err) { return helpers.handleError(res, err); }
-      if (!user) { return res.send(404); }
+      if (!user) { return res.redirect('/login?linkexpired=1'); }
       var auth = require('../../auth/auth.service');
-      res.json(200, { token: auth.signToken(user._id, user.role) });
+      var token = auth.signToken(user._id, user.role);
+      res.cookie('token', JSON.stringify(token));
+      res.redirect('/settings');
+      resetpw.remove();
     });
   });
 };
@@ -37,14 +46,15 @@ exports.resetpw = function(req, res) {
 var sendResetMessage = function(req, res, user, resetpw) {
   tracer.debug(resetpw);
   var mandrillSvc = require('../../components/mail/mandrill.service');
-  var link = '<a href=":url" title="Reset your password.">click here.</a>'
-  .replace(/:url/, '/resetpw/' + resetpw.key);
+  var link = '<a href="http://:url" title="Reset your password.">click here.</a>'
+  .replace(/:url/, req.headers.host + '/resetpw/' + resetpw.key);
   var html = '<p>You or someone using your email account asked to reset your password.  If that was you, you may :link.  If that was not you, your email may have been compromised.</p>'
   .replace(/:link/, link);
   var to = [{
     name: user.name || '',
     email: user.email
   }];
+  tracer.debug(html);
   mandrillSvc.send(to, 'Reset your password', html, function(err, mandrillResponse) {
     if (err) {
       tracer.error(err);
@@ -72,11 +82,13 @@ exports.create = function(req, res) {
   var User = require('../user/user.model');
   User.findOne({ email: req.body.email }, function(err, user) {
     if (err) { helpers.handleError(res, err); }
+    if (!user) { return res.status(404).send('Email not found') }
     Resetpw.find({ user: user })
     .remove(function(err) {
       if(err) { return helpers.handleError(res, err); }
       Resetpw.create({ user: user }, function(err, resetpw) {
         if(err) { return helpers.handleError(res, err); }
+        tracer.debug(resetpw);
         sendResetMessage(req, res, user, resetpw);
       });
     });

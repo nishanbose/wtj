@@ -39,6 +39,13 @@
 
 .alert.fade {
     display: none;
+    display: fixed;
+    top:0;
+    left: 0;
+}
+
+.alert.fade.in {
+    display: inherit;
 }
 
 .intro {

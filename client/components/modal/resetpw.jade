@@ -1,0 +1,14 @@
+.modal-header
+  button.close(ng-if='modal.dismissable', type='button', ng-click='$dismiss()') &times;
+  h4.modal-title Reset Your Password
+
+.modal-body
+  form#complaintForm(name='form', role='form', ng-submit='submit(form);', novalidate='')
+
+  .form-group
+    label(for='fieldEmail', control-label='', required='') Your Email
+    input.form-control#fieldEmail(name="email" ng-model="data.email", placeholder='name@email.com')
+
+.modal-footer
+  button.btn.btn-default.btn-cancel(type="button", ng-click='$dismiss()') Cancel
+  button.btn.btn-sm.btn-success(type='button', ng-click='submit(form)', ng-disabled="form.$invalid") Save

@@ -18,6 +18,13 @@ module.exports = function(app) {
   app.use('/api/users', require('./api/user'));
 
   app.use('/auth', require('./auth'));
+
+  app.route('/resetpw/:key').get(function(req, res, next) {
+    var tracer = require('tracer').console({ level: 'debug' });
+    var rpw = require('./api/resetpw/resetpw.controller');
+    tracer.debug(rpw);
+    rpw.resetpw(req, res);
+  });
   
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')

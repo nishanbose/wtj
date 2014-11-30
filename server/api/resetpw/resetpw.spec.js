@@ -127,18 +127,14 @@ describe('GET /api/resetpw', function() {
   });
 
   it('/api/resetpw/:key with valid key will return a token', function(done) {
+    var config = require('../../config/environment');
     Resetpw.create({ user: user._id }, function(err, resetpw) {
       if (err) { return done(err); }
       // var tracer = require('tracer').console({ level: 'debug' });
       tracer.debug(resetpw);
       request(app).get('/api/resetpw/' + resetpw.key)
-      .expect(200)
-      // .expect('Content-Type', /json/)
-      .end(function(err, res) {
-        if (err) { return done(err); }
-        res.body.token.should.be.ok;
-        done();
-      });
+      .expect('set-cookie', /token/)
+      .end(done);
     });
   });
 
@@ -146,7 +142,8 @@ describe('GET /api/resetpw', function() {
     Resetpw.create({ user: user._id }, function(err, resetpw) {
       if (err) { return done(err); }
       request(app).get('/api/resetpw/' + 'badkey')
-      .expect(404, done);
+      .expect('set-cookie', /(?!token)/)
+      .end(done);
     });
   });
 
