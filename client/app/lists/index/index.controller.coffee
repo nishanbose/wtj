@@ -11,21 +11,54 @@ compareDate = (_a, _b) ->
 angular.module 'wtjApp'
 
 # Controller for a listing of lists.
-.controller 'ListIndexCtrl', ($scope, $state, $sce, $q, List, Category, User, Auth, listService) ->
+.controller 'ListIndexCtrl', ($scope, $state, $q, List, Category, User, Auth, listService) ->
+  # console.log $state.params
   $scope.title = 'Lists'
-  $scope.trust = $sce.trustAsHtml
   $scope.canCreate = false  # Use can create a new list
   
   Auth.isLoggedInAsync (isLoggedIn) ->
+    if $state.is('my-lists') && !isLoggedIn
+      $state.go('login')
+      return
     $scope.canCreate = isLoggedIn
 
-  # Set up query
-  do (cat = $q.when(false), user = $q.when(false), query={}, title_elements=[]) ->
+  genListTitle = ->
+    title_elements=[]
+    title = ''
+    promises = {}
+
+    if $state.is 'my-lists'
+      title_elements.push 'My Lists'
+    else if $state.params.author
+      user = User.get { id: $state.params.author }
+      promises.user = user.$promise
+    
+    if $state.params.category
+      cat = Category.get { id: $state.params.category }
+      promises.cat = cat.$promise
+
+    $q.all(promises).then (result) ->
+      # FIXME - then returns before result.cat and result.user are resolved
+      title_elements.push result.cat.name if result.cat
+      title_elements.push result.user.name if result.user
+
+      if title_elements.length > 0
+        $scope.title = title_elements.join(', ')
+      else
+        $scope.title = 'Lists'
+    , (reason) ->
+      flash.error = 'An error occured: ' + reason
+
+  genQuery = ->
+    query = {}
+    cat = $q.when(false)
+    user = $q.when(false)
+    query={}
+
     if $state.is 'my-lists'
       if !Auth.isLoggedIn()
         $state.go('login')
         return
-      title_elements.push 'My Lists'
       query.author = Auth.getCurrentUser()._id
     else if $state.params.author
       query.author = $state.params.author
@@ -35,21 +68,15 @@ angular.module 'wtjApp'
       query.category = $state.params.category
       cat = Category.get { id: $state.params.category }
 
-    if (cat || user)
-      $q.all({cat: cat, user: user}).then (result) ->
-        # FIXME - then returns before result.cat and result.user are resolved
-        title_elements.push result.cat.name if result.cat.$resolved
-        title_elements.push result.user.name if result.user.$resolved
-      , (reason) ->
-        flash.error = 'An error occured: ' + reason
-
-    $scope.title = title_elements.join('<br />') if title_elements.length > 0
-
     if $state.params.featured
       query.featured = $state.params.featured
 
+    query
+
   updateLists = ->
-    $scope.lists = List.query { order: $scope.order }, (lists) ->
+    query = _.assign { order: $scope.order }, genQuery()
+    console.log query
+    $scope.lists = List.query query, (lists) ->
       $scope.lists = listService.censor lists
       listService.decorate list for list in lists
 
@@ -66,9 +93,9 @@ angular.module 'wtjApp'
   $scope.canDisplay = (list, index) ->
     # console.log list
     Auth.isAdmin() || list.active
-    
+
+  genListTitle()
   $scope.order = 'recent'
-  
   updateLists()
 
   $scope.$watch 'order', (order, oldVal) ->

@@ -16,6 +16,7 @@ ul.list-group
 
       .col-sm-8
         span(ng-repeat="cat in list.categories")
-          button.btn.btn-sm.btn-default(class="cat_{{ toSlug(cat.name) }}", ng-click="goToListForCategory(cat._id)") {{ cat.name }}
+          button.btn.btn-sm.btn-default(class="cat_{{ toSlug(cat.name) }}", ui-sref="lists({ category: cat._id })") {{ cat.name }}
+          //- button.btn.btn-sm.btn-default(class="cat_{{ toSlug(cat.name) }}", ng-click="goToListForCategory(cat._id)") {{ cat.name }}
 
 //- {{ lists | json }}
