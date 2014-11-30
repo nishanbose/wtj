@@ -40,3 +40,6 @@ angular.module 'wtjApp', [
   $rootScope.$on '$stateChangeStart', (event, next) ->
     Auth.isLoggedInAsync (loggedIn) ->
       $location.path "/login" if next.authenticate and not loggedIn
+
+  $rootScope.toSlug = (s) ->
+    s.replace(/\s+/g, '_')

@@ -10,7 +10,15 @@ div(ng-include='"components/navbar/navbar.html"')
       span.fa.fa-plus
       | New List
 
-  .gridStyle(ng-grid='gridOptions')
+  .row.order-by
+    .form-group
+      select.form-control(ng-model="order")
+        option(value='popular') Popular
+        option(value='recent') Recent
+
+  list-of-lists(lists="lists")  
 
   //- br
   //- | {{ state }}
+  //- br
+  //- | {{ list | json }}
