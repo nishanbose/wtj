@@ -2,7 +2,7 @@
 
 # Controller for a single list
 angular.module 'wtjApp'
-.controller 'ListCtrl', ($scope, $state, $modal, $http, Complaint, List, Vote, Auth, Modal, flash, listService) ->
+.controller 'ListCtrl', ($scope, $state, $modal, $http, $q, Complaint, List, Vote, Auth, Modal, flash, listService) ->
   $scope.canEdit = false
   $scope.canDelete = false
   $scope.canBlock = Auth.isAdmin()
@@ -12,9 +12,11 @@ angular.module 'wtjApp'
   $scope.list = List.get { id: $state.params.id }, (list) ->
     listService.decorate list
     user = Auth.getCurrentUser()
-    $scope.canEdit = list.author._id == user._id
-    $scope.canDelete = user.role == 'admin' || list.author._id == user._id
 
+  $q.all({list: $scope.list.$promise, user: Auth.getCurrentUser().$promise}).then (results) ->
+    $scope.canEdit = results.user && results.user._id && results.list.author._id == results.user._id
+    $scope.canDelete = results.user && results.user_id && (results.user.role == 'admin' || results.list.author._id == results.user._id)
+    
   $scope.votes = Vote.query { list: $state.params.id }, (votes) ->
     user = Auth.getCurrentUser()
     if user.$promise

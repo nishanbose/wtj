@@ -17,9 +17,6 @@ div(ng-include='"components/navbar/navbar.html"')
       span(ng-show='canBlock')
         button.btn.btn-warning(ng-class="{ active: !list.active }", ng-click="toggleActive()") 
           span.fa.fa-ban &nbsp;Block
-      span(ng-show='!canEdit && !canDelete && !canBlock', title="Notify site admin of inappropriate content.")
-        button.btn.btn-warning.btn-sm(ng-click="complain()")
-          span.fa.fa-exclamation-triangle &nbsp;Flag
   //- | {{ list }}
 
   .author.text-center
@@ -51,3 +48,8 @@ div(ng-include='"components/navbar/navbar.html"')
     span.col-xs-12.col-sm-3.col-centered(ng-repeat="cat in list.categories")
       button.btn.btn-default(type="button" ui-sref="lists({category: cat._id})") {{ cat.name }}
 
+  .title-bar
+    .buttons
+      span(ng-show='!canEdit && !canDelete && !canBlock', title="Notify site admin of inappropriate content.")
+        button.btn.btn-warning.btn-sm(ng-click="complain()")
+          span.fa.fa-exclamation-triangle &nbsp;Flag
