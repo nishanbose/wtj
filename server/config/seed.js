@@ -115,6 +115,8 @@ exports.createLists = function(n, callback) {
 };
 
 exports.assignListCategoriesAndAuthors = function(lists, cats, users, callback) {
+  var tracer = require('tracer').console({ level: 'log' });
+
   // console.log('assignListCategories(), :lists lists, :cats cats'
   // .replace(/:lists/, lists.length)
   // .replace(/:cats/, cats.length));
@@ -122,10 +124,11 @@ exports.assignListCategoriesAndAuthors = function(lists, cats, users, callback) 
   lists.forEach(function(list) {
     list.categories = pickRandom(cats, 3).map(function(cat) { return cat._id });
     list.author = pickRandom(users, 1)[0];
+    // tracer.log(list.author);
     promises.push(function(cb) {
-      list.save(function(err) {
+      list.save(function(err, newList) {
         if (err) { tracer.error(err); }
-        callback(err);
+        cb(err, newList);
       });
     });
   });

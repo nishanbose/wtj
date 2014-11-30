@@ -10,9 +10,8 @@ var helpers = require('../helpers.service');
 
 // Get list of lists
 exports.index = function(req, res) {
-  var tracer = require('tracer').console({ level: 'trace' });
+  var tracer = require('tracer').console({ level: 'log' });
   var query = _.clone(req.query);
-  tracer.log(req.query);
   var top = parseInt(query.top) || 0;
   var catId = query.category || false;
   var order = query.order || 'recent'
@@ -20,7 +19,11 @@ exports.index = function(req, res) {
   delete query.top;
   delete query.category;
   delete query.order;
+  tracer.log(query);
+
   var q = List.find(query);
+  if (catId) { q.find({ categories: { $in: [ catId ]}}) }
+  if (top) { q.limit(top); }
   
   if (order === 'recent') {
     // tracer.trace('sort by recent');
@@ -29,30 +32,28 @@ exports.index = function(req, res) {
     // tracer.trace('sort by popular');
     q.sort({ nVotes: -1 });
   } else {
-    tracer.trace('sort by title');
+    // tracer.trace('sort by title');
     q.sort({ title: 1 });
   }
-  if (catId) { q.find({ categories: { $in: [ catId ]}}) }
-  if (top) { q.limit(top); }
+  q.populate({ path: 'categories author', select: '_id name email' });
+
   // mongoose.set('debug', true);
   q.exec(function (err, lists) {
     if(err) { return helpers.handleError(res, err); }
-    List.populate(lists, { path: 'categories author', select: '_id name email' }, function(err, popList) {
-      if(err) { return helpers.handleError(res, err); }
-      return res.json(200, lists);
-    });
+    // var tracer = require('tracer').console({ level: 'debug' });
+    // lists.forEach(function(list) { tracer.debug(list.author); });
+    return res.json(200, lists);
   });
 };
 
 // Get a single list
 exports.show = function(req, res) {
-  List.findById(req.params.id, function (err, list) {
+  List.findById(req.params.id)
+  .populate({ path: 'categories author', select: '_id name email' })
+  .exec(function (err, list) {
     if(err) { return helpers.handleError(res, err); }
     if(!list) { return res.send(404); }
-    List.populate(list, { path: 'categories author', select: '_id name email' }, function(err, popList) {
-      if(err) { return helpers.handleError(res, err); }
-      return res.json(200, list);
-    });
+    return res.json(200, list);
   });
 };
 

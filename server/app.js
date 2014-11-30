@@ -13,6 +13,7 @@ tracer.info('NODE_ENV=' + process.env.NODE_ENV);
 var express = require('express');
 var mongoose = require('mongoose');
 var config = require('./config/environment');
+tracer.info(config);
 
 // Connect to database
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -30,13 +31,15 @@ if(config.seedDB) {
         tracer.error(err);
         throw new Error('Failed to seed database.')
       }
-
+      var tracer = require('tracer').console({ level: 'log' });
       var users = results[0];
       var cats = results[1];
       var lists = results[2];
-      
-      Seed.assignListCategoriesAndAuthors(lists, cats, users, function(err) {
+      tracer.log(users);
+      tracer.log(cats);
+      Seed.assignListCategoriesAndAuthors(lists, cats, users, function(err, newLists) {
         if (err) { tracer.error(err); }
+        tracer.log(newLists);
       });
   });
 }
