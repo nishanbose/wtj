@@ -34,7 +34,7 @@ if(config.seedDB) {
       var users = results[0];
       var cats = results[1];
       var lists = results[2];
-      var tracer2 = require('tracer').console({ level: 'log' });
+      var tracer2 = require('tracer').console({ level: 'warn' });
       tracer2.log(users);
       tracer2.log(cats);
       Seed.assignListCategoriesAndAuthors(lists, cats, users, function(err, newLists) {
