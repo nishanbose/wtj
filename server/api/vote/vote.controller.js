@@ -11,7 +11,7 @@ exports.index = function(req, res) {
   .populate({ path: 'user list', select: '_id email title' })
   .exec(function (err, votes) {
     if(err) { return helpers.handleError(res, err); }
-    return res.json(200, popVotes);
+    return res.json(200, votes);
   });
 };
 

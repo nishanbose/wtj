@@ -7,12 +7,11 @@ var helpers = require('../helpers.service');
 
 // Get list of votes
 exports.index = function(req, res) {
-  Vote.find(req.query, function (err, votes) {
+  Vote.find(req.query)
+  .populate({ path: 'user list', select: '_id email title' })
+  .exec(function (err, votes) {
     if(err) { return helpers.handleError(res, err); }
-    Vote.populate(votes, { path: 'user list', select: '_id email title' }, function(err, popVotes) {
-      if(err) { return helpers.handleError(res, err); }
-      return res.json(200, popVotes);
-    });
+    return res.json(200, votes);
   });
 };
 

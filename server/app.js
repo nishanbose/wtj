@@ -31,15 +31,15 @@ if(config.seedDB) {
         tracer.error(err);
         throw new Error('Failed to seed database.')
       }
-      var tracer = require('tracer').console({ level: 'log' });
       var users = results[0];
       var cats = results[1];
       var lists = results[2];
-      tracer.log(users);
-      tracer.log(cats);
+      var tracer2 = require('tracer').console({ level: 'log' });
+      tracer2.log(users);
+      tracer2.log(cats);
       Seed.assignListCategoriesAndAuthors(lists, cats, users, function(err, newLists) {
-        if (err) { tracer.error(err); }
-        tracer.log(newLists);
+        if (err) { tracer2.error(err); }
+        tracer2.log(newLists);
       });
   });
 }

@@ -115,26 +115,25 @@ exports.createLists = function(n, callback) {
 };
 
 exports.assignListCategoriesAndAuthors = function(lists, cats, users, callback) {
+  var tracer = require('tracer').console({ level: 'log' });
+
   // console.log('assignListCategories(), :lists lists, :cats cats'
   // .replace(/:lists/, lists.length)
   // .replace(/:cats/, cats.length));
   var promises = [];
   lists.forEach(function(list) {
-    list.categories = pickRandom(cats, 3).map(function(cat) { return cat._id });
-    list.author = pickRandom(users, 1)[0];
     promises.push(function(cb) {
-      list.save(function(err) {
-        if (err) { tracer.error(err); }
-        callback(err);
-      });
-    });
+      list.categories = pickRandom(cats, 3).map(function(cat) { return cat._id });
+      list.author = pickRandom(users, 1)[0];
+      // tracer.log(list);
+      list.save(cb);
+    }); 
   });
   
   var async = require('async');
   async.series(promises, function(err) {
     if (err) {
       tracer.error(err);
-      tracer.error(new Error().stack);
     } else {
       tracer.info('Finished assigning users and categories to lists.');
     }
