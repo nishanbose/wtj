@@ -2,12 +2,12 @@
 
 div(ng-include='"components/navbar/navbar.html"')
 
-.container
+.container.main-content.lists-page
 
-  .title-bar
-    h1(ng-class="{ strike: !list.active }") {{ list.title }}
+  .title-bar.row
+    h1.col-xs-10(ng-class="{ strike: !list.active }") {{ list.title }}
 
-    .buttons
+    .buttons.col-xs-2
       span(ng-show='canEdit')
         button.btn.btn-primary(ng-click="edit()") 
           span.fa.fa-pencil &nbsp;Edit
@@ -22,18 +22,18 @@ div(ng-include='"components/navbar/navbar.html"')
           span.fa.fa-exclamation-triangle &nbsp;Flag
   //- | {{ list }}
 
-  .updatedAt
-    | {{ list.updatedPretty }}
-
-  .author
+  .author.text-center
     //- mail-to(email="{{list.author.email}}", name="{{ list.author.name }}")
     a(ui-sref="lists({author: list.author._id})") {{ list.author.name }}
+  
+  .updatedAt.text-center
+    | {{ list.updatedPretty }}
     
-  ol.list
-    li.item(ng-repeat="item in list.items") {{ item }}
+  ol.list.row
+    li.item.col-xs-12(ng-repeat="item in list.items") {{ item }}
 
-  .like
-    h2.likes Likes {{ votes.length }}
+  .like.row.text-center
+    span.likes Likes {{ votes.length }}
     button.btn.btn-primary(type="button", ng-click="vote(list)", ng-disabled="alreadyVoted")
       span.fa.fa-plus &nbsp;Like
     p(ng-show="alreadyVoted") You like this list!
@@ -45,9 +45,9 @@ div(ng-include='"components/navbar/navbar.html"')
     //- br
     //- | alreadyVoted={{ alreadyVoted }}
 
-  h2 Categories
-  .row.categories
-    button.btn.btn-primary(type="button", ui-sref="lists({ featured: true })", ng-show="list.featured") Featured
-    span(ng-repeat="cat in list.categories")
+  .row.categories.row-centered
+    h4 Categories
+    button.btn.btn-primary.col-xs-12.col-sm-3.col-centered(type="button", ui-sref="lists({ featured: true })", ng-show="list.featured") Featured
+    span.col-xs-12.col-sm-3.col-centered(ng-repeat="cat in list.categories")
       button.btn.btn-default(type="button" ui-sref="lists({category: cat._id})") {{ cat.name }}
 
