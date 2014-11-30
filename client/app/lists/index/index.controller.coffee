@@ -14,7 +14,10 @@ angular.module 'wtjApp'
 .controller 'ListIndexCtrl', ($scope, $state, $sce, $q, List, Category, User, Auth, listService) ->
   $scope.title = 'Lists'
   $scope.trust = $sce.trustAsHtml
-  $scope.canCreate = $state.is 'my-lists'  # Use can create a new list
+  $scope.canCreate = false  # Use can create a new list
+  
+  Auth.isLoggedInAsync (isLoggedIn) ->
+    $scope.canCreate = isLoggedIn
 
   # Set up query
   do (cat = $q.when(false), user = $q.when(false), query={}, title_elements=[]) ->

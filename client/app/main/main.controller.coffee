@@ -23,9 +23,13 @@ angular.module 'wtjApp'
       socket.unsyncUpdates 'thing'
 ###
 angular.module 'wtjApp'
-.controller 'MainCtrl', ($scope, $state, Category, List, listService) ->
+.controller 'MainCtrl', ($scope, $state, Auth, Category, List, listService) ->
   $scope.order = 'recent'
   $scope.categories = Category.query()
+  $scope.canCreate = false
+  
+  Auth.isLoggedInAsync (isLoggedIn) ->
+    $scope.canCreate = isLoggedIn
 
   updateLists = ->
     $scope.lists = List.query { top: 200, order: $scope.order }, (lists) ->

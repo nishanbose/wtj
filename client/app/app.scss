@@ -78,7 +78,7 @@ form {
 
 .title-bar {
   position: relative;
-  top: -20px;
+  /*top: -20px;*/
 }
 
 .title-bar > button.btn,
@@ -90,6 +90,10 @@ form {
   span.fa {
     padding-right: 0.5em;
   }
+}
+
+.title-bar {
+  margin-top: 0.5cm;
 }
 
 .buttons button {
