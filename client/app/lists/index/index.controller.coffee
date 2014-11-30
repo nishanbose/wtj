@@ -47,9 +47,9 @@ angular.module 'wtjApp'
 
     if $state.params.featured
       query.featured = $state.params.featured
-    
-    $scope.lists = List.query query, (lists) ->
-      # console.log lists
+
+  updateLists = ->
+    $scope.lists = List.query { order: $scope.order }, (lists) ->
       $scope.lists = listService.censor lists
       listService.decorate list for list in lists
 
@@ -60,33 +60,46 @@ angular.module 'wtjApp'
     , (headers) ->
       flash.error = headers.message
 
-  $scope.gridOptions = 
-    data: 'lists'
-    enableRowSelection: false
-    enableCellSelection: false
-    sortInfo: { fields: ['updatedAt'], directions: ['desc'] }
-    columnDefs: [
-      {
-        field: 'title'
-        displayName: 'Title'
-        cellTemplate: 'app/lists/index/title-cell-link.html'
-        sortable: true
-      }
-      {
-        field: 'author'
-        displayName: 'Author'
-        cellTemplate: 'app/lists/index/author-cell-link.html'
-        sortable: true
-      }
-      { field: 'updatedPretty', displayName: 'Updated', sortable: true, sortFn: compareDate }
-      # { field: 'owner', displayName: 'Submitted By', sortable: true }
-      {
-        field: 'categories'
-        displayName: 'Categories'
-        cellTemplate: 'app/lists/index/categories-cell.html'
-        sortable: false
-      }
-    ]
-
   $scope.goToListForCategory = (catId) ->
-    $state.go('lists', { category: catId })
+    $state.go 'lists', { category: catId }
+
+  $scope.canDisplay = (list, index) ->
+    # console.log list
+    Auth.isAdmin() || list.active
+    
+  $scope.order = 'recent'
+  
+  updateLists()
+
+  $scope.$watch 'order', (order, oldVal) ->
+    if order != oldVal
+      updateLists()
+
+
+  # $scope.gridOptions = 
+  #   data: 'lists'
+  #   enableRowSelection: false
+  #   enableCellSelection: false
+  #   sortInfo: { fields: ['updatedAt'], directions: ['desc'] }
+  #   columnDefs: [
+  #     {
+  #       field: 'title'
+  #       displayName: 'Title'
+  #       cellTemplate: 'app/lists/index/title-cell-link.html'
+  #       sortable: true
+  #     }
+  #     {
+  #       field: 'author'
+  #       displayName: 'Author'
+  #       cellTemplate: 'app/lists/index/author-cell-link.html'
+  #       sortable: true
+  #     }
+  #     { field: 'updatedPretty', displayName: 'Updated', sortable: true, sortFn: compareDate }
+  #     # { field: 'owner', displayName: 'Submitted By', sortable: true }
+  #     {
+  #       field: 'categories'
+  #       displayName: 'Categories'
+  #       cellTemplate: 'app/lists/index/categories-cell.html'
+  #       sortable: false
+  #     }
+  #   ]

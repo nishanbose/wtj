@@ -35,7 +35,7 @@ div(ng-include='"components/navbar/navbar.html"')
     span.category.col-md-4.text-center
       button.btn.btn-primary(type="button", ui-sref="lists({ featured: true })") Featured
     span.category.col-md-4.text-center(ng-repeat="cat in categories")
-      button.btn.btn-default(type="button", ui-sref="lists({ category: cat._id })") {{ cat.name }}
+      button.btn.btn-default(type="button", ui-sref="lists({ category: cat._id })", class="cat_{{ toSlug(cat.name) }}") {{ cat.name }}
 
   .title-bar
     h1 Lists from Jackson
@@ -49,23 +49,25 @@ div(ng-include='"components/navbar/navbar.html"')
         option(value='popular') Popular
         option(value='recent') Recent
 
-  .row.item.header
-    .col-xs-offset-6.col-xs-3
-       | Author
-    .col-xs-3
-       | Updated
+  list-of-lists(lists="lists")
+
+  //- .row.item.header
+  //-   .col-xs-offset-6.col-xs-3
+  //-      | Author
+  //-   .col-xs-3
+  //-      | Updated
   
-  .row.item(ng-repeat="list in lists")
-    .col-xs-3
-      a(ui-sref="list({id: list._id})") {{ list.title }}
-    .col-xs-3
-      | {{ list.nVotes }} Likes
-    .col-xs-3
-       a(ui-sref="lists({ author: list.author._id })") {{ list.author.name }}
-    .col-xs-3
-       | {{ list.updatedPretty }}
-      //- br
-      //- {{ categories }}
+  //- .row.item(ng-repeat="list in lists")
+  //-   .col-xs-3
+  //-     a(ui-sref="list({id: list._id})") {{ list.title }}
+  //-   .col-xs-3
+  //-     | {{ list.nVotes }} Likes
+  //-   .col-xs-3
+  //-      a(ui-sref="lists({ author: list.author._id })") {{ list.author.name }}
+  //-   .col-xs-3
+  //-      | {{ list.updatedPretty }}
+  //-     //- br
+  //-     //- {{ categories }}
 
 footer.footer
   .container

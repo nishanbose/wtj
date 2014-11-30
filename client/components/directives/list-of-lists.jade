@@ -1,0 +1,18 @@
+ul.list-group
+  li.list-group-item(ng-repeat='list in lists track by $index | filter:canDisplay(list)')
+    .row
+      .col-sm-4
+        .row
+          strong {{list.title}}
+        .row
+          a(ui-sref="lists({ author: list.author._id })")
+            {{list.author.name}}
+          span.text-muted , {{ list.updatedPretty }}
+        .row
+          .likes {{ list.nVotes }} likes
+
+      .col-sm-8
+        span(ng-repeat="cat in list.categories")
+          button.btn.btn-sm.btn-default(class="cat_{{ toSlug(cat.name) }}", ng-click="goToListForCategory(cat._id)") {{ cat.name }}
+
+//- {{ lists | json }}
