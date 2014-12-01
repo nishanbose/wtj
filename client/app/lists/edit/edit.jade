@@ -1,5 +1,5 @@
 div(ng-include='"components/navbar/navbar.html"')
-.container
+.container.edit-list
   .title-bar
     h1 Editing {{ list.title }}
 
@@ -22,7 +22,7 @@ div(ng-include='"components/navbar/navbar.html"')
     .form-group
       label(for='fieldItems', control-label='') Items
       #fieldItems(as-sortable="dragControlListeners" name="items", ng-model="list.items")
-        div.input-group(ng-repeat="item in list.items track by $index" as-sortable-item='')
+        .input-group(ng-repeat="item in list.items track by $index" as-sortable-item='')
           .input-group-addon.fa.fa-bars.item-handle(as-sortable-item-handle='')
           input(type="text", ng-model="list.items[$index].val")
           .input-group-addon.fa.fa-minus(ng-click="removeItem($index)")
