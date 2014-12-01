@@ -31,6 +31,6 @@ exports.send = function(to, subj, html, done) {
   mandrill.messages.send(params, function(res) {
     tracer.log(res);
     if ({ rejected: true, invalid: true}[res.status]) { return done(res); }
-    done(null, res);
+    if (done) { done(null, res); }
   });
 };

@@ -15,8 +15,11 @@ div(ng-include='"components/navbar/navbar.html"')
         button.btn.btn-danger(ng-click="delete()") 
           span.fa.fa-pencil &nbsp;Delete
       span(ng-show='canBlock')
-        button.btn.btn-warning(ng-class="{ active: !list.active }", ng-click="toggleActive()") 
+        button.btn.btn-danger(ng-class="{ active: !list.active }", ng-click="toggleActive()") 
           span.fa.fa-ban &nbsp;Block
+      span(ng-show='canFeature')
+        button.btn.btn-success(ng-class="{ active: list.featured }", ng-click="toggleFeatured()") 
+          span.fa.fa-bookmark &nbsp;Feature
   //- | {{ list }}
 
   .author.text-center

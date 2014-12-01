@@ -79,6 +79,9 @@ form {
 .title-bar {
   position: relative;
   /*top: -20px;*/
+  span {
+    display: table-cell;
+  }
 }
 
 .title-bar > button.btn,

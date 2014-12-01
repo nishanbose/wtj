@@ -6,6 +6,7 @@ angular.module 'wtjApp'
   $scope.canEdit = false
   $scope.canDelete = false
   $scope.canBlock = Auth.isAdmin()
+  $scope.canFeature = Auth.isAdmin()
   $scope.votes = []
   $scope.alreadyVoted = false
 
@@ -38,6 +39,11 @@ angular.module 'wtjApp'
     $scope.list.active = !$scope.list.active
     $scope.list.$update ->
       flash.success = 'List is ' + (if $scope.list.active then 'published.' else 'blocked.')
+
+  $scope.toggleFeatured = ->
+    $scope.list.featured = !$scope.list.featured
+    $scope.list.$update ->
+      flash.success = 'List is ' + (if $scope.list.featured then 'featured.' else 'no longer featured.')
 
   $scope.delete = ->
     del = ->

@@ -106,9 +106,11 @@ exports.update = function(req, res) {
     }
     tracer.log('updating');
     tracer.log(list);
-    list.save(function (err) {
-      if (err) { return helpers.handleError(res, err); }
-      return res.json(200, list);
+    list.save(function (err, list2) {
+      List.populate(list2, { path: 'categories author', select: '_id name email' }, function(err, list3) {
+        if (err) { return helpers.handleError(res, err); }
+        return res.json(200, list);
+      });
     });
   });
 };
