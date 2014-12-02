@@ -2,7 +2,7 @@
 
 // constants
 exports.apiKey = function() { 
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV !== 'prod') {
     return 'aXh9fnJDVId5AuZREf0UFw'; // test key
   }
   return '4pZAUZFRRLEpADzvuoWL-g'; // real key
