@@ -5,6 +5,7 @@ local.env.js
 .cache/
 .idea/
 .tags
+*.tar
 *.sublime-workspace
 
 # Used by pm2 ecosystem.json script
