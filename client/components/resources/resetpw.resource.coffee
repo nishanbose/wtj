@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'wtjApp'
-.factory 'ResetPw', ($resource) ->
+.factory 'ResetPwApi', ($resource) ->
   $resource '/api/resetpw/:key', {},
 
   save:

@@ -1,18 +1,11 @@
 'use strict';
 
-// constants
-exports.apiKey = function() { 
-  if (process.env.NODE_ENV !== 'prod') {
-    return 'aXh9fnJDVId5AuZREf0UFw'; // test key
-  }
-  return '4pZAUZFRRLEpADzvuoWL-g'; // real key
-};
 exports.fromEmail = function() { return 'admin@experiencejackson.com'; };
 exports.fromName = function() { return 'Admin'; };
 
 var _ = require('lodash');
 var mandrill_api = require('mandrill-api/mandrill')
-var mandrill = new mandrill_api.Mandrill(exports.apiKey());
+var mandrill = new mandrill_api.Mandrill(process.env.MANDRILL_API_KEY);
 
 exports.send = function(to, subj, html, done) {
   var tracer = require('tracer').console({ level: 'info' });

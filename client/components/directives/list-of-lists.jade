@@ -6,8 +6,7 @@ ul.list-group
           a(ui-sref="list({ id: list._id })")
             strong {{ list.title || 'untitled '}}
         .row
-          a(ui-sref="lists({ author: list.author._id })")
-            {{list.author.name}}
+          a(ui-sref="lists({ author: list.author._id })") {{list.author.name}}
           span.text-muted , {{ list.updatedPretty }}
         .row
           .likes {{ list.nVotes }} likes

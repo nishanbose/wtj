@@ -85,20 +85,6 @@ describe('GET /api/resetpw', function() {
         (!!resetpw).should.be.true;
         // We have no way to test if the message was actually sent in test mode
         // because Mandrill will not even store a record for the message if it was rejected.
-        // var msg_id = resetpw._id;
-        // var mandrill_api = require('mandrill-api/mandrill');
-        // var apiKey = mandrillSvc.apiKey();
-        // var mandrill = new mandrill_api.Mandrill(apiKey);
-
-        // mandrill.messages.info({ key: apiKey, id: resetpw.messageKey }, function(err, res) {
-        //   if (err) {
-        //     tracer.error(err);
-        //     return done(err); 
-        //   }
-        //   res.email.should.be(user.email);
-        //   // mandrill won't return to us the content of the message or we could test for 
-        //   // presence of key in the message.
-        // });
         done();
       });
     });
