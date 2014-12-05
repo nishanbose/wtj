@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'wtjApp'
-.factory 'List', ($resource) ->
+.factory 'List', ['$resource', ($resource) ->
   $resource '/api/lists/:id/:controller', { id: '@_id' }, {
     complain:
       method: 'PUT'
@@ -11,3 +11,4 @@ angular.module 'wtjApp'
       method: 'PUT'
       controller: 'update'
   }
+]

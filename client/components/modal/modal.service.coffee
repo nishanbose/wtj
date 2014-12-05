@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'wtjApp'
-.factory 'Modal', ($rootScope, $modal) ->
+.factory 'Modal', ['$rootScope', '$modal', ($rootScope, $modal) ->
   
   ###
   Opens a modal
@@ -69,3 +69,4 @@ angular.module 'wtjApp'
           return
 
         return
+]

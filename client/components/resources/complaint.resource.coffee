@@ -1,8 +1,9 @@
 'use strict'
 
 angular.module 'wtjApp'
-.factory 'Complaint', ($resource) ->
+.factory 'Complaint', ['$resource', ($resource) ->
   $resource '/api/complaints/:id/:controller', { id: '@_id' },
 
   update:
     method: 'PUT'
+]

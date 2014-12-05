@@ -1,7 +1,9 @@
 'use strict'
 
 angular.module 'wtjApp'
-.factory 'Auth', ($location, $rootScope, $http, $cookieStore, $q, User) ->
+.factory 'Auth', [ '$location', '$rootScope', '$http', '$cookieStore', '$q', 'User', 
+($location, $rootScope, $http, $cookieStore, $q, User) ->
+
   currentUser = if $cookieStore.get 'token' then User.get() else {}
 
   ###
@@ -134,3 +136,5 @@ angular.module 'wtjApp'
   ###
   getToken: ->
     $cookieStore.get 'token'
+
+]

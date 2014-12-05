@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'wtjApp'
-.controller 'NavbarCtrl', ($scope, $location, Auth) ->
+.controller 'NavbarCtrl', ['$scope', '$location', 'Auth', ($scope, $location, Auth) ->
   $scope.menu = [
     {
       title: 'Home'
@@ -29,3 +29,4 @@ angular.module 'wtjApp'
 
     $scope.isActive = (route) ->
       route is $location.path()
+]

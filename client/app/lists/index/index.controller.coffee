@@ -75,7 +75,7 @@ angular.module 'wtjApp'
 
   updateLists = ->
     query = _.assign { order: $scope.order }, genQuery()
-    console.log query
+    # console.log query
     $scope.lists = List.query query, (lists) ->
       $scope.lists = listService.censor lists
       listService.decorate list for list in lists

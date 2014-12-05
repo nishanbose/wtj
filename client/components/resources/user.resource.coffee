@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'wtjApp'
-.factory 'User', ($resource) ->
+.factory 'User', ['$resource', ($resource) ->
   $resource '/api/users/:id/:controller',
     id: '@_id'
   ,
@@ -17,4 +17,4 @@ angular.module 'wtjApp'
       method: 'GET'
       params:
         id: 'me'
-
+]
