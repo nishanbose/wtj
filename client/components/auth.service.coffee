@@ -90,6 +90,30 @@ angular.module 'wtjApp'
 
 
   ###
+  Reset password
+
+  @param  {String}   resetKey
+  @param  {String}   newPassword
+  @param  {Function} callback    - optional
+  @return {Promise}
+  ###
+  resetPassword: (resetKey, newPassword, callback) ->
+    User.resetPassword
+      id: currentUser._id
+    ,
+      resetKey: resetKey
+      newPassword: newPassword
+
+    , (user) ->
+      callback? user
+
+    , (err) ->
+      callback? err
+
+    .$promise
+
+
+  ###
   Gets all available info on authenticated user
 
   @return {Object} user

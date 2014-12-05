@@ -7,9 +7,11 @@ var jwt = require('jsonwebtoken');
 var _ = require('lodash');
 var auth = require('../../auth/auth.service');
 var helpers = require('../helpers.service');
+var tracer = require('tracer').console({ level: 'info' });
+var env = require('../../config/environment');
+var title = env.title;
 
 var validationError = function(res, err) {
-  var tracer = require('tracer').console({ level: 'warn' });
   tracer.warn(err);
   return res.json(422, err);
 };
@@ -30,7 +32,7 @@ exports.index = function(req, res) {
   var select;
   
   User.find(req.query, permittedFields(), function (err, users) {
-    if(err) return res.send(500, err);
+    if(err) return res.status(500).send(err);
     res.json(200, users);
   });
 };
@@ -91,7 +93,7 @@ exports.show = function (req, res, next) {
  */
 exports.destroy = function(req, res) {
   User.findByIdAndRemove(req.params.id, function(err, user) {
-    if(err) return res.send(500, err);
+    if(err) return res.status(500).send(err);
     return res.send(204);
   });
 };
@@ -109,11 +111,43 @@ exports.changePassword = function(req, res, next) {
       user.password = newPass;
       user.save(function(err) {
         if (err) return validationError(res, err);
-        res.send(200);
+        res.send(204);
       });
     } else {
       res.send(403);
     }
+  });
+};
+
+/**
+ * Reset a users password
+ */
+ exports.resetPassword = function(req, res, next) {
+  var Resetpw = require('../resetpw/resetpw.model');
+  var newPass = String(req.body.newPassword);
+
+  Resetpw.findOne({ key: req.body.resetKey }, function(err, resetpw) {
+    if (err) { return res.status(500).send(err); }
+    if (!resetpw) { return res.status(404).send('The reset key is not valid.'); }
+    tracer.debug(resetpw);
+
+    User.findById(resetpw.user, function (err, user) {
+      if(err) { return res.status(500).send(err); }
+      if (!user) { return res.status(404).send('Cannot find user.'); }
+
+      tracer.debug(user);
+      user.password = newPass;
+      user.save(function(err) {
+        if(err) { return res.status(500).send(err); }
+        res.send(204);
+        sendResetCompletedMessage(req, res, user, function(err) {
+          if (err) { tracer.error(err); }
+        });
+        resetpw.remove(function(err) {
+          if (err) { tracer.error(err); }
+        });
+      });
+    });
   });
 };
 
@@ -136,4 +170,21 @@ exports.me = function(req, res, next) {
  */
 exports.authCallback = function(req, res, next) {
   res.redirect('/');
+};
+
+var sendResetCompletedMessage = function(req, res, user, done) {  
+  var mandrillSvc = require('../../components/mail/mandrill.service');
+  var domain = '<a href="http://:host" title=":title">:title</a>'
+  .replace(/:host/, req.headers.host)
+  .replace(/:title/g, title);
+  var mailto = '<a href="mailto:admin@experiencejackson.com">contact the site administrator</a>';
+  var html = '<p>You have reset your password for :domain.  If this was not you, you should :mailto immediately.  You should also notify your e-mail provider if you think your e-mail account is being used by someone else.</p>'
+  .replace(/:mailto/, mailto)
+  .replace(/:domain/, domain);
+  var to = [{
+    name: user.name || '',
+    email: user.email
+  }];
+  tracer.debug(html);
+  mandrillSvc.send(to, 'your password', html, done);
 };

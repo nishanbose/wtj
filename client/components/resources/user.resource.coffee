@@ -12,6 +12,11 @@ angular.module 'wtjApp'
       method: 'PUT'
       params:
         controller: 'password'
+      
+    resetPassword:
+      method: 'PUT'
+      params:
+        controller: 'reset'
 
     get:
       method: 'GET'
