@@ -4,7 +4,6 @@ angular.module 'wtjApp'
 .controller 'LoginCtrl', ($scope, $location, $state, $window, $modal, flash, Auth, ResetPwService, listService) ->
   $scope.user = {}
   $scope.errors = {}
-
   $scope.resetPw = ResetPwService.resetPw
 
   $scope.loginOauth = (provider) ->
