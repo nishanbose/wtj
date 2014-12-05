@@ -15,4 +15,5 @@ source/
 node_modules/
 
 #client/bower_components/ # http://addyosmani.com/blog/checking-in-front-end-dependencies/
-#dist/ # This is what's getting deployed
+
+dist/ # This is what's getting deployed
