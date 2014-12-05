@@ -3,7 +3,9 @@
 var _ = require('lodash');
 var Resetpw = require('./resetpw.model');
 var helpers = require('../helpers.service');
-var tracer = require('tracer').console({ level: 'warn' });
+var tracer = require('tracer').console({ level: 'info' });
+var env = require('../../config/environment');
+var title = env.title;
 
 // Get list of resetpws
 exports.index = function(req, res) {
@@ -16,7 +18,6 @@ exports.index = function(req, res) {
 // Reset password
 // requires req.body.key
 exports.resetpw = function(req, res) {
-  var tracer = require('tracer').console({ level: 'warn' });
   tracer.info('resetpw()');
   tracer.debug(req.params);
   if (!req.params.key) { return res.status(400).send('Missing key'); }
@@ -39,38 +40,10 @@ exports.resetpw = function(req, res) {
       res.cookie('token', JSON.stringify(token));
       res.redirect('/settings');
       resetpw.remove();
-    });
-  });
-};
-
-var sendResetMessage = function(req, res, user, resetpw) {
-  tracer.debug(resetpw);
-  var mandrillSvc = require('../../components/mail/mandrill.service');
-  var link = '<a href="http://:url" title="Reset your password.">reset your password.</a>'
-  .replace(/:url/, req.headers.host + '/resetpw/' + resetpw.key);
-  var domain = '<a href="http://:host" title="Welcome to Jackson">Welcome to Jackson</a>'.replace(/:host/, req.headers.host);
-  var html = '<p>You may :link for :domain.</p>'
-  .replace(/:link/, link)
-  .replace(/:domain/, domain);
-  var to = [{
-    name: user.name || '',
-    email: user.email
-  }];
-  tracer.debug(html);
-  mandrillSvc.send(to, 'reset your password', html, function(err, mandrillResponse) {
-    if (err) {
-      tracer.error(err);
-      if (process.env.NODE_ENV !== 'test') {
-        return res.status(500).send(err);
-      }
-    }
-    Resetpw.findOneAndUpdate({ _id: resetpw._id }, { messageKey: mandrillResponse[0]._id }, function(err, dbRes) {
-      if (err) { 
-          // return res.status(500).send('Cannot save to DB at this time.'); 
-          return res.status(500).send(err); 
-        }
-        return res.send(204);
+      sendResetCompletedMessage(req, res, user, function(err) {
+        if (err) {tracer.error(err); }
       });
+    });
   });
 };
 
@@ -91,7 +64,20 @@ exports.create = function(req, res) {
       Resetpw.create({ user: user }, function(err, resetpw) {
         if(err) { return helpers.handleError(res, err); }
         tracer.debug(resetpw);
-        sendResetMessage(req, res, user, resetpw);
+        sendResetPromptMessage(req, res, user, resetpw, function(err, mandrillResponse) {
+          if (err) {
+            tracer.error(err);
+            if (process.env.NODE_ENV !== 'test') {
+              return res.status(500).send(err);
+            }
+          }
+          Resetpw.findOneAndUpdate({ _id: resetpw._id }, { messageKey: mandrillResponse[0]._id }, function(err, dbRes) {
+            if (err) { 
+              return res.status(500).send(err); 
+            }
+            return res.send(204);
+          });
+        });
       });
     });
   });
@@ -122,3 +108,39 @@ exports.create = function(req, res) {
 //     });
 //   });
 // };
+
+var sendResetCompletedMessage = function(req, res, user, done) {  
+  var mandrillSvc = require('../../components/mail/mandrill.service');
+  var domain = '<a href="http://:host" title=":title">:title</a>'
+  .replace(/:host/, req.headers.host)
+  .replace(/:title/g, title);
+  var mailto = '<a href="mailto:admin@experiencejackson.com">contact the site administrator</a>';
+  var html = '<p>You have reset your password for :domain.  If this was not you, you should :mailto immediately.  You should also notify your e-mail provider if you think your e-mail account is being used by someone else.</p>'
+  .replace(/:mailto/, mailto)
+  .replace(/:domain/, domain);
+  var to = [{
+    name: user.name || '',
+    email: user.email
+  }];
+  tracer.debug(html);
+  mandrillSvc.send(to, 'your password', html, done);
+};
+
+var sendResetPromptMessage = function(req, res, user, resetpw, done) {
+  tracer.debug(resetpw);
+  var mandrillSvc = require('../../components/mail/mandrill.service');
+  var link = '<a href="http://:url" title="Reset your password.">reset your password.</a>'
+  .replace(/:url/, req.headers.host + '/resetpw/' + resetpw.key);
+  var domain = '<a href="http://:host" title=":title">:title</a>'
+  .replace(/:host/, req.headers.host)
+  .replace(/:title/g, title);
+  var html = '<p>You may :link for :domain.</p>'
+  .replace(/:link/, link)
+  .replace(/:domain/, domain);
+  var to = [{
+    name: user.name || '',
+    email: user.email
+  }];
+  tracer.debug(html);
+  mandrillSvc.send(to, 'your password', html, done);
+};
