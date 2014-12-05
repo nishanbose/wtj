@@ -48,7 +48,7 @@ exports.upsert = function(req, res) {
 
   List.findById(listId, function(err, list) {
     if(err) { return helpers.handleError(res, err); }
-    if (!list) { return res.send(404, 'List not found'); }
+    if (!list) { return res.status(404).send('List not found'); }
     
     var query = {
       list: listId,

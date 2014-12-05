@@ -31,7 +31,7 @@ exports.create = function(req, res) {
   var async = require('async');
   // var tracer = require('tracer').console({ level: 'warn' });
   if (!_.has(req.body, 'user') || !_.has(req.body, 'list')) {
-    return res.send(400, 'Missing user or list id');
+    return res.status(400).send('Missing user or list id');
   }
   async.parallel([
     function(callback) { User.findById(req.body.user, callback) },
@@ -44,8 +44,8 @@ exports.create = function(req, res) {
       var listId = results[1];
       var votes = results[2];
 
-      if (!userId) { return res.send(400, 'No user for _id=' + req.body.user); }
-      if (!listId) { return res.send(400, 'No list for _id=' + req.body.list); }
+      if (!userId) { return res.status(400).send('No user for _id=' + req.body.user); }
+      if (!listId) { return res.status(400).send('No list for _id=' + req.body.list); }
       if (votes.length > 0) {
         return res.send(403,
           'User :userId already voted for list :listId.'

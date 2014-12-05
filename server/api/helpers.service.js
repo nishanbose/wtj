@@ -28,7 +28,7 @@ exports.processQuery = function(_query) {
 exports.handleError = function(res, err) {
   var tracer = require('tracer').console({ level: 'info' });
   tracer.error(err);
-  return res.send(500, err);
+  return res.status(500).send(err);
 };
 
 exports.toObjectId = function(id) { 
