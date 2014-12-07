@@ -51,7 +51,7 @@ div(ng-include='"components/navbar/navbar.html"')
     //- br
     //- | alreadyVoted={{ alreadyVoted }}
 
-  .row.categories.row-centered
+  .row.categories.row-centered(ng-show="list.categories.length > 0")
     h2.categories Categories
     button.btn.btn-primary.col-sm-3.col-centered(type="button", ui-sref="lists({ featured: true })", ng-show="list.featured") Featured
     span.col-sm-3.col-centered(ng-repeat="cat in list.categories")
