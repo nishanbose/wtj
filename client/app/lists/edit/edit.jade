@@ -34,7 +34,7 @@ div(ng-include='"components/navbar/navbar.html"')
 
     .form-group
       label(for='fieldCategories', control-label='') Categories
-      select.form-control#fieldCategories(multiple='', name="categories", ng-model='list.categories', ng-options='cat.name for cat in categories track by cat._id')
+      select.form-control#fieldCategories(multiple='', name="categories", ng-model='list.categories', ng-options='cat.name for cat in categories track by cat._id', required='')
       //- {{ list.categories }}
 
     .form-group(ng-show="isAdmin")

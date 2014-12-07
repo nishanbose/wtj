@@ -46,6 +46,7 @@ form {
 
     input.ng-invalid,
     input.ng-required,
+    select.ng-invalid,
     input.ng-mask,
     textarea.ng-invalid {
       border: thin solid red;
