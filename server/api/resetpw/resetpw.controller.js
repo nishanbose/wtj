@@ -11,13 +11,13 @@ var sendResetPromptMessage = function(req, res, user, resetpw, done) {
   tracer.debug(resetpw);
   var mandrillSvc = require('../../components/mail/mandrill.service');
   var link = '<a href="http://:url" title="Reset your password.">reset your password.</a>'
-  .replace(/:url/, req.headers.host + '/resetpw/' + resetpw.key);
+    .replace(/:url/, req.headers.host + '/resetpw/' + resetpw.key);
   var domain = '<a href="http://:host" title=":title">:title</a>'
-  .replace(/:host/, req.headers.host)
-  .replace(/:title/g, title);
+    .replace(/:host/, req.headers.host)
+    .replace(/:title/g, title);
   var html = '<p>You may :link for :domain.</p>'
-  .replace(/:link/, link)
-  .replace(/:domain/, domain);
+    .replace(/:link/, link)
+    .replace(/:domain/, domain);
   var to = [{
     name: user.name || '',
     email: user.email
@@ -41,7 +41,7 @@ exports.resetpw = function(req, res) {
   tracer.debug(req.params);
   if (!req.params.key) { return res.status(400).send('Missing key'); }
 
-  Resetpw.findOne({key: req.params.key})
+  Resetpw.findOne({ key: req.params.key })
   .populate('user')
   .exec(function (err, resetpw) {
     tracer.debug(resetpw);

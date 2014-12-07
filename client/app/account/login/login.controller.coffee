@@ -9,11 +9,9 @@ angular.module 'wtjApp'
   $scope.loginOauth = (provider) ->
     $window.location.href = '/auth/' + provider
   
-  linknotfound = $location.search()['linknotfound']
-
-  if linknotfound
+  if $location.search()['linkexpired']
     flash.warn = 'That link may have expired. You may try to reset your password again.'
-    $location.search 'linknotfound', null
+    $location.search 'link_expired', null
 
   $scope.login = (form) ->
     $scope.submitted = true
