@@ -29,6 +29,9 @@ module.exports = function (grunt) {
     shell: {
       tar_dist: {
         command: 'tar cjf dist.tar -C dist/ .'
+      },
+      tar_node_modules: {
+        command: 'tar cjf node_modules.tar -C node_modules/ .'
       }
     },
 
