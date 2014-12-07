@@ -11,6 +11,23 @@ var tracer = require('tracer').console({ level: 'info' });
 var env = require('../../config/environment');
 var title = env.title;
 
+var sendResetCompletedMessage = function(req, res, user, done) {  
+  var mandrillSvc = require('../../components/mail/mandrill.service');
+  var domain = '<a href="http://:host" title=":title">:title</a>'
+  .replace(/:host/, req.headers.host)
+  .replace(/:title/g, title);
+  var mailto = '<a href="mailto:admin@experiencejackson.com">contact the site administrator</a>';
+  var html = '<p>You have reset your password for :domain.  If this was not you, you should :mailto immediately.  You should also notify your e-mail provider if you think your e-mail account is being used by someone else.</p>'
+  .replace(/:mailto/, mailto)
+  .replace(/:domain/, domain);
+  var to = [{
+    name: user.name || '',
+    email: user.email
+  }];
+  tracer.debug(html);
+  mandrillSvc.send(to, 'your password', html, done);
+};
+
 var validationError = function(res, err) {
   tracer.warn(err);
   return res.json(422, err);
@@ -170,21 +187,4 @@ exports.me = function(req, res, next) {
  */
 exports.authCallback = function(req, res, next) {
   res.redirect('/');
-};
-
-var sendResetCompletedMessage = function(req, res, user, done) {  
-  var mandrillSvc = require('../../components/mail/mandrill.service');
-  var domain = '<a href="http://:host" title=":title">:title</a>'
-  .replace(/:host/, req.headers.host)
-  .replace(/:title/g, title);
-  var mailto = '<a href="mailto:admin@experiencejackson.com">contact the site administrator</a>';
-  var html = '<p>You have reset your password for :domain.  If this was not you, you should :mailto immediately.  You should also notify your e-mail provider if you think your e-mail account is being used by someone else.</p>'
-  .replace(/:mailto/, mailto)
-  .replace(/:domain/, domain);
-  var to = [{
-    name: user.name || '',
-    email: user.email
-  }];
-  tracer.debug(html);
-  mandrillSvc.send(to, 'your password', html, done);
 };

@@ -7,6 +7,25 @@ var tracer = require('tracer').console({ level: 'info' });
 var env = require('../../config/environment');
 var title = env.title;
 
+var sendResetPromptMessage = function(req, res, user, resetpw, done) {
+  tracer.debug(resetpw);
+  var mandrillSvc = require('../../components/mail/mandrill.service');
+  var link = '<a href="http://:url" title="Reset your password.">reset your password.</a>'
+  .replace(/:url/, req.headers.host + '/resetpw/' + resetpw.key);
+  var domain = '<a href="http://:host" title=":title">:title</a>'
+  .replace(/:host/, req.headers.host)
+  .replace(/:title/g, title);
+  var html = '<p>You may :link for :domain.</p>'
+  .replace(/:link/, link)
+  .replace(/:domain/, domain);
+  var to = [{
+    name: user.name || '',
+    email: user.email
+  }];
+  tracer.debug(html);
+  mandrillSvc.send(to, 'your password', html, done);
+};
+
 // Get list of resetpws
 exports.index = function(req, res) {
   Resetpw.find(function (err, resetpws) {
@@ -102,22 +121,3 @@ exports.create = function(req, res) {
 //     });
 //   });
 // };
-
-var sendResetPromptMessage = function(req, res, user, resetpw, done) {
-  tracer.debug(resetpw);
-  var mandrillSvc = require('../../components/mail/mandrill.service');
-  var link = '<a href="http://:url" title="Reset your password.">reset your password.</a>'
-  .replace(/:url/, req.headers.host + '/resetpw/' + resetpw.key);
-  var domain = '<a href="http://:host" title=":title">:title</a>'
-  .replace(/:host/, req.headers.host)
-  .replace(/:title/g, title);
-  var html = '<p>You may :link for :domain.</p>'
-  .replace(/:link/, link)
-  .replace(/:domain/, domain);
-  var to = [{
-    name: user.name || '',
-    email: user.email
-  }];
-  tracer.debug(html);
-  mandrillSvc.send(to, 'your password', html, done);
-};

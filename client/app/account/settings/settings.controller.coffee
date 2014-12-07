@@ -2,6 +2,7 @@
 
 angular.module 'wtjApp'
 .controller 'SettingsCtrl', ($scope, $state, User, Auth) ->
+  $scope.submitted = false
   $scope.errors = {}
   $scope.user =
     oldPassword: ''
