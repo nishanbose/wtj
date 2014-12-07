@@ -13,8 +13,8 @@ ul.list-group
 
         //- {{ list }}
 
-      .col-sm-8
-        span(ng-repeat="cat in list.categories")
+      .col-sm-8.categories
+        span.category(ng-repeat="cat in list.categories")
           button.btn.btn-sm.btn-info(class="cat_{{ toSlug(cat.name) }}", ui-sref="lists({ category: cat._id })") {{ cat.name }}
 
 //- {{ lists | json }}

@@ -39,9 +39,6 @@ form {
   @extend .form-horizontal;
 
   .form-group {
-    button {
-      margin-right: 0.3cm;
-    }
     .checkbox label {
       font-weight: bold;
     }
@@ -101,6 +98,10 @@ form {
 
 button + button {
   margin-left: 0.25cm;
+}
+
+button.btn {
+  margin-top: 0.25cm;
 }
 
 .strike {
@@ -174,5 +175,11 @@ color: #fff;
 .actions {
   a + a {
     margin-left: 1em;
+  }
+}
+
+list-of-lists .categories {
+  .category + .category {
+    margin-left: 0.10cm;
   }
 }
