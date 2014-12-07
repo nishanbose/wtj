@@ -14,5 +14,4 @@ describe 'Directive: fbshare', ->
     element = angular.element '<fbshare></fbshare>'
     element = $compile(element) scope
     scope.$apply()
-    expect(element.text()).toBe 'this is the fbshare directive'
-
+    expect(/fb-share-button/).toMatch element[0]
