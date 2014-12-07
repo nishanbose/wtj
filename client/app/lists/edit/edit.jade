@@ -1,10 +1,10 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container.edit-list
   .title-bar
-    h1 Editing {{ list.title }}
-
     button.btn.btn-danger(ng-click="delete()") 
       span.fa.fa-minus &nbsp;Delete
+
+    h1 Editing {{ list.title }}
 
   //- {{ list }}
 
