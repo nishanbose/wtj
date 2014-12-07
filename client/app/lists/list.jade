@@ -13,12 +13,12 @@ div(ng-include='"components/navbar/navbar.html"')
           span.fa.fa-pencil &nbsp;Edit
       span(ng-show='canDelete')
         button.btn.btn-danger(ng-click="delete()") 
-          span.fa.fa-pencil &nbsp;Delete
+          span.fa.fa-minus &nbsp;Delete
       span(ng-show='canBlock')
         button.btn.btn-danger(ng-class="{ active: !list.active }", ng-click="toggleActive()") 
           span.fa.fa-ban &nbsp;Block
       span(ng-show='canFeature')
-        button.btn.btn-success(ng-class="{ active: list.featured }", ng-click="toggleFeatured()") 
+        button.btn.btn-info(ng-class="{ active: list.featured }", ng-click="toggleFeatured()") 
           span.fa.fa-bookmark &nbsp;Feature
   //- | {{ list }}
 
@@ -34,7 +34,7 @@ div(ng-include='"components/navbar/navbar.html"')
 
   .like.row.text-center
     span.likes Likes {{ votes.length }}
-    button.btn.btn-primary(type="button", ng-click="vote(list)", ng-disabled="alreadyVoted")
+    button.btn.btn-success(type="button", ng-click="vote(list)", ng-disabled="alreadyVoted")
       span.fa.fa-plus &nbsp;Like
     p(ng-show="alreadyVoted") You like this list!
 
@@ -49,10 +49,10 @@ div(ng-include='"components/navbar/navbar.html"')
     h4 Categories
     button.btn.btn-primary.col-xs-12.col-sm-3.col-centered(type="button", ui-sref="lists({ featured: true })", ng-show="list.featured") Featured
     span.col-xs-12.col-sm-3.col-centered(ng-repeat="cat in list.categories")
-      button.btn.btn-default(type="button" ui-sref="lists({category: cat._id})") {{ cat.name }}
+      button.btn.btn-info(type="button" ui-sref="lists({category: cat._id})") {{ cat.name }}
 
   .title-bar
     .buttons
       span(ng-show='!canEdit && !canDelete && !canBlock', title="Notify site admin of inappropriate content.")
-        button.btn.btn-warning.btn-sm(ng-click="complain()")
+        button.btn.btn-danger.btn-sm(ng-click="complain()")
           span.fa.fa-exclamation-triangle &nbsp;Flag

@@ -33,11 +33,8 @@ div(ng-include='"components/navbar/navbar.html"')
             | {{ errors.password }}
 
         div
-          button.btn.btn-inverse.btn-lg.btn-login(type='submit')
-            | Sign up
-          = ' '
-          a.btn.btn-default.btn-lg.btn-register(ui-sref='login')
-            | Login
+          button.btn.btn-primary.btn-lg.btn-login(type='submit') Sign up
+          button.btn.btn-inverse.btn-lg.btn-register(ui-sref='login') Login
 
 
         hr

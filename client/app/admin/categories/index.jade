@@ -9,11 +9,13 @@ div(ng-include='"components/navbar/navbar.html"')
     li.list-group-item(ng-repeat='category in categories track by $index')
       .row
         .col-sm-2
-          a(ui-sref='admin-category({ id: category._id })') {{ category.name }}
+          a(ui-sref='lists({ category: cat._id })') {{ category.name }}
         .col-sm-9
           | {{ category.about }}
-        .col-sm-1
-          a.trash(ng-click='delete(category)')
-            span.glyphicon.glyphicon-trash.pull-right
+        .col-sm-1.actions
+          a.pencil(title="Edit category", ui-sref='admin-category({ id: category._id })')
+            span.glyphicon.glyphicon-pencil
+          a.trash(title="Delete category", ng-click='delete(category)')
+            span.glyphicon.glyphicon-trash
       //- br
       //- | {{ category | json }}

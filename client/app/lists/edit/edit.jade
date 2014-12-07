@@ -3,9 +3,8 @@ div(ng-include='"components/navbar/navbar.html"')
   .title-bar
     h1 Editing {{ list.title }}
 
-    button.btn.btn-default(ng-click="delete()") 
-      span.fa.fa-plus
-      | Delete List
+    button.btn.btn-danger(ng-click="delete()") 
+      span.fa.fa-minus &nbsp;Delete
 
   //- {{ list }}
 
@@ -29,7 +28,7 @@ div(ng-include='"components/navbar/navbar.html"')
 
     .form-group
       label(control-label='')
-      button.btn.btn-default(type="button", ng-click="appendItem()")
+      button.btn.btn-primary(type="button", ng-click="appendItem()")
         span.fa.fa-plus &nbsp;New Item
       //- {{ list.items }}
 
@@ -50,7 +49,7 @@ div(ng-include='"components/navbar/navbar.html"')
     p.help-block  {{ message }}
 
     .form-group.buttons
-      button.btn.btn-sm.btn-default(type="button" ng-click='reset(form)', ng-disabled="!isChanged(form)") Reset
+      button.btn.btn-sm.btn-warning(type="button" ng-click='reset(form)', ng-disabled="!isChanged(form)") Reset
       button.btn.btn-sm.btn-success(type='submit', ng-disabled="form.$invalid || !isChanged(form)") Save
 
     //- br

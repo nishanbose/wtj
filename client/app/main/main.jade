@@ -39,9 +39,8 @@ div(ng-include='"components/navbar/navbar.html"')
 
   .title-bar
     h1 Lists from Jackson
-    button.btn.btn-default(ng-show="canCreate", ng-click="newList()") 
-      span.fa.fa-plus
-      | New List
+    button.btn.btn-primary(ng-show="canCreate", ng-click="newList()") 
+      span.fa.fa-plus &nbsp; New List
 
   .row.order-by
     .form-group

@@ -8,7 +8,8 @@
   .form-group
     label(for='fieldEmail', control-label='', required='') Your Email
     input.form-control#fieldEmail(name="email" ng-model="data.email", placeholder='name@email.com')
+    p.help-text We will send an email to this address with a link that will allow you to reset your password.
 
 .modal-footer
-  button.btn.btn-default.btn-cancel(type="button", ng-click='$dismiss()') Cancel
-  button.btn.btn-sm.btn-success(type='button', ng-click='submit(form)', ng-disabled="form.$invalid") Save
+  button.btn.btn-warning.btn-cancel(type="button", ng-click='$dismiss()') Cancel
+  button.btn.btn-sm.btn-success(type='button', ng-click='submit(form)', ng-disabled="form.$invalid") Send Email

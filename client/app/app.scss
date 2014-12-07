@@ -99,8 +99,8 @@ form {
   margin-top: 0.5cm;
 }
 
-.buttons button {
-  margin-right: 0.25cm;
+button + button {
+  margin-left: 0.25cm;
 }
 
 .strike {
@@ -162,4 +162,17 @@ color: #fff;
     float:none;
     /* inline-block space fix */
     margin-right:-4px;
+}
+
+.section {
+  margin: 1em 0;
+  padding: 1em 0;
+  border-top: solid thin #ddd;
+  border-bottom: solid thin #ddd;
+}
+
+.actions {
+  a + a {
+    margin-left: 1em;
+  }
 }
