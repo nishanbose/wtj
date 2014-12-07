@@ -7,8 +7,8 @@ div(ng-include='"components/navbar/navbar.html"')
       span A list based approach
 
 .container.main-content
-  .row.categories
-    h3 Explore Categories
+  .row.text-center.categories
+    h2.categories Explore Categories
     span.category.col-md-4.text-center
       button.btn.btn-primary(type="button", ui-sref="lists({ featured: true })") Featured
     span.category.col-md-4.text-center(ng-repeat="cat in categories")

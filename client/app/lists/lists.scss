@@ -1,10 +1,9 @@
-.lists-page {
+/*.lists-page {
 	margin-top: 50px;
 }
-
+*/
 .lists-page .author{
 	margin-bottom: 10px;
-
 }
 
 .lists-page .list {
@@ -32,4 +31,29 @@
 
 .lists-page .row.categories h4 {
 	margin-bottom: 30px;
+}
+
+h2.categories {
+	font-size: 20pt;
+}
+
+list-of-lists .categories {
+  .category + .category {
+    margin-left: 0.10cm;
+  }
+}
+
+@media (max-width: 724px) {
+  .like {
+    margin: 0 10px;
+  }
+}
+
+fb-share {
+	@extend .pull-left;
+}
+
+.complain {
+  @extend .pull-right;
+  margin-right: 10px;
 }

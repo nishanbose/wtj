@@ -3,43 +3,46 @@
 div(ng-include='"components/navbar/navbar.html"')
 
 .container.main-content.lists-page
-
   .title-bar.row
-    h1.col-xs-10(ng-class="{ strike: !list.active }") {{ list.title }}
+    //- | {{ list }}
 
-    .buttons.col-xs-2
-      span(ng-show='canEdit')
-        button.btn.btn-primary(ng-click="edit()") 
-          span.fa.fa-pencil &nbsp;Edit
-      span(ng-show='canDelete')
-        button.btn.btn-danger(ng-click="delete()") 
-          span.fa.fa-minus &nbsp;Delete
-      span(ng-show='canBlock')
-        button.btn.btn-danger(ng-class="{ active: !list.active }", ng-click="toggleActive()") 
-          span.fa.fa-ban &nbsp;Block
-      span(ng-show='canFeature')
-        button.btn.btn-info(ng-class="{ active: list.featured }", ng-click="toggleFeatured()") 
-          span.fa.fa-bookmark &nbsp;Feature
-  //- | {{ list }}
+    .buttons
+      button.btn.btn-primary(ng-show='canEdit', ng-click="edit()") 
+        span.fa.fa-pencil &nbsp;Edit
+      button.btn.btn-danger(ng-show='canDelete', ng-click="delete()") 
+        span.fa.fa-minus &nbsp;Delete
+      button.btn.btn-danger(ng-show='canBlock', ng-class="{ active: !list.active }", ng-click="toggleActive()") 
+        span.fa.fa-ban &nbsp;Block
+      button.btn.btn-info(ng-show='canFeature', ng-class="{ active: list.featured }", ng-click="toggleFeatured()") 
+        span.fa.fa-bookmark &nbsp;Feature
+    
+    h1(ng-class="{ strike: !list.active }") {{ list.title }}
 
-  .author.text-center
-    //- mail-to(email="{{list.author.email}}", name="{{ list.author.name }}")
-    a(ui-sref="lists({author: list.author._id})") {{ list.author.name }}
-  
-  .updatedAt.text-center
-    | {{ list.updatedPretty }}
+    .origin
+      .author
+        //- mail-to(email="{{list.author.email}}", name="{{ list.author.name }}")
+        a(ui-sref="lists({author: list.author._id})") {{ list.author.name }}
+      
+      .updatedAt {{ list.updatedPretty }}
     
   ol.list.row
     li.item.col-xs-12(ng-repeat="item in list.items") {{ item }}
 
-  .like.row.text-center
-    span.likes Likes {{ votes.length }}
-    button.btn.btn-success(type="button", ng-click="vote(list)", ng-disabled="alreadyVoted")
-      span.fa.fa-plus &nbsp;Like
-    p(ng-show="alreadyVoted") You like this list!
+  .row
+
+    .complain(ng-show='!canEdit && !canDelete && !canBlock', title="Notify site admin of inappropriate content.")
+      button.btn.btn-danger.btn-sm(ng-click="complain()")
+        span.fa.fa-exclamation-triangle &nbsp;Flag
 
     fb-share
 
+    .like
+      button.btn.btn-success(type="button", ng-click="vote(list)", ng-disabled="alreadyVoted")
+        span.fa.fa-plus &nbsp;Like
+      
+      p(ng-show="alreadyVoted") You like this list!
+      
+      .likes Likes {{ votes.length }}
 
     //- br
     //- | {{ user | json }}
@@ -49,13 +52,7 @@ div(ng-include='"components/navbar/navbar.html"')
     //- | alreadyVoted={{ alreadyVoted }}
 
   .row.categories.row-centered
-    h4 Categories
-    button.btn.btn-primary.col-xs-12.col-sm-3.col-centered(type="button", ui-sref="lists({ featured: true })", ng-show="list.featured") Featured
-    span.col-xs-12.col-sm-3.col-centered(ng-repeat="cat in list.categories")
+    h2.categories Categories
+    button.btn.btn-primary.col-sm-3.col-centered(type="button", ui-sref="lists({ featured: true })", ng-show="list.featured") Featured
+    span.col-sm-3.col-centered(ng-repeat="cat in list.categories")
       button.btn.btn-info(type="button" ui-sref="lists({category: cat._id})") {{ cat.name }}
-
-  .title-bar
-    .buttons
-      span(ng-show='!canEdit && !canDelete && !canBlock', title="Notify site admin of inappropriate content.")
-        button.btn.btn-danger.btn-sm(ng-click="complain()")
-          span.fa.fa-exclamation-triangle &nbsp;Flag

@@ -83,20 +83,19 @@ form {
 }
 
 .title-bar > button.btn,
-.title-bar  > .buttons {
-  position: absolute;
-  top: 0;
-  right: 0;
+.title-bar > .buttons {
+  @extend .pull-right;
+  margin-top: 15px;
 
   span.fa {
     padding-right: 0.5em;
   }
 }
-
+/*
 .title-bar {
   margin-top: 0.5cm;
 }
-
+*/
 button + button {
   margin-left: 0.25cm;
 }
@@ -179,8 +178,12 @@ color: #fff;
   }
 }
 
-list-of-lists .categories {
-  .category + .category {
-    margin-left: 0.10cm;
+@media (max-width: 724px) {
+  .row.title-bar {
+    margin: 0 0;
   }
+}
+
+.origin .updatedAt {
+  @extend .text-muted;
 }
