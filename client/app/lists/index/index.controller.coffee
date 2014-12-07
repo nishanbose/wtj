@@ -37,6 +37,8 @@ angular.module 'wtjApp'
     if $state.params.category
       cat = Category.get { id: $state.params.category }
       promises.cat = cat.$promise
+    else if $state.params.featured
+      promises.cat = $q.when { name: 'Featured' }
 
     $q.all(promises).then (result) ->
       # FIXME - then returns before result.cat and result.user are resolved
