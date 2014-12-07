@@ -27,6 +27,7 @@ angular.module 'wtjApp'
   $scope.order = 'recent'
   $scope.categories = Category.query()
   $scope.canCreate = false
+  $scope.newList = listService.newList
   
   Auth.isLoggedInAsync (isLoggedIn) ->
     $scope.canCreate = isLoggedIn

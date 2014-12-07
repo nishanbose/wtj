@@ -15,7 +15,8 @@ angular.module 'wtjApp'
   # console.log $state.params
   $scope.title = 'Lists'
   $scope.canCreate = false  # Use can create a new list
-  
+  $scope.newList = listService.newList
+
   Auth.isLoggedInAsync (isLoggedIn) ->
     if $state.is('my-lists') && !isLoggedIn
       $state.go('login')
@@ -79,13 +80,6 @@ angular.module 'wtjApp'
     $scope.lists = List.query query, (lists) ->
       $scope.lists = listService.censor lists
       listService.decorate list for list in lists
-
-  $scope.newList = ->
-    List.save (list) ->
-      author: Auth.getCurrentUser()._id
-      $state.go('list-edit', { id: list._id })
-    , (headers) ->
-      flash.error = headers.message
 
   $scope.goToListForCategory = (catId) ->
     $state.go 'lists', { category: catId }

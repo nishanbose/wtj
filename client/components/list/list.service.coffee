@@ -1,10 +1,17 @@
 'use strict'
 
 angular.module 'wtjApp'
-.service 'listService', ($q, $state, $cookieStore, $sce, flash, Auth, Vote) ->
+.service 'listService', ($q, $state, $cookieStore, $sce, flash, Auth, Vote, List) ->
   # AngularJS will instantiate a singleton by calling 'new' on this function
 
   self =
+    newList: ->
+      List.save (list) ->
+        author: Auth.getCurrentUser()._id
+        $state.go('list-edit', { id: list._id })
+      , (headers) ->
+        flash.error = headers.message
+
     censor: (lists) ->
       return lists if Auth.isAdmin()
       lists.filter (list) ->
