@@ -27,6 +27,7 @@ angular.module 'wtjApp'
       list.updatedAt ||= new Date()
       dt = new Date(list.updatedAt)
       list.updatedPretty = dt.toDateString() + ' ' + dt.toLocaleTimeString()
+      list.updatedPrettyDtonly = dt.toDateString()
       list.author ||= {}
       list.items ||= []
       list.categories ||= []

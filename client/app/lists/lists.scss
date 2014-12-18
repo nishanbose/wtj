@@ -2,28 +2,28 @@
 	margin-top: 50px;
 }
 */
+.lists-page h1 {
+	font-weight: bold;
+	margin-top: 30px;
+}
+
 .lists-page .author{
 	margin-bottom: 10px;
 }
 
 .lists-page .list {
 	list-style-position: inside;
-	padding:15px;
-	margin-top: 30px;
+	padding:15px 0;
 	text-indent: 20px;
 }
 
 .lists-page .list li {
-	border-top: 1px solid #ddd;
-	padding: 10px 0;
-}
-
-.lists-page .list li:last-child{
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #eee;
+	padding: 15px 0;
+	font-size: 20px;
 }
 
 .lists-page .row.categories {
-	margin-top: 30px;
 	border: none;
 	border-top: 1px solid #ddd;
 	padding-top: 30px;
@@ -49,11 +49,14 @@ list-of-lists .categories {
   }
 }
 
-fb-share {
-	@extend .pull-left;
+
+.lists-page span.report{
+	color: #808080;
+    font-size: 12px;
 }
 
-.complain {
-  @extend .pull-right;
-  margin-right: 10px;
+.lists-page {
+	.like, .complain, fb-share {
+		margin-bottom: 30px;
+	}
 }

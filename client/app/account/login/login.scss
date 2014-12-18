@@ -22,9 +22,46 @@ $btnGithubBackgroundHighlight:      #ccc;
 .btn-twitter {
   @include button-variant($btnText, $btnTwitterBackground, $btnTwitterBackgroundHighlight);
 }
-.btn-google-plus {
-  @include button-variant($btnText, $btnGooglePlusBackground, $btnGooglePlusBackgroundHighlight);
+
+.form-enter {
+    max-width: 400px;    
+    margin: 0px auto;
+    margin-top: 10%;
 }
-.btn-github {
-  @include button-variant($btnTextAlt, $btnGithubBackground, $btnGithubBackgroundHighlight);
+
+.form-enter .form-signin-heading, .form-signin .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-enter input.email {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.form-enter .form-control {
+    position: relative;
+    height: auto;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-enter input.password {
+    margin-bottom: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.form-enter .divider-custom {
+	padding: 10px;
+}
+
+.signup-pg .form-group {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.signup-pg .form-group .form-control{
+	width: 100%;
 }

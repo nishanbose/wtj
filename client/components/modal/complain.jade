@@ -1,6 +1,6 @@
 .modal-header
   button.close(ng-if='modal.dismissable', type='button', ng-click='$dismiss()') &times;
-  h4.modal-title Object to Content
+  h4.modal-title.text-center Object to Content
 
 .modal-body
   form#complaintForm(name='form', role='form', ng-submit='submit(form);', novalidate='')
@@ -13,7 +13,6 @@
     label(for='fieldEmail', control-label='') Email (optional)
     input.form-control#fieldEmail(name="email" ng-model="data.email", placeholder='You may provide your email if you want to be contacted.')
 
-.modal-footer
-  button.btn.btn-default.btn-cancel(type="button", ng-click='$dismiss()') Cancel
+.modal-footer  
   button.btn.btn-sm.btn-success(type='button', ng-click='submit(form)', ng-disabled="form.$invalid") Save
-f
+  button.btn.btn-default.btn-sm.btn-cancel(type="button", ng-click='$dismiss()') Cancel

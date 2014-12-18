@@ -1,8 +1,8 @@
 div(ng-include='"components/navbar/navbar.html"')
-.container
+.container.main-content
   .row
     .col-sm-12
-      h1 Change Password
+      h1.text-center Change Password
     .col-sm-12
       form.form(name='form', ng-submit='changePassword(form)', novalidate='')
         .form-group(ng-hide="isReset")

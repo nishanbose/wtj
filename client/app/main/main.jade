@@ -1,5 +1,15 @@
 div(ng-include='"components/navbar/navbar.html"')
 
+
+//-header.intro-header
+//-  .container
+//-    .row
+//-      .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+//-        .site-heading
+//-          h1 clean blog
+//-          hr.small
+//-          span.subheading A Clean Blog Theme by Start Bootstrap
+
 .container-fluid
   .row.intro.text-center
     .intro-inner
@@ -8,15 +18,15 @@ div(ng-include='"components/navbar/navbar.html"')
 
 .container.main-content
   .row.text-center.categories
-    h2.categories Explore Categories
-    span.category.col-md-4.text-center
+    .h3.categories.col-xs-12 Categories
+    span.category.col-md-4.text-center.col-xs-6
       button.btn.btn-primary(type="button", ui-sref="lists({ featured: true })") Featured
-    span.category.col-md-4.text-center(ng-repeat="cat in categories")
+    span.category.col-md-4.text-center.col-xs-6(ng-repeat="cat in categories")
       button.btn.btn-info(type="button", ui-sref="lists({ category: cat._id })", class="cat_{{ toSlug(cat.name) }}") {{ cat.name }}
 
-  .title-bar
-    h1 Lists from Jackson
-    button.btn.btn-primary(ng-show="canCreate", ng-click="newList()") 
+  .row.title-bar
+    h2.col-sm-10.col-xs-12 Lists from Jackson
+    button.btn.btn-primary.col-sm-2.col-xs-12(ng-show="canCreate", ng-click="newList()") 
       span.fa.fa-plus &nbsp; New List
 
   .row.order-by

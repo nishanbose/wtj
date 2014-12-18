@@ -71,3 +71,39 @@ min-height: 350px;
 .row.categories span.category {
     margin: 20px 0;
 }
+
+.row .title a {
+   font-size: 36px;
+   color: #000;
+   margin-bottom: 5px;
+   display: block;
+}
+
+.row .author {    
+    font-family: 'Lora', serif;
+    font-style: italic;
+    color: #808080;
+    font-size: 18px;
+}
+
+ul.lists-main-content .list-group-item {
+   border: none;   
+   margin-bottom: 0;
+   padding: 0;
+}
+
+.row .likq {
+    margin: 10px 0;
+}
+
+.row .likq .likes{
+   margin-left: 5px;
+}
+
+.title-bar h2 {
+   padding: 0 15px;
+}
+
+.intro-header {
+   background-image: url('assets/images/home-bg.jpg');
+}

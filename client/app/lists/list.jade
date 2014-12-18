@@ -1,6 +1,5 @@
-//- Display a single list
-
 div(ng-include='"components/navbar/navbar.html"')
+//- Display a single list
 
 .container.main-content.lists-page
   .title-bar.row
@@ -20,29 +19,33 @@ div(ng-include='"components/navbar/navbar.html"')
 
     .origin
       .author
+        | Posted by 
         //- mail-to(email="{{list.author.email}}", name="{{ list.author.name }}")
         a(ui-sref="lists({author: list.author._id})") {{ list.author.name }}
-      
-      .updatedAt {{ list.updatedPretty }}
+        |  on 
+        span.updatedAt {{ list.updatedPrettyDtonly }}
     
   ol.list.row
     li.item.col-xs-12(ng-repeat="item in list.items") {{ item }}
 
-  .row
+  .row.text-center
 
-    .complain(ng-show='!canEdit && !canDelete && !canBlock', title="Notify site admin of inappropriate content.")
-      button.btn.btn-danger.btn-sm(ng-click="complain()")
-        span.fa.fa-exclamation-triangle &nbsp;Flag
-
-    fb-share
-
-    .like
+    .like.col-xs-12
       button.btn.btn-success(type="button", ng-click="vote(list)", ng-disabled="alreadyVoted")
-        span.fa.fa-plus &nbsp;Like
-      
+         i.fa.fa-heart
+         |  &nbsp;Like
+        //-  span.fa.fa-heart &nbsp;Like
+        
       p(ng-show="alreadyVoted") You like this list!
-      
-      .likes Likes {{ votes.length }}
+        
+      span.likes Likes {{ votes.length }}
+
+    .complain.col-xs-12.col-sm-6(ng-show='!canEdit && !canDelete && !canBlock', title="Notify site admin of inappropriate content.")
+      span.report(ng-click="complain()")
+        i.fa.fa-exclamation-triangle
+        | &nbsp;Report this content
+
+    fb-share.col-xs-12.col-sm-6
 
     //- br
     //- | {{ user | json }}

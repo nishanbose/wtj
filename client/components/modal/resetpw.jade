@@ -1,15 +1,15 @@
 .modal-header
   button.close(ng-if='modal.dismissable', type='button', ng-click='$dismiss()') &times;
-  h4.modal-title Reset Your Password
+  h4.modal-title.text-center Reset Your Password
 
 .modal-body
   form#complaintForm(name='form', role='form', ng-submit='submit(form);', novalidate='')
 
   .form-group
-    label(for='fieldEmail', control-label='', required='') Your Email
-    input.form-control#fieldEmail(name="email" ng-model="data.email", placeholder='name@email.com')
-    p.help-text We will send an email to this address with a link that will allow you to reset your password.
+    label.sr-only(for='fieldEmail', control-label='', required='') Your Email
+    input.form-control#fieldEmail(name="email" ng-model="data.email", placeholder='Please enter your Email Address')
+    p.help-text(style='margin-top:10px;') We will send an email to this address with a link that will allow you to reset your password.
 
-.modal-footer
-  button.btn.btn-warning.btn-cancel(type="button", ng-click='$dismiss()') Cancel
+.modal-footer  
   button.btn.btn-sm.btn-success(type='button', ng-click='submit(form)', ng-disabled="form.$invalid") Send Email
+  button.btn.btn-warning.btn-sm.btn-cancel(type="button", ng-click='$dismiss()') Cancel

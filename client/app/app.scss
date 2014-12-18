@@ -3,10 +3,10 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'font-awesome/scss/font-awesome';
-@import url(http://fonts.googleapis.com/css?family=Noto+Sans:400,700);
+@import url(http://fonts.googleapis.com/css?family=Noto+Sans:400,700|Lora:400italic);
 
 body, h1, h2, h3, h4, h5, h6, div, p {
-  font-family: "Noto Sans";
+  font-family: 'Noto Sans', sans-serif;
 }
 
 /**
@@ -97,13 +97,6 @@ form {
   margin-top: 0.5cm;
 }
 */
-button + button {
-  margin-left: 0.25cm;
-}
-
-button.btn {
-  margin-top: 0.25cm;
-}
 
 .strike {
   text-decoration: line-through;
@@ -123,8 +116,10 @@ button.btn {
   color: #fff;
 }
 
-.main-container .navbar-default .navbar-nav > li > a {
-  color: #fff;
+.main-container .navbar-default .navbar-nav > li {
+  a, p {
+    color: #fff;
+  }
 }
 
 .footer {
@@ -179,12 +174,16 @@ color: #fff;
   }
 }
 
-@media (max-width: 724px) {
-  .row.title-bar {
-    margin: 0 0;
-  }
+.title-bar span {
+  display: inline-block;
 }
 
-.origin .updatedAt {
-  @extend .text-muted;
+.title-bar button{
+  margin-top: 20px;
 }
+
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+
+

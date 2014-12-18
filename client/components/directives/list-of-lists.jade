@@ -1,20 +1,21 @@
-ul.list-group
+ul.list-group.lists-main-content
   li.list-group-item(ng-repeat='list in lists track by $index | filter:canDisplay(list)')
-    .row
-      .col-sm-4
-        .row
-          a(ui-sref="list({ id: list._id })")
-            strong {{ list.title || 'untitled '}}
-        .row
-          a(ui-sref="lists({ author: list.author._id })") {{list.author.name}}
-          span.text-muted , {{ list.updatedPretty }}
-        .row
-          .likes {{ list.nVotes }} likes
+    .row      
+      .col-xs-12.title
+        a(ui-sref="list({ id: list._id })")
+          strong {{ list.title || 'untitled '}}
+      .col-xs-12.author
+        | Posted by 
+        a(ui-sref="lists({ author: list.author._id })")
+          {{list.author.name}}
+        span  on {{ list.updatedPrettyDtonly }}
+      .col-xs-12.likq
+        i.fa.fa-heart
+        span.likes {{ list.nVotes }} likes
+    hr
 
-        //- {{ list }}
-
-      .col-sm-8.categories
-        span.category(ng-repeat="cat in list.categories")
-          button.btn.btn-sm.btn-info(class="cat_{{ toSlug(cat.name) }}", ui-sref="lists({ category: cat._id })") {{ cat.name }}
+//-      .col-sm-8.categories
+//-        span.category(ng-repeat="cat in list.categories")
+//-          button.btn.btn-sm.btn-info(class="cat_{{ toSlug(cat.name) }}", ui-sref="lists({ category: cat._id })") {{ cat.name }}
 
 //- {{ lists | json }}
