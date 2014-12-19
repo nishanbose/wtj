@@ -6,8 +6,46 @@
   #fieldItems input {
     width: 100%;
   }
+
+  .add-new {
+  	@extend .text-center;
+  	margin-bottom: 30px;
+	  label {
+	  	display:none;
+	  }
+  }
+
+  .input-group-addon {
+  	width:30px;
+  	line-height: 20px;
+  }
+
+  .input-group {
+  	margin-bottom:15px;
+  }
+
+  .del {
+  	cursor:pointer;
+  }
+
+  .form-group, .row {
+  	margin-left:0;
+  	margin-right:0;
+  }
+
+  .row, hr {
+  	padding-left:0;
+  	padding-right:0;
+  }
+
+  .title-bar {
+	margin-bottom: 40px;
+	margin-top: 30px;
+  }	
+
+  .title-bar > button.btn {
+  	margin-top: 20px;
+  }
+
 }
 
-.edit-list .title-bar {
-	margin-bottom: 40px;
-}

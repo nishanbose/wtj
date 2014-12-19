@@ -1,40 +1,48 @@
-/*.lists-page {
-	margin-top: 50px;
-}
-*/
-.lists-page h1 {
-	font-weight: bold;
-	margin-top: 30px;
-}
-
-.lists-page .author{
-	margin-bottom: 10px;
-}
-
-.lists-page .list {
-	list-style-position: inside;
-	padding:15px 0;
-	text-indent: 20px;
-}
-
-.lists-page .list li {
-	border-bottom: 1px solid #eee;
-	padding: 15px 0;
-	font-size: 20px;
-}
-
-.lists-page .row.categories {
-	border: none;
-	border-top: 1px solid #ddd;
-	padding-top: 30px;
-}
-
-.lists-page .row.categories h4 {
-	margin-bottom: 30px;
-}
-
-h2.categories {
-	font-size: 20pt;
+.lists-page{
+	h1 {
+		font-weight: bold;
+		margin-top: 30px;
+	}
+	.author{
+		margin-bottom: 10px;
+	}
+	.list {
+		list-style-position: inside;
+		padding:15px;		
+		li {
+			border-bottom: 1px solid #eee;
+			padding: 15px;
+			font-size: 20px;
+		}
+	}
+	.row.categories {
+		border: none;
+		border-top: 1px solid #ddd;
+		padding-top: 10px;
+		padding-bottom: 30px;
+		h2 {
+			font-size: 20px;
+			margin-bottom: 30px;
+		}
+		span button {
+			background-color:#f39c12;
+      		border-color:#f39c12;
+		}
+	}
+	.like, .complain, fb-share {
+		margin-bottom: 30px;
+	}
+	.like .likes {
+		margin-left: 10px;
+	}
+	span.report{
+		color: #808080;
+    	font-size: 12px;
+	}
+	.row {
+		margin-left:0;
+		margin-right:0;
+	}
 }
 
 list-of-lists .categories {
@@ -47,16 +55,4 @@ list-of-lists .categories {
   .like {
     margin: 0 10px;
   }
-}
-
-
-.lists-page span.report{
-	color: #808080;
-    font-size: 12px;
-}
-
-.lists-page {
-	.like, .complain, fb-share {
-		margin-bottom: 30px;
-	}
 }

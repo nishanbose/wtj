@@ -1,43 +1,47 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container.edit-list.main-content
   .title-bar.row
-    button.btn.btn-danger(ng-click="delete()") 
-      span.fa.fa-minus &nbsp;Delete
+    h2.col-xs-8 Creating a List
 
-    h1.col-xs-12.col-sm-10 Editing {{ list.title }}
+    button.btn.btn-default.btn-sm(ng-click="delete()")
+      i.fa.fa-trash 
+      | &nbsp;&nbsp;Delete    
 
   //- {{ list }}
 
   form(name='form', role='form', ng-submit='submit(form)', novalidate='')
 
-    .form-group
+    .form-group.col-xs-12
       label(for='fieldTitle', control-label='') Title
       input#fieldTitle.form-control(type='text', name='name', ng-model='list.title', required='', placeholder='What is the title of this list?')
 
-    .form-group
+    .form-group.col-xs-12
       label(for='fieldAbout', control-label='') About
       textarea#fieldAbout.form-control(type='text', name='about', ng-model='list.about', required='', placeholder='What is this list about?')
 
-    .form-group
+    .form-group.col-xs-12
       label(for='fieldItems', control-label='') Items
       #fieldItems(as-sortable="dragControlListeners" name="items", ng-model="list.items")
-        .input-group(ng-repeat="item in list.items track by $index" as-sortable-item='')
-          .input-group-addon.fa.fa-bars.item-handle(as-sortable-item-handle='')
-          input(type="text", ng-model="list.items[$index].val")
-          .input-group-addon.fa.fa-minus(ng-click="removeItem($index)")
+        .input-group.col-sm-10.col-sm-offset-2(ng-repeat="item in list.items track by $index" as-sortable-item='')
+          .input-group-addon.item-handle(as-sortable-item-handle='')
+            i.fa.fa-arrows
+          input.form-control(type="text", ng-model="list.items[$index].val", placeholder="Please enter Item Title Here")
+          .input-group-addon.del(ng-click="removeItem($index)")
+            i.fa.fa-trash
 
-    .form-group
-      label(control-label='')
+    .form-group.col-xs-12.add-new
+      label.sr-only(control-label='')
       button.btn.btn-primary(type="button", ng-click="appendItem()")
-        span.fa.fa-plus &nbsp;New Item
+        i.fa.fa-plus 
+        | &nbsp;&nbsp;New Item
       //- {{ list.items }}
 
-    .form-group
+    .form-group.col-xs-12
       label(for='fieldCategories', control-label='') Categories
       select.form-control#fieldCategories(multiple='', name="categories", ng-model='list.categories', ng-options='cat.name for cat in categories track by cat._id', required='')
       //- {{ list.categories }}
 
-    .form-group(ng-show="isAdmin")
+    .form-group.col-xs-12(ng-show="isAdmin")
       .checkbox
         label(control-label='')
           input(type="checkbox", name="featured", ng-model='list.featured')
@@ -48,9 +52,11 @@ div(ng-include='"components/navbar/navbar.html"')
 
     p.help-block  {{ message }}
 
-    .form-group.buttons
-      button.btn.btn-sm.btn-warning(type="button" ng-click='reset(form)', ng-disabled="!isChanged(form)") Reset
-      button.btn.btn-sm.btn-success(type='submit', ng-disabled="form.$invalid || !isChanged(form)") Save
+    hr.col-xs-12
+
+    .form-group.buttons.col-xs-12.text-center
+      button.btn.btn-warning(type="button" ng-click='reset(form)', ng-disabled="!isChanged(form)") Reset
+      button.btn.btn-success.col-xs-offset-1(type='submit', ng-disabled="form.$invalid || !isChanged(form)") Save
 
     //- br
     //- | {{ list }}

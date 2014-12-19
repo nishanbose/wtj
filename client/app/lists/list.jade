@@ -2,18 +2,22 @@ div(ng-include='"components/navbar/navbar.html"')
 //- Display a single list
 
 .container.main-content.lists-page
-  .title-bar.row
+  .title-bar
     //- | {{ list }}
 
     .buttons
-      button.btn.btn-primary(ng-show='canEdit', ng-click="edit()") 
-        span.fa.fa-pencil &nbsp;Edit
-      button.btn.btn-danger(ng-show='canDelete', ng-click="delete()") 
-        span.fa.fa-minus &nbsp;Delete
+      button.btn.btn-default(ng-show='canEdit', ng-click="edit()") 
+        i.fa.fa-pencil
+        | &nbsp;Edit
+      button.btn.btn-default(ng-show='canDelete', ng-click="delete()") 
+        i.fa.fa-minus
+        | &nbsp;Delete
       button.btn.btn-danger(ng-show='canBlock', ng-class="{ active: !list.active }", ng-click="toggleActive()") 
-        span.fa.fa-ban &nbsp;Block
+        i.fa.fa-ban
+        | &nbsp;Block
       button.btn.btn-info(ng-show='canFeature', ng-class="{ active: list.featured }", ng-click="toggleFeatured()") 
-        span.fa.fa-bookmark &nbsp;Feature
+        i.fa.fa-bookmark
+        | &nbsp;Feature
     
     h1(ng-class="{ strike: !list.active }") {{ list.title }}
 
@@ -25,27 +29,29 @@ div(ng-include='"components/navbar/navbar.html"')
         |  on 
         span.updatedAt {{ list.updatedPrettyDtonly }}
     
-  ol.list.row
-    li.item.col-xs-12(ng-repeat="item in list.items") {{ item }}
+  ol.list
+    li.item(ng-repeat="item in list.items") {{ item }}
 
   .row.text-center
 
     .like.col-xs-12
-      button.btn.btn-success(type="button", ng-click="vote(list)", ng-disabled="alreadyVoted")
+      button.btn.btn-success.btn-sm(type="button", ng-click="vote(list)", ng-disabled="alreadyVoted")
          i.fa.fa-heart
-         |  &nbsp;Like
-        //-  span.fa.fa-heart &nbsp;Like
+         | &nbsp;&nbsp;Like        
         
       p(ng-show="alreadyVoted") You like this list!
         
-      span.likes Likes {{ votes.length }}
+      span.likes {{ votes.length }}
+      | &nbsp;Likes
+
+    fb-share.col-xs-12.col-sm-6
 
     .complain.col-xs-12.col-sm-6(ng-show='!canEdit && !canDelete && !canBlock', title="Notify site admin of inappropriate content.")
       span.report(ng-click="complain()")
         i.fa.fa-exclamation-triangle
         | &nbsp;Report this content
 
-    fb-share.col-xs-12.col-sm-6
+    
 
     //- br
     //- | {{ user | json }}

@@ -24,16 +24,22 @@ div(ng-include='"components/navbar/navbar.html"')
     span.category.col-md-4.text-center.col-xs-6(ng-repeat="cat in categories")
       button.btn.btn-info(type="button", ui-sref="lists({ category: cat._id })", class="cat_{{ toSlug(cat.name) }}") {{ cat.name }}
 
-  .row.title-bar
-    h2.col-sm-10.col-xs-12 Lists from Jackson
-    button.btn.btn-primary.col-sm-2.col-xs-12(ng-show="canCreate", ng-click="newList()") 
-      span.fa.fa-plus &nbsp; New List
+  hr
+
+  .row.title-bar.text-center
+    h2.col-xs-12 Lists from Jackson
+
+  br
 
   .row.order-by
-    .form-group
+    .form-group.col-xs-5.col-sm-3
       select.form-control(ng-model="order")
         option(value='popular') Popular
         option(value='recent') Recent
+    button.btn.btn-primary.pull-right(ng-show="canCreate", ng-click="newList()") 
+      i.fa.fa-plus 
+      | &nbsp;&nbsp;New List
+
 
   list-of-lists(lists="lists")
 
@@ -42,6 +48,6 @@ footer.footer
     p
       | Gabble
       = ' | '
-      | copyright 2014
+      | Copyright 2014
       = ' | '
-      | About
+      a(href="/terms") Privacy Terms

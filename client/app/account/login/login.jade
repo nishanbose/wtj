@@ -1,18 +1,6 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container-fluid
-  //- p
-  //-   | Accounts are reset on server restart from
-  //-   code server/config/seed.js
-  //-   | . Default account is
-  //-   code test@test.com
-  //-   | /
-  //-   code test
-  //- p
-  //-   | Admin account is
-  //-   code admin@admin.com
-  //-   | /
-  //-   code admin
-
+  
   form.form-enter.form(name='form', ng-submit='login(form)', novalidate='')
     h2.form-singin-heading.text-center Welcome Back
     .divider-custom   
@@ -28,13 +16,14 @@ div(ng-include='"components/navbar/navbar.html"')
 
     button.btn.btn-success.btn-lg.btn-block.btn-login(type='submit') Login
     .divider-custom
-    a.reset-pass(ng-click="resetPw()") Reset Password    
-    a.sign-up.pull-right(ui-sref='signup') Sign Up    
+    a.text-center.reset-pass(ng-click="resetPw()") Forgot your password?
 
-    .divider-custom
+    hr
+
+    p.text-center otherwise
     a.btn.btn-block.btn-lg.btn-facebook.btn-block(href='', ng-click='loginOauth("facebook")')
       i.fa.fa-facebook
-      |  Login with Facebook
+      |&nbsp;&nbsp;Login with Facebook
     //- = ' '
     //- a.btn.btn-google-plus(href='', ng-click='loginOauth("google")')
     //-   i.fa.fa-google-plus

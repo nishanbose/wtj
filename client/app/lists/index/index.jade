@@ -6,15 +6,17 @@ div(ng-include='"components/navbar/navbar.html"')
   .row.title-bar
     h2.col-xs-12.text-center {{ title }}
 
+  hr
+
   .row.order-by
-    .form-group.col-xs-5.col-sm-2
+    .form-group.col-xs-5.col-sm-3
       select.form-control(ng-model="order")
         option(value='popular') Popular
         option(value='recent') Recent
 
-    button.btn.btn-primary.col-xs-4.col-sm-2.pull-right(ng-show="canCreate", ng-click="newList()")
+    button.btn.btn-primary.pull-right(ng-show="canCreate", ng-click="newList()")
       i.fa.fa-plus 
-      | &nbsp; New List
+      | &nbsp;&nbsp;New List
 
   list-of-lists(lists="lists")  
 

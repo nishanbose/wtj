@@ -29,10 +29,6 @@
     border-top: 1px solid #E5E5E5;
 }
 
-.order-by .form-group {
-    @extend .col-xs-4;
-}
-
 .row.item.header {
     font-weight: bold;
 }
@@ -63,13 +59,12 @@ min-height: 350px;
     text-align: center;
 }
 
-.row.categories {
-    padding-bottom: 40px;
-    border-bottom: 1px solid #ddd;
-}
-
 .row.categories span.category {
     margin: 20px 0;
+    button {
+      background-color:#f39c12;
+      border-color:#f39c12;
+    }
 }
 
 .row .title a {
@@ -98,10 +93,6 @@ ul.lists-main-content .list-group-item {
 
 .row .likq .likes{
    margin-left: 5px;
-}
-
-.title-bar h2 {
-   padding: 0 15px;
 }
 
 .intro-header {

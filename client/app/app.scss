@@ -49,20 +49,18 @@ form {
     select.ng-invalid,
     input.ng-mask,
     textarea.ng-invalid {
-      border: thin solid red;
+      border: thin solid #f1c40f;
     }
 
     label {
       @extend .col-sm-2;
     }
-    label + div,
     label + .form-control {
       @extend .col-sm-10;
     }
   }
 
-  .checkbox,
-  .form-group.buttons {
+  .checkbox {
     @extend .col-sm-offset-2;
   }
 }
@@ -92,6 +90,11 @@ form {
     padding-right: 0.5em;
   }
 }
+
+.order-by button {
+  margin-right:15px;
+}
+
 /*
 .title-bar {
   margin-top: 0.5cm;
@@ -182,8 +185,35 @@ color: #fff;
   margin-top: 20px;
 }
 
-.navbar-default .navbar-toggle .icon-bar {
-  background-color: #fff;
+.navbar-default .navbar-toggle {
+  border-color: #fff;
+  border-radius: 2px;
+  margin-right: 20px;
+  margin-top: 20px;
+  .icon-bar {
+    background-color: #fff;
+  }
+
 }
 
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: #f39c12;
+}
 
+/*.navbar-collapse {
+  padding:0;
+  ul {
+  margin:0;
+    li {
+      border-bottom: 1px solid #FFF;
+    }
+  }
+}*/
+
+.navbar-collapse .name{
+    display: none;
+  }
+
+.main-container .navbar-default .navbar-nav > li.admin a{
+  color: #333;
+}

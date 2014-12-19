@@ -31,13 +31,13 @@ div(ng-include='"components/navbar/navbar.html"')
       p.help-block(ng-show='form.password.$error.mongoose')
         | {{ errors.password }}
 
-    button.btn-block.btn.btn-primary.btn-lg.btn-block.btn-login(type='submit') Sign up
-    .divider-custom    
+    button.btn-block.btn.btn-primary.btn-lg.btn-block.btn-login(type='submit') Sign up with Email
+    hr    
     p.text-center otherwise
 
     a.btn.btn-block.btn-lg.btn-facebook(href='', ng-click='loginOauth("facebook")')
       i.fa.fa-facebook
-      |  Connect with Facebook
+      |&nbsp;&nbsp;Signup with Facebook
     //- = ' '
     //- a.btn.btn-google-plus(href='', ng-click='loginOauth("google")')
     //-   i.fa.fa-google-plus

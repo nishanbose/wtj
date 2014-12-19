@@ -23,45 +23,45 @@ $btnGithubBackgroundHighlight:      #ccc;
   @include button-variant($btnText, $btnTwitterBackground, $btnTwitterBackgroundHighlight);
 }
 
-.form-enter {
-    max-width: 400px;    
-    margin: 0px auto;
-    margin-top: 10%;
-}
-
 .form-enter .form-signin-heading, .form-signin .checkbox {
     margin-bottom: 10px;
 }
 
-.form-enter input.email {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 0px;
+.form-enter{
+margin: 10% auto 0;
+max-width: 400px;
+
+    input.email {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+    .form-control {
+        position: relative;
+        height: auto;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 16px;
+    }
+    input.password {
+        margin-bottom: 10px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+    .divider-custom {
+    	padding: 10px;
+    }
+    .reset-pass {
+        display:block;
+    }
 }
 
-.form-enter .form-control {
-    position: relative;
-    height: auto;
-    box-sizing: border-box;
-    padding: 10px;
-    font-size: 16px;
-}
-
-.form-enter input.password {
-    margin-bottom: 10px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-}
-
-.form-enter .divider-custom {
-	padding: 10px;
-}
-
-.signup-pg .form-group {
-	margin-left: 0;
-	margin-right: 0;
-}
-
-.signup-pg .form-group .form-control{
-	width: 100%;
+.signup-pg, .passwd-pg {
+    .form-group {
+    	margin-left: 0;
+    	margin-right: 0;
+    }
+    .form-group .form-control{
+        width: 100%;
+    }
 }
